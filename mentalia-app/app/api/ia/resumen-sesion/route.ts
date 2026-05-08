@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
-import Anthropic from "@anthropic-ai/sdk";
+import OpenAI from "openai";
 
-const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
+const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
 export async function POST(req: NextRequest) {
   const { notas, pacienteNombre, motivoConsulta, historialPrevio } = await req.json();
@@ -37,15 +37,14 @@ Para nivelRiesgo:
 Solo respondé el JSON, sin texto adicional.`;
 
   try {
-    const message = await anthropic.messages.create({
-      model: "claude-haiku-4-5-20251001",
-      max_tokens: 1024,
+    const completion = await openai.chat.completions.create({
+      model: "gpt-4o",
       messages: [{ role: "user", content: prompt }],
+      response_format: { type: "json_object" },
+      max_tokens: 1024,
     });
 
-    const raw = (message.content[0] as any).text?.trim() ?? "{}";
-    const jsonMatch = raw.match(/\{[\s\S]*\}/);
-    const parsed = JSON.parse(jsonMatch?.[0] ?? "{}");
+    const parsed = JSON.parse(completion.choices[0].message.content ?? "{}");
 
     return NextResponse.json({
       resumen: parsed.resumen ?? "",
