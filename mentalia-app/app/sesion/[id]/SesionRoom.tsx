@@ -304,7 +304,7 @@ export default function SesionRoom({
               {!resumenIA && !generandoIA && (
                 <div className="border border-dashed border-gray-200 rounded-xl p-8 text-center">
                   <p className="text-sm text-gray-400">El resumen aparecerá aquí después de generarlo</p>
-                  <p className="text-xs text-gray-300 mt-2">Escribí las notas y presioná "Generar resumen IA"</p>
+                  <p className="text-xs text-gray-300 mt-2">Escribí las notas y presioná &quot;Generar resumen IA&quot;</p>
                 </div>
               )}
             </div>

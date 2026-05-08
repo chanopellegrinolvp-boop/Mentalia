@@ -56,8 +56,20 @@ export default function RegistroPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#FDFCFA] px-4">
+    <div className="relative min-h-screen flex items-center justify-center bg-[#FDFCFA] px-4 overflow-hidden">
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none" style={{ opacity: 0.04 }}>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src="/logo_mentalia.svg" alt="" className="w-[600px]" />
+      </div>
       <div className="w-full max-w-sm">
+        <div className="mb-6">
+          <Link href="/" className="inline-flex items-center gap-1.5 text-sm text-gray-400 hover:text-[#2D6A4F] transition">
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
+            Volver
+          </Link>
+        </div>
         <div className="text-center mb-8">
           <span className="font-serif italic text-2xl font-bold text-[#2D6A4F]">Mentalia</span>
           <p className="text-sm text-gray-500 mt-1">Creá tu consultorio digital</p>
