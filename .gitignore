@@ -1,6 +1,21 @@
-﻿node_modules/
+﻿# Dependencias
+node_modules/
 .next/
+
+# Variables de entorno
 .env.local
 .env*.local
+
+# Claude Code interno
+.claude/
+.claudeignore
+
+# Scripts locales de dev
+mentalia-server.vbs
+iniciar-servidor.bat
+
+# Backups temporales
 mentalia-landing-hoy-backup.html
+
+# Vercel build
 .vercel

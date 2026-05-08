@@ -1,0 +1,19 @@
+<svg width="100%" viewBox="0 0 560 120" role="img" xmlns="http://www.w3.org/2000/svg">
+  <title>Mentalia — plataforma de salud mental</title>
+
+  <!-- ÍCONO: cerebro/hoja estilizado -->
+  <circle cx="52" cy="58" r="46" fill="#2D6A4F" opacity="0.10"/>
+  <path d="M30 54 C30 30, 47 16, 52 16 C49 27, 47 40, 48 54 Z" fill="#2D6A4F" opacity="0.88"/>
+  <path d="M74 54 C74 30, 57 16, 52 16 C55 27, 57 40, 56 54 Z" fill="#52B788" opacity="0.88"/>
+  <path d="M48 54 C48 70, 50 82, 52 90 C54 82, 56 70, 56 54 Z" fill="#2D6A4F" opacity="0.72"/>
+  <line x1="52" y1="16" x2="52" y2="90" stroke="#FDFCFA" stroke-width="1.2" opacity="0.55"/>
+  <path d="M52 90 C50 98, 47 102, 46 106" stroke="#2D6A4F" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.6"/>
+  <circle cx="39" cy="38" r="2.5" fill="#FDFCFA" opacity="0.65"/>
+  <circle cx="65" cy="38" r="2.5" fill="#FDFCFA" opacity="0.65"/>
+  <circle cx="43" cy="58" r="2" fill="#FDFCFA" opacity="0.45"/>
+  <circle cx="61" cy="58" r="2" fill="#FDFCFA" opacity="0.45"/>
+  <path d="M28 52 C30 28, 74 28, 76 52" stroke="#52B788" stroke-width="0.8" fill="none" stroke-dasharray="3,3" opacity="0.45"/>
+
+  <!-- NOMBRE -->
+  <text x="92" y="72" font-family="Georgia, 'Times New Roman', serif" font-size="52" font-weight="400" font-style="italic" fill="#2D6A4F" text-anchor="start">mentalia</text>
+</svg>

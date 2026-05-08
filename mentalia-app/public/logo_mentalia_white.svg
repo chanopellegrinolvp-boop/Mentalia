@@ -1,0 +1,19 @@
+<svg width="100%" viewBox="0 0 560 120" role="img" xmlns="http://www.w3.org/2000/svg">
+  <title>Mentalia</title>
+
+  <!-- ÍCONO: cerebro/hoja — versión blanca -->
+  <circle cx="52" cy="58" r="46" fill="white" opacity="0.12"/>
+  <path d="M30 54 C30 30, 47 16, 52 16 C49 27, 47 40, 48 54 Z" fill="white" opacity="0.90"/>
+  <path d="M74 54 C74 30, 57 16, 52 16 C55 27, 57 40, 56 54 Z" fill="white" opacity="0.65"/>
+  <path d="M48 54 C48 70, 50 82, 52 90 C54 82, 56 70, 56 54 Z" fill="white" opacity="0.75"/>
+  <line x1="52" y1="16" x2="52" y2="90" stroke="rgba(255,255,255,0.3)" stroke-width="1.2"/>
+  <path d="M52 90 C50 98, 47 102, 46 106" stroke="white" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.6"/>
+  <circle cx="39" cy="38" r="2.5" fill="rgba(45,106,79,0.6)" opacity="0.9"/>
+  <circle cx="65" cy="38" r="2.5" fill="rgba(45,106,79,0.6)" opacity="0.9"/>
+  <circle cx="43" cy="58" r="2" fill="rgba(45,106,79,0.4)" opacity="0.8"/>
+  <circle cx="61" cy="58" r="2" fill="rgba(45,106,79,0.4)" opacity="0.8"/>
+  <path d="M28 52 C30 28, 74 28, 76 52" stroke="white" stroke-width="0.8" fill="none" stroke-dasharray="3,3" opacity="0.35"/>
+
+  <!-- NOMBRE blanco -->
+  <text x="92" y="72" font-family="Georgia, 'Times New Roman', serif" font-size="52" font-weight="400" font-style="italic" fill="white" text-anchor="start">mentalia</text>
+</svg>
