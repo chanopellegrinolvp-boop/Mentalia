@@ -1,0 +1,779 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mentalia — La plataforma que organiza tu consultorio</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'verde-oscuro': '#2D6A4F',
+            'verde-claro': '#D8F3DC',
+            'blanco': '#FDFCFA',
+            'gris': '#6B7280',
+          },
+          fontFamily: {
+            'georgia': ['Georgia', 'serif'],
+            'arial': ['Arial', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    * { font-family: Arial, sans-serif; }
+    .font-georgia { font-family: Georgia, serif; }
+    html { scroll-behavior: smooth; }
+
+    /* Fade in on scroll */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .fade-in-delay-1 { transition-delay: 0.1s; }
+    .fade-in-delay-2 { transition-delay: 0.2s; }
+    .fade-in-delay-3 { transition-delay: 0.3s; }
+
+    /* Hover effects */
+    .card-hover {
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+    .card-hover:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 30px rgba(45,106,79,0.15);
+    }
+
+    /* Nav scroll shadow */
+    .nav-scrolled {
+      box-shadow: 0 2px 20px rgba(0,0,0,0.08);
+    }
+
+    /* Hero gradient */
+    .hero-bg {
+      background: linear-gradient(160deg, #FDFCFA 0%, #D8F3DC 100%);
+    }
+
+    /* Pricing highlight */
+    .plan-pro {
+      border: 2px solid #2D6A4F;
+      box-shadow: 0 8px 30px rgba(45,106,79,0.18);
+      transform: scale(1.03);
+    }
+
+    /* Animated underline */
+    .link-underline {
+      position: relative;
+    }
+    .link-underline::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: #2D6A4F;
+      transition: width 0.3s ease;
+    }
+    .link-underline:hover::after { width: 100%; }
+
+    /* Badge IA */
+    .badge-ia {
+      background: #2D6A4F;
+      color: white;
+      font-size: 10px;
+      padding: 2px 6px;
+      border-radius: 20px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      vertical-align: middle;
+      margin-left: 6px;
+    }
+
+    /* Pulse dot */
+    .pulse-dot {
+      width: 8px; height: 8px;
+      background: #2D6A4F;
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
+    /* Testimonial card */
+    .testimonial-card {
+      background: white;
+      border-radius: 16px;
+      padding: 28px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.07);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .testimonial-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+    }
+  </style>
+</head>
+<body class="bg-blanco text-gray-800">
+
+<!-- ===================== BARRA ANUNCIO ===================== -->
+<div id="topbar" class="fixed top-0 left-0 right-0 z-50 text-center text-xs font-medium py-2 px-4" style="background: #2D6A4F; color: #D8F3DC; letter-spacing: 0.3px;">
+  🎉 &nbsp;Probá Mentalia <strong>10 días gratis</strong> · Sin tarjeta de crédito · Cancelás cuando querés
+</div>
+
+<!-- ===================== NAV ===================== -->
+<nav id="navbar" class="fixed left-0 right-0 z-40 transition-all duration-300" style="top: 32px; background: rgba(216,243,220,0.97); backdrop-filter: blur(14px); border-bottom: 1px solid rgba(45,106,79,0.13);">
+  <div class="max-w-6xl mx-auto px-8 flex items-center justify-between" style="height: 66px;">
+
+    <!-- Logo -->
+    <a href="#" class="flex items-center gap-2.5 flex-shrink-0">
+      <svg width="42" height="42" viewBox="78 88 124 132" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="140" cy="155" r="62" fill="#2D6A4F" opacity="0.12"/>
+        <path d="M108 148 C108 118, 130 100, 140 100 C135 115, 132 130, 133 148 Z" fill="#2D6A4F" opacity="0.85"/>
+        <path d="M172 148 C172 118, 150 100, 140 100 C145 115, 148 130, 147 148 Z" fill="#52B788" opacity="0.85"/>
+        <path d="M133 148 C133 168, 136 185, 140 195 C144 185, 147 168, 147 148 Z" fill="#2D6A4F" opacity="0.7"/>
+        <line x1="140" y1="100" x2="140" y2="195" stroke="#FDFCFA" stroke-width="1.5" opacity="0.6"/>
+        <path d="M140 195 C138 205, 135 210, 133 215" stroke="#2D6A4F" stroke-width="2.5" fill="none" stroke-linecap="round" opacity="0.7"/>
+        <circle cx="122" cy="130" r="3" fill="#FDFCFA" opacity="0.7"/>
+        <circle cx="158" cy="130" r="3" fill="#FDFCFA" opacity="0.7"/>
+        <circle cx="130" cy="155" r="2.5" fill="#FDFCFA" opacity="0.5"/>
+        <circle cx="150" cy="155" r="2.5" fill="#FDFCFA" opacity="0.5"/>
+        <path d="M110 145 C112 115, 168 115, 170 145" stroke="#52B788" stroke-width="1" fill="none" stroke-dasharray="3,3" opacity="0.5"/>
+      </svg>
+      <span style="font-family: Georgia, serif; font-style: italic; font-size: 1.75rem; font-weight: 700; color: #2D6A4F; line-height: 1; letter-spacing: -0.5px;">Mentalia</span>
+    </a>
+
+    <!-- Links centro -->
+    <div class="hidden md:flex items-center gap-1">
+      <a href="#funciones" class="px-4 py-2 text-sm font-medium text-gray-600 rounded-lg transition-all hover:text-verde-oscuro" style="hover:background:rgba(45,106,79,0.07)" onmouseover="this.style.background='rgba(45,106,79,0.08)'" onmouseout="this.style.background='transparent'">Funciones</a>
+      <a href="#precios" class="px-4 py-2 text-sm font-medium text-gray-600 rounded-lg transition-all hover:text-verde-oscuro" onmouseover="this.style.background='rgba(45,106,79,0.08)'" onmouseout="this.style.background='transparent'">Precios</a>
+      <a href="#psicologos" class="px-4 py-2 text-sm font-medium text-gray-600 rounded-lg transition-all hover:text-verde-oscuro" onmouseover="this.style.background='rgba(45,106,79,0.08)'" onmouseout="this.style.background='transparent'">Para profesionales</a>
+      <a href="#" class="px-4 py-2 text-sm font-medium text-gray-600 rounded-lg transition-all hover:text-verde-oscuro" onmouseover="this.style.background='rgba(45,106,79,0.08)'" onmouseout="this.style.background='transparent'">Recursos</a>
+    </div>
+
+    <!-- Derecha: login + CTA -->
+    <div class="hidden md:flex items-center gap-3">
+      <a href="#" class="text-sm font-medium text-gray-600 hover:text-verde-oscuro transition-colors px-3 py-2">Iniciar sesión</a>
+      <div style="width:1px; height:20px; background:rgba(45,106,79,0.2);"></div>
+      <a href="#precios" class="flex items-center gap-1.5 text-white text-sm font-semibold px-5 py-2.5 rounded-lg transition-all hover:shadow-lg" style="background:#2D6A4F;">
+        Empezar gratis
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+
+    <!-- Hamburger mobile -->
+    <button class="md:hidden p-2 rounded-lg transition-colors" style="color:#2D6A4F;" onmouseover="this.style.background='rgba(45,106,79,0.1)'" onmouseout="this.style.background='transparent'" aria-label="Menú">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+    </button>
+
+  </div>
+</nav>
+
+<!-- ===================== HERO ===================== -->
+<section class="hero-bg pb-20 px-6" style="position: relative; overflow: hidden; padding-top: 130px;">
+  <!-- Logo watermark fondo -->
+  <img src="logo_mentalia.svg" alt="" aria-hidden="true" style="position: absolute; right: -80px; top: 50%; transform: translateY(-50%); width: 520px; opacity: 0.07; pointer-events: none; user-select: none;" />
+  <div class="max-w-4xl mx-auto text-center" style="position: relative; z-index: 1;">
+    <!-- Social proof pill arriba -->
+    <div class="inline-flex items-center gap-2 bg-white border border-verde-claro rounded-full px-4 py-1.5 mb-8 shadow-sm fade-in">
+      <div class="pulse-dot"></div>
+      <span class="text-sm text-verde-oscuro font-medium">+200 psicólogos/as ya usan Mentalia</span>
+    </div>
+
+    <!-- H1 -->
+    <h1 class="font-georgia italic text-4xl md:text-6xl font-bold text-gray-900 leading-tight mb-6 fade-in fade-in-delay-1">
+      La plataforma que organiza<br />tu consultorio y potencia<br />tu práctica con IA
+    </h1>
+
+    <!-- Subtítulo -->
+    <p class="text-lg md:text-xl text-gris max-w-2xl mx-auto mb-10 leading-relaxed fade-in fade-in-delay-2">
+      Gestión clínica, cobros automatizados, videoconsultas e inteligencia artificial integrados en una sola plataforma.<br />
+      <span class="text-gray-600">Diseñada para profesionales de la salud mental que priorizan el vínculo terapéutico sobre la administración.</span>
+    </p>
+
+    <!-- CTAs -->
+    <div class="flex flex-col sm:flex-row gap-4 justify-center mb-12 fade-in fade-in-delay-3">
+      <a href="#precios" class="bg-verde-oscuro text-white font-semibold px-8 py-4 rounded-xl text-base hover:bg-opacity-90 transition-all hover:shadow-xl hover:-translate-y-0.5 transform">
+        Empezar 10 días gratis
+        <span class="block text-xs font-normal opacity-75 mt-0.5">Sin tarjeta de crédito</span>
+      </a>
+      <a href="#demo" class="border-2 border-verde-oscuro text-verde-oscuro font-semibold px-8 py-4 rounded-xl text-base hover:bg-verde-claro transition-all">
+        Ver demo →
+      </a>
+    </div>
+
+    <!-- Barra social proof -->
+    <div class="flex flex-col sm:flex-row items-center justify-center gap-6 text-sm text-gris fade-in">
+      <div class="flex items-center gap-2">
+        <svg class="w-4 h-4 text-verde-oscuro" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+        <span>120.000 psicólogos/as en Argentina</span>
+      </div>
+      <div class="hidden sm:block w-1 h-1 bg-gray-300 rounded-full"></div>
+      <div class="flex items-center gap-2">
+        <svg class="w-4 h-4 text-verde-oscuro" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+        <span>Plataforma verificada</span>
+      </div>
+      <div class="hidden sm:block w-1 h-1 bg-gray-300 rounded-full"></div>
+      <div class="flex items-center gap-2">
+        <svg class="w-4 h-4 text-verde-oscuro" fill="currentColor" viewBox="0 0 20 20"><path d="M2 5a2 2 0 012-2h7a2 2 0 012 2v4a2 2 0 01-2 2H9l-3 3v-3H4a2 2 0 01-2-2V5z"/><path d="M15 7v2a4 4 0 01-4 4H9.828l-1.766 1.767c.28.149.599.233.938.233h2l3 3v-3h2a2 2 0 002-2V9a2 2 0 00-2-2h-1z"/></svg>
+        <span>Soporte en español, italiano e inglés</span>
+      </div>
+    </div>
+
+    <!-- Hero mockup placeholder -->
+    <div class="mt-16 fade-in">
+      <div class="bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden max-w-3xl mx-auto">
+        <!-- Barra de browser -->
+        <div class="bg-gray-100 px-4 py-3 flex items-center gap-2 border-b border-gray-200">
+          <div class="w-3 h-3 rounded-full bg-red-400"></div>
+          <div class="w-3 h-3 rounded-full bg-yellow-400"></div>
+          <div class="w-3 h-3 rounded-full bg-green-400"></div>
+          <div class="flex-1 bg-white rounded-md px-3 py-1 ml-4 text-xs text-gray-400 text-center">mentalia.com.ar/dashboard</div>
+        </div>
+        <!-- Dashboard preview -->
+        <div class="p-6 bg-white">
+          <div class="grid grid-cols-3 gap-4 mb-6">
+            <div class="bg-verde-claro rounded-xl p-4 text-center">
+              <div class="text-2xl font-bold text-verde-oscuro">24</div>
+              <div class="text-xs text-verde-oscuro mt-1">Sesiones este mes</div>
+            </div>
+            <div class="bg-verde-claro rounded-xl p-4 text-center">
+              <div class="text-2xl font-bold text-verde-oscuro">$89.600</div>
+              <div class="text-xs text-verde-oscuro mt-1">Cobrado (ARS)</div>
+            </div>
+            <div class="bg-verde-claro rounded-xl p-4 text-center">
+              <div class="text-2xl font-bold text-verde-oscuro">18</div>
+              <div class="text-xs text-verde-oscuro mt-1">Pacientes activos</div>
+            </div>
+          </div>
+          <div class="space-y-2">
+            <div class="text-xs font-semibold text-gris uppercase tracking-wide mb-3">Próximas sesiones hoy</div>
+            <div class="flex items-center gap-3 bg-verde-claro/40 rounded-lg px-4 py-3">
+              <div class="w-8 h-8 bg-verde-oscuro rounded-full flex items-center justify-center text-white text-xs font-bold">VM</div>
+              <div class="flex-1">
+                <div class="text-sm font-semibold text-gray-800">Valentina M.</div>
+                <div class="text-xs text-gris">14:00 — 55 min · Pagado ✓</div>
+              </div>
+              <span class="text-xs bg-verde-oscuro text-white px-2 py-1 rounded-full">IA lista</span>
+            </div>
+            <div class="flex items-center gap-3 bg-gray-50 rounded-lg px-4 py-3">
+              <div class="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center text-gray-600 text-xs font-bold">MR</div>
+              <div class="flex-1">
+                <div class="text-sm font-semibold text-gray-800">Marcos R.</div>
+                <div class="text-xs text-gris">16:30 — 55 min · Pagado ✓</div>
+              </div>
+              <span class="text-xs bg-gray-200 text-gris px-2 py-1 rounded-full">En 2h</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== PROBLEMA Y SOLUCIÓN ===================== -->
+<section class="bg-verde-claro py-20 px-6" id="problema" style="position: relative; overflow: hidden;">
+  <!-- Logo watermark fondo -->
+  <img src="logo_mentalia.svg" alt="" aria-hidden="true" style="position: absolute; left: -100px; bottom: -40px; width: 420px; opacity: 0.09; pointer-events: none; user-select: none;" />
+  <div class="max-w-5xl mx-auto" style="position: relative; z-index: 1;">
+    <h2 class="font-georgia italic text-3xl md:text-4xl font-bold text-center text-gray-900 mb-4 fade-in">
+      ¿Te suena esto?
+    </h2>
+    <p class="text-center text-gris mb-14 fade-in">Identificamos los principales obstáculos que enfrenta el profesional de salud mental en su práctica diaria.<br/>Mentalia fue diseñada específicamente para eliminarlos.</p>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <!-- Card 1 -->
+      <div class="bg-white rounded-2xl p-7 card-hover fade-in fade-in-delay-1">
+        <div class="w-14 h-14 bg-verde-claro rounded-2xl flex items-center justify-center mb-5 text-3xl">💸</div>
+        <div class="text-xs font-bold text-red-400 uppercase tracking-wider mb-2">El problema</div>
+        <h3 class="font-bold text-lg text-gray-900 mb-3">Perseguís transferencias</h3>
+        <div class="border-t border-verde-claro my-4"></div>
+        <div class="text-xs font-bold text-verde-oscuro uppercase tracking-wider mb-2">La solución</div>
+        <p class="text-gris text-sm leading-relaxed">Cobros automáticos antes de cada sesión. El turno no se confirma si no se paga.</p>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="bg-white rounded-2xl p-7 card-hover fade-in fade-in-delay-2">
+        <div class="w-14 h-14 bg-verde-claro rounded-2xl flex items-center justify-center mb-5 text-3xl">📱</div>
+        <div class="text-xs font-bold text-red-400 uppercase tracking-wider mb-2">El problema</div>
+        <h3 class="font-bold text-lg text-gray-900 mb-3">Coordinás turnos por WhatsApp</h3>
+        <div class="border-t border-verde-claro my-4"></div>
+        <div class="text-xs font-bold text-verde-oscuro uppercase tracking-wider mb-2">La solución</div>
+        <p class="text-gris text-sm leading-relaxed">Agenda online que tus pacientes reservan solos, 24/7, sin interrumpirte.</p>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="bg-white rounded-2xl p-7 card-hover fade-in fade-in-delay-3">
+        <div class="w-14 h-14 bg-verde-claro rounded-2xl flex items-center justify-center mb-5 text-3xl">⏰</div>
+        <div class="text-xs font-bold text-red-400 uppercase tracking-wider mb-2">El problema</div>
+        <h3 class="font-bold text-lg text-gray-900 mb-3">Perdés horas en administración</h3>
+        <div class="border-t border-verde-claro my-4"></div>
+        <div class="text-xs font-bold text-verde-oscuro uppercase tracking-wider mb-2">La solución</div>
+        <p class="text-gris text-sm leading-relaxed">IA que resume, toma notas y detecta patrones. Vos solo cerrás la sesión.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== FUNCIONES ===================== -->
+<section class="bg-blanco py-20 px-6" id="funciones">
+  <div class="max-w-5xl mx-auto">
+    <h2 class="font-georgia italic text-3xl md:text-4xl font-bold text-center text-gray-900 mb-4 fade-in">
+      Todo lo que necesitás, potenciado con IA
+    </h2>
+    <p class="text-center text-gris mb-14 fade-in">Una plataforma completa. Sin apps extra. Sin Zoom. Sin cuentas bancarias separadas.</p>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+      <!-- Feature 1 -->
+      <div class="bg-white border border-gray-100 rounded-2xl p-6 card-hover fade-in fade-in-delay-1" style="box-shadow: 0 2px 12px rgba(0,0,0,0.06)">
+        <div class="text-3xl mb-4">🗓️</div>
+        <h3 class="font-bold text-gray-900 mb-2">Agenda inteligente</h3>
+        <p class="text-gris text-sm leading-relaxed">Tus pacientes reservan solos, vos confirmás con un click. Recordatorios automáticos por email y SMS.</p>
+      </div>
+
+      <!-- Feature 2 -->
+      <div class="bg-white border border-gray-100 rounded-2xl p-6 card-hover fade-in fade-in-delay-2" style="box-shadow: 0 2px 12px rgba(0,0,0,0.06)">
+        <div class="text-3xl mb-4">💳</div>
+        <h3 class="font-bold text-gray-900 mb-2">Cobros automáticos</h3>
+        <p class="text-gris text-sm leading-relaxed">MercadoPago integrado. Cobro previo a la sesión, sin perseguir a nadie. Historial y facturas incluidas.</p>
+      </div>
+
+      <!-- Feature 3 -->
+      <div class="bg-white border border-gray-100 rounded-2xl p-6 card-hover fade-in fade-in-delay-3" style="box-shadow: 0 2px 12px rgba(0,0,0,0.06)">
+        <div class="text-3xl mb-4">🎥</div>
+        <h3 class="font-bold text-gray-900 mb-2">Videollamada integrada</h3>
+        <p class="text-gris text-sm leading-relaxed">Cifrada y segura, sin instalar Zoom. La sesión ocurre dentro de Mentalia, con el historial del paciente al lado.</p>
+      </div>
+
+      <!-- Feature 4 -->
+      <div class="bg-white border border-gray-100 rounded-2xl p-6 card-hover fade-in fade-in-delay-1" style="box-shadow: 0 2px 12px rgba(0,0,0,0.06)">
+        <div class="text-3xl mb-4">📋</div>
+        <h3 class="font-bold text-gray-900 mb-2">Historia clínica digital</h3>
+        <p class="text-gris text-sm leading-relaxed">Notas de sesión organizadas, seguras y accesibles desde cualquier dispositivo. Solo vos las ves.</p>
+      </div>
+
+      <!-- Feature 5 — IA -->
+      <div class="bg-white border border-gray-100 rounded-2xl p-6 card-hover fade-in fade-in-delay-2 relative overflow-hidden" style="box-shadow: 0 2px 12px rgba(0,0,0,0.06)">
+        <div class="absolute top-0 right-0 bg-verde-oscuro text-white text-xs font-bold px-3 py-1 rounded-bl-xl">IA</div>
+        <div class="text-3xl mb-4">🧠</div>
+        <h3 class="font-bold text-gray-900 mb-2">Resumen semanal del paciente</h3>
+        <p class="text-gris text-sm leading-relaxed">Recibís un resumen con el estado emocional de la semana antes de cada sesión. Llegás preparado.</p>
+      </div>
+
+      <!-- Feature 6 — IA -->
+      <div class="bg-white border border-gray-100 rounded-2xl p-6 card-hover fade-in fade-in-delay-3 relative overflow-hidden" style="box-shadow: 0 2px 12px rgba(0,0,0,0.06)">
+        <div class="absolute top-0 right-0 bg-verde-oscuro text-white text-xs font-bold px-3 py-1 rounded-bl-xl">IA</div>
+        <div class="text-3xl mb-4">🔔</div>
+        <h3 class="font-bold text-gray-900 mb-2">Detección de riesgo emocional</h3>
+        <p class="text-gris text-sm leading-relaxed">Alertas tempranas cuando el diario emocional del paciente muestra señales de atención urgente.</p>
+      </div>
+    </div>
+
+    <!-- Feature 7 — Seguimiento semanal con IA (centrado) -->
+    <div class="flex justify-center mt-6 fade-in">
+      <div class="bg-white border-2 border-verde-claro rounded-2xl p-7 card-hover relative overflow-hidden w-full" style="max-width: 560px; box-shadow: 0 4px 20px rgba(45,106,79,0.12)">
+        <div class="absolute top-0 right-0 bg-verde-oscuro text-white text-xs font-bold px-3 py-1 rounded-bl-xl">NUEVO · IA</div>
+
+        <div class="text-3xl mb-3">📊</div>
+        <h3 class="font-bold text-gray-900 text-base mb-2">Seguimiento semanal con IA</h3>
+        <p class="text-gris text-sm leading-relaxed mb-5">La IA consolida el diario emocional, las actividades completadas y los juegos asignados por el profesional en un informe semanal de acompañamiento, entregado antes de cada sesión.</p>
+        <ul class="space-y-2 text-sm">
+          <li class="flex items-start gap-2 text-gray-600"><span class="text-verde-oscuro mt-0.5 font-bold">✓</span> Resumen automático del estado emocional del paciente</li>
+          <li class="flex items-start gap-2 text-gray-600"><span class="text-verde-oscuro mt-0.5 font-bold">✓</span> Registro de actividades completadas y adherencia al proceso</li>
+          <li class="flex items-start gap-2 text-gray-600"><span class="text-verde-oscuro mt-0.5 font-bold">✓</span> Juegos y tareas que el profesional autoriza desde su panel</li>
+          <li class="flex items-start gap-2 text-gray-600"><span class="text-verde-oscuro mt-0.5 font-bold">✓</span> Alertas automáticas si el paciente no realizó las tareas asignadas</li>
+        </ul>
+      </div>
+    </div>
+
+    <p class="text-center text-sm text-gris mt-10 fade-in">
+      * Las funciones con IA están disponibles en los planes <strong>Pro</strong> y <strong>Clínica</strong>.
+    </p>
+  </div>
+</section>
+
+<!-- ===================== PRICING ===================== -->
+<section class="bg-gray-50 py-20 px-6" id="precios">
+  <div class="max-w-5xl mx-auto">
+    <h2 class="font-georgia italic text-3xl md:text-4xl font-bold text-center text-gray-900 mb-3 fade-in">
+      Elegí tu plan
+    </h2>
+    <p class="text-center text-gris mb-4 fade-in">10 días gratis, sin tarjeta de crédito. Cancelás cuando quieras.</p>
+
+    <!-- Badge trial -->
+    <div class="flex justify-center mb-12 fade-in">
+      <div class="bg-verde-claro text-verde-oscuro text-sm font-semibold px-5 py-2 rounded-full border border-verde-oscuro/20">
+        🎉 Trial gratuito disponible en todos los planes
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
+
+      <!-- STARTER -->
+      <div class="bg-white rounded-2xl p-7 border border-gray-200 fade-in fade-in-delay-1">
+        <div class="mb-6">
+          <h3 class="text-lg font-bold text-gray-900 mb-1">Starter</h3>
+          <div class="flex items-end gap-1 mb-1">
+            <span class="text-3xl font-bold text-gray-900">$15</span>
+            <span class="text-gris text-sm mb-1">USD/mes</span>
+          </div>
+          <p class="text-xs text-gris">≈ $21.000 ARS/mes</p>
+        </div>
+
+        <ul class="space-y-2.5 mb-8 text-sm">
+          <li class="flex items-center gap-2 text-gray-700"><span class="text-verde-oscuro">✓</span> Agenda online</li>
+          <li class="flex items-center gap-2 text-gray-700"><span class="text-verde-oscuro">✓</span> Cobros MercadoPago</li>
+          <li class="flex items-center gap-2 text-gray-700"><span class="text-verde-oscuro">✓</span> Video integrado</li>
+          <li class="flex items-center gap-2 text-gray-700"><span class="text-verde-oscuro">✓</span> Hasta 15 pacientes</li>
+          <li class="flex items-center gap-2 text-gray-700"><span class="text-verde-oscuro">✓</span> Recordatorios automáticos</li>
+          <li class="flex items-center gap-2 text-gray-400"><span>✗</span> Sin historia clínica</li>
+          <li class="flex items-center gap-2 text-gray-400"><span>✗</span> Sin funciones de IA</li>
+          <li class="flex items-center gap-2 text-gray-400"><span>✗</span> Sin perfil verificado</li>
+        </ul>
+
+        <a href="#" class="block text-center border-2 border-gray-300 text-gray-700 font-semibold py-3 rounded-xl hover:border-verde-oscuro hover:text-verde-oscuro transition-all">
+          Empezar gratis 10 días
+        </a>
+      </div>
+
+      <!-- PRO (destacado) -->
+      <div class="bg-white rounded-2xl p-7 plan-pro relative fade-in fade-in-delay-2">
+        <!-- Badge -->
+        <div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-verde-oscuro text-white text-xs font-bold px-5 py-1.5 rounded-full whitespace-nowrap">
+          ⭐ Más elegido
+        </div>
+
+        <div class="mb-6 pt-2">
+          <h3 class="text-lg font-bold text-gray-900 mb-1">Pro</h3>
+          <div class="flex items-end gap-1 mb-1">
+            <span class="text-3xl font-bold text-verde-oscuro">$32</span>
+            <span class="text-gris text-sm mb-1">USD/mes</span>
+          </div>
+          <p class="text-xs text-gris">≈ $44.800 ARS/mes</p>
+        </div>
+
+        <ul class="space-y-2.5 mb-8 text-sm">
+          <li class="flex items-center gap-2 text-gray-700"><span class="text-verde-oscuro font-bold">✓</span> <strong>Todo Starter</strong></li>
+          <li class="flex items-center gap-2 text-gray-700"><span class="text-verde-oscuro">✓</span> Pacientes ilimitados</li>
+          <li class="flex items-center gap-2 text-gray-700"><span class="text-verde-oscuro">✓</span> Historia clínica digital</li>
+          <li class="flex items-center gap-2 text-gray-700"><span class="text-verde-oscuro">✓</span> Notas de sesión con IA <span class="badge-ia">IA</span></li>
+          <li class="flex items-center gap-2 text-gray-700"><span class="text-verde-oscuro">✓</span> Resumen semanal con IA <span class="badge-ia">IA</span></li>
+          <li class="flex items-center gap-2 text-gray-700"><span class="text-verde-oscuro">✓</span> Detección de riesgo <span class="badge-ia">IA</span></li>
+          <li class="flex items-center gap-2 text-gray-700"><span class="text-verde-oscuro">✓</span> Perfil verificado en directorio</li>
+          <li class="flex items-center gap-2 text-gray-700"><span class="text-verde-oscuro">✓</span> Estadísticas de adherencia</li>
+        </ul>
+
+        <a href="#" class="block text-center bg-gray-900 text-white font-bold py-3.5 rounded-xl hover:bg-verde-oscuro transition-all hover:shadow-lg">
+          Empezar gratis 10 días
+        </a>
+      </div>
+
+      <!-- CLÍNICA -->
+      <div class="bg-white rounded-2xl p-7 border border-gray-200 fade-in fade-in-delay-3">
+        <div class="mb-6">
+          <h3 class="text-lg font-bold text-gray-900 mb-1">Clínica</h3>
+          <div class="flex items-end gap-1 mb-1">
+            <span class="text-3xl font-bold text-gray-900">$75</span>
+            <span class="text-gris text-sm mb-1">USD/mes</span>
+          </div>
+          <p class="text-xs text-gris">≈ $105.000 ARS/mes</p>
+        </div>
+
+        <ul class="space-y-2.5 mb-8 text-sm">
+          <li class="flex items-center gap-2 text-gray-700"><span class="text-verde-oscuro font-bold">✓</span> <strong>Todo Pro</strong></li>
+          <li class="flex items-center gap-2 text-gray-700"><span class="text-verde-oscuro">✓</span> Hasta 8 profesionales</li>
+          <li class="flex items-center gap-2 text-gray-700"><span class="text-verde-oscuro">✓</span> Panel de supervisión clínica</li>
+          <li class="flex items-center gap-2 text-gray-700"><span class="text-verde-oscuro">✓</span> IA para el paciente entre sesiones</li>
+          <li class="flex items-center gap-2 text-gray-700"><span class="text-verde-oscuro">✓</span> Branding propio</li>
+          <li class="flex items-center gap-2 text-gray-700"><span class="text-verde-oscuro">✓</span> Soporte 24/7</li>
+          <li class="flex items-center gap-2 text-gray-700"><span class="text-verde-oscuro">✓</span> API para sistemas propios</li>
+          <li class="flex items-center gap-2 text-gray-700"><span class="text-verde-oscuro">✓</span> Facturación unificada</li>
+        </ul>
+
+        <a href="#" class="block text-center border-2 border-gray-300 text-gray-700 font-semibold py-3 rounded-xl hover:border-verde-oscuro hover:text-verde-oscuro transition-all">
+          Hablar con ventas →
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== TESTIMONIOS ===================== -->
+<section class="py-20 px-6" style="background: #f8faf9; position: relative; overflow: hidden;">
+
+  <div class="max-w-6xl mx-auto" style="position: relative; z-index: 1;">
+
+    <!-- Header -->
+    <div class="text-center mb-6 fade-in">
+      <h2 class="font-georgia italic text-3xl md:text-4xl font-bold text-gray-900 mb-3">
+        Lo que dicen quienes usan Mentalia
+      </h2>
+      <p class="text-gris">Profesionales y pacientes comparten su experiencia real</p>
+    </div>
+
+    <!-- Stats bar -->
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-16 fade-in fade-in-delay-1">
+      <div class="bg-white rounded-2xl p-5 text-center" style="box-shadow: 0 2px 12px rgba(45,106,79,0.08); border: 1px solid rgba(45,106,79,0.08);">
+        <div class="font-georgia italic text-3xl font-bold text-verde-oscuro mb-1">4.9 / 5</div>
+        <div class="text-yellow-400 text-base mb-1">★★★★★</div>
+        <div class="text-xs text-gris">Valoración media de la plataforma</div>
+      </div>
+      <div class="bg-white rounded-2xl p-5 text-center" style="box-shadow: 0 2px 12px rgba(45,106,79,0.08); border: 1px solid rgba(45,106,79,0.08);">
+        <div class="font-georgia italic text-3xl font-bold text-verde-oscuro mb-1">+200</div>
+        <div class="text-sm font-semibold text-gray-700 mb-1">Psicólogos/as activos/as</div>
+        <div class="text-xs text-gris">En toda Argentina</div>
+      </div>
+      <div class="bg-white rounded-2xl p-5 text-center" style="box-shadow: 0 2px 12px rgba(45,106,79,0.08); border: 1px solid rgba(45,106,79,0.08);">
+        <div class="font-georgia italic text-3xl font-bold text-verde-oscuro mb-1">+1.200</div>
+        <div class="text-sm font-semibold text-gray-700 mb-1">Sesiones por mes</div>
+        <div class="text-xs text-gris">Y creciendo cada semana</div>
+      </div>
+    </div>
+
+    <!-- ── PROFESIONALES ── -->
+    <div class="mb-12">
+      <div class="flex items-center gap-4 mb-7 fade-in">
+        <span class="flex items-center gap-2 text-xs font-bold uppercase tracking-widest px-4 py-1.5 rounded-full" style="background:#2D6A4F; color:white; white-space:nowrap;">
+          🩺 Profesionales de la salud
+        </span>
+        <div class="flex-1 h-px" style="background: rgba(45,106,79,0.15);"></div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+
+        <div class="testimonial-card fade-in fade-in-delay-1">
+          <div class="flex items-center justify-between mb-4">
+            <span class="text-yellow-400">★★★★★</span>
+            <span class="text-xs font-semibold px-2.5 py-1 rounded-full" style="background:#D8F3DC; color:#2D6A4F;">Psicóloga clínica</span>
+          </div>
+          <p class="text-gray-700 text-sm leading-relaxed mb-6 italic">
+            "Desde que uso Mentalia no persigo más una transferencia. Todo llega solo antes de la sesión. Cambió completamente mi forma de trabajar."
+          </p>
+          <div class="flex items-center gap-3 pt-4" style="border-top: 1px solid #f0f0f0;">
+            <div class="w-10 h-10 rounded-full flex items-center justify-center font-bold text-white text-sm flex-shrink-0" style="background:#2D6A4F;">VM</div>
+            <div>
+              <div class="font-semibold text-sm text-gray-900">Lic. Valeria M.</div>
+              <div class="text-xs text-gris">Psicóloga clínica · CABA</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="testimonial-card fade-in fade-in-delay-2">
+          <div class="flex items-center justify-between mb-4">
+            <span class="text-yellow-400">★★★★★</span>
+            <span class="text-xs font-semibold px-2.5 py-1 rounded-full" style="background:#D8F3DC; color:#2D6A4F;">Psicólogo</span>
+          </div>
+          <p class="text-gray-700 text-sm leading-relaxed mb-6 italic">
+            "El resumen semanal de la IA me ayuda a llegar a cada sesión mucho mejor preparado. Ya no arranco desde cero recordando qué pasó la semana anterior."
+          </p>
+          <div class="flex items-center gap-3 pt-4" style="border-top: 1px solid #f0f0f0;">
+            <div class="w-10 h-10 rounded-full flex items-center justify-center font-bold text-white text-sm flex-shrink-0" style="background:#2D6A4F;">MR</div>
+            <div>
+              <div class="font-semibold text-sm text-gray-900">Lic. Marcos R.</div>
+              <div class="text-xs text-gris">Psicólogo · Córdoba</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="testimonial-card fade-in fade-in-delay-3">
+          <div class="flex items-center justify-between mb-4">
+            <span class="text-yellow-400">★★★★★</span>
+            <span class="text-xs font-semibold px-2.5 py-1 rounded-full" style="background:#D8F3DC; color:#2D6A4F;">Psicóloga</span>
+          </div>
+          <p class="text-gray-700 text-sm leading-relaxed mb-6 italic">
+            "Por fin tengo toda mi agenda, cobros e historia clínica en un solo lugar. Le recomendé Mentalia a todos mis colegas del grupo de supervisión."
+          </p>
+          <div class="flex items-center gap-3 pt-4" style="border-top: 1px solid #f0f0f0;">
+            <div class="w-10 h-10 rounded-full flex items-center justify-center font-bold text-white text-sm flex-shrink-0" style="background:#2D6A4F;">AC</div>
+            <div>
+              <div class="font-semibold text-sm text-gray-900">Lic. Andrea C.</div>
+              <div class="text-xs text-gris">Psicóloga · Rosario</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ── PACIENTES ── -->
+    <div>
+      <div class="flex items-center gap-4 mb-7 fade-in">
+        <span class="flex items-center gap-2 text-xs font-bold uppercase tracking-widest px-4 py-1.5 rounded-full" style="background:#52B788; color:white; white-space:nowrap;">
+          💬 Pacientes
+        </span>
+        <div class="flex-1 h-px" style="background: rgba(82,183,136,0.25);"></div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+
+        <div class="testimonial-card fade-in fade-in-delay-1">
+          <div class="flex items-center justify-between mb-4">
+            <span class="text-yellow-400">★★★★★</span>
+            <span class="text-xs font-semibold px-2.5 py-1 rounded-full" style="background:#e8f8f2; color:#2D6A4F;">Paciente</span>
+          </div>
+          <p class="text-gray-700 text-sm leading-relaxed mb-6 italic">
+            "En 5 minutos el quiz me mostró tres psicólogas que se adaptaban a lo que necesitaba. Elegí, pagué y listo. Nunca fue tan fácil pedir ayuda."
+          </p>
+          <div class="flex items-center gap-3 pt-4" style="border-top: 1px solid #f0f0f0;">
+            <div class="w-10 h-10 rounded-full flex items-center justify-center font-bold text-white text-sm flex-shrink-0" style="background:#52B788;">SB</div>
+            <div>
+              <div class="font-semibold text-sm text-gray-900">Santiago B.</div>
+              <div class="text-xs text-gris">Paciente · Buenos Aires</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="testimonial-card fade-in fade-in-delay-2">
+          <div class="flex items-center justify-between mb-4">
+            <span class="text-yellow-400">★★★★★</span>
+            <span class="text-xs font-semibold px-2.5 py-1 rounded-full" style="background:#e8f8f2; color:#2D6A4F;">Paciente</span>
+          </div>
+          <p class="text-gray-700 text-sm leading-relaxed mb-6 italic">
+            "El diario emocional y los juegos que me manda mi psicóloga entre sesiones me ayudan un montón. Siento que el proceso no para cuando termina la hora."
+          </p>
+          <div class="flex items-center gap-3 pt-4" style="border-top: 1px solid #f0f0f0;">
+            <div class="w-10 h-10 rounded-full flex items-center justify-center font-bold text-white text-sm flex-shrink-0" style="background:#52B788;">LF</div>
+            <div>
+              <div class="font-semibold text-sm text-gray-900">Lucía F.</div>
+              <div class="text-xs text-gris">Paciente · Mendoza</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="testimonial-card fade-in fade-in-delay-3">
+          <div class="flex items-center justify-between mb-4">
+            <span class="text-yellow-400">★★★★★</span>
+            <span class="text-xs font-semibold px-2.5 py-1 rounded-full" style="background:#e8f8f2; color:#2D6A4F;">Paciente</span>
+          </div>
+          <p class="text-gray-700 text-sm leading-relaxed mb-6 italic">
+            "Venía de viajar dos horas para ir al consultorio. Con Mentalia la sesión es desde casa, con la misma calidad. No volvería a hacerlo de otra manera."
+          </p>
+          <div class="flex items-center gap-3 pt-4" style="border-top: 1px solid #f0f0f0;">
+            <div class="w-10 h-10 rounded-full flex items-center justify-center font-bold text-white text-sm flex-shrink-0" style="background:#52B788;">TG</div>
+            <div>
+              <div class="font-semibold text-sm text-gray-900">Tomás G.</div>
+              <div class="text-xs text-gris">Paciente · Córdoba</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ===================== CTA FINAL ===================== -->
+<section class="bg-verde-oscuro py-20 px-6" style="position: relative; overflow: hidden;">
+  <!-- Logo watermark fondo claro -->
+  <img src="logo_mentalia.svg" alt="" aria-hidden="true" style="position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 680px; opacity: 0.06; pointer-events: none; user-select: none; filter: brightness(10);" />
+  <div class="max-w-3xl mx-auto text-center" style="position: relative; z-index: 1;">
+    <h2 class="font-georgia italic text-3xl md:text-5xl font-bold text-white mb-4 fade-in">
+      Empezá hoy.<br />10 días gratis, sin tarjeta.
+    </h2>
+    <p class="text-verde-claro text-lg mb-10 fade-in fade-in-delay-1">
+      Más de 200 psicólogos/as ya organizaron su consulta con Mentalia.<br />
+      Configuración en menos de 10 minutos.
+    </p>
+
+    <div class="flex flex-col sm:flex-row gap-4 justify-center fade-in fade-in-delay-2">
+      <a href="#" class="bg-white text-verde-oscuro font-bold text-lg px-10 py-4 rounded-xl hover:bg-verde-claro transition-all hover:shadow-xl hover:-translate-y-0.5 transform">
+        Crear mi cuenta gratis →
+      </a>
+      <a href="#" class="border-2 border-white/40 text-white font-semibold px-8 py-4 rounded-xl hover:bg-white/10 transition-all">
+        Ver demo primero
+      </a>
+    </div>
+
+    <p class="text-verde-claro/60 text-sm mt-8 fade-in">Sin tarjeta de crédito · Cancelás cuando querés · Soporte en español, italiano e inglés</p>
+  </div>
+</section>
+
+<!-- ===================== FOOTER ===================== -->
+<footer class="bg-gray-900 text-white py-12 px-6">
+  <div class="max-w-6xl mx-auto">
+    <div class="flex flex-col md:flex-row items-center justify-between gap-8 mb-8">
+      <!-- Logo -->
+      <a href="#" class="font-georgia italic text-2xl font-bold text-white">Mentalia</a>
+
+      <!-- Links -->
+      <div class="flex flex-wrap justify-center gap-6 text-sm text-gray-400">
+        <a href="#funciones" class="hover:text-white transition-colors">Funciones</a>
+        <a href="#precios" class="hover:text-white transition-colors">Precios</a>
+        <a href="#" class="hover:text-white transition-colors">Contacto</a>
+        <a href="#" class="hover:text-white transition-colors">Términos</a>
+        <a href="#" class="hover:text-white transition-colors">Privacidad</a>
+      </div>
+
+      <!-- Redes -->
+      <div class="flex items-center gap-4">
+        <a href="#" class="w-9 h-9 bg-gray-800 rounded-full flex items-center justify-center hover:bg-verde-oscuro transition-colors">
+          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+        </a>
+        <a href="#" class="w-9 h-9 bg-gray-800 rounded-full flex items-center justify-center hover:bg-verde-oscuro transition-colors">
+          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+        </a>
+        <a href="#" class="w-9 h-9 bg-gray-800 rounded-full flex items-center justify-center hover:bg-verde-oscuro transition-colors">
+          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.17 8.17 0 004.77 1.52V6.76a4.85 4.85 0 01-1-.07z"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <div class="border-t border-gray-800 pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-gray-500">
+      <p>© 2026 Mentalia. Todos los derechos reservados.</p>
+      <p>Hecho en Argentina 🇦🇷 · Para psicólogos/as argentinos/as</p>
+    </div>
+  </div>
+</footer>
+
+<!-- ===================== JS: Scroll animations + Nav ===================== -->
+<script>
+  // Nav shadow on scroll
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 20) {
+      navbar.classList.add('nav-scrolled');
+    } else {
+      navbar.classList.remove('nav-scrolled');
+    }
+  });
+
+  // Intersection Observer para fade-in
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, {
+    threshold: 0.12,
+    rootMargin: '0px 0px -40px 0px'
+  });
+
+  document.querySelectorAll('.fade-in').forEach(el => {
+    observer.observe(el);
+  });
+
+  // Trigger visible for elements already in viewport on load
+  setTimeout(() => {
+    document.querySelectorAll('.fade-in').forEach(el => {
+      const rect = el.getBoundingClientRect();
+      if (rect.top < window.innerHeight) {
+        el.classList.add('visible');
+      }
+    });
+  }, 100);
+</script>
+
+</body>
+</html>
+

@@ -1,0 +1,9 @@
+{
+  "version": 2,
+  "builds": [{ "src": "*.html", "use": "@vercel/static" }],
+  "routes": [
+    { "src": "/", "dest": "/mentalia-landing.html" },
+    { "src": "/terminos", "dest": "/terminos.html" },
+    { "src": "/privacidad", "dest": "/privacidad.html" }
+  ]
+}
