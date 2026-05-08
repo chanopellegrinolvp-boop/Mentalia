@@ -1,57 +1,69 @@
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
+import Link from "next/link";
 
 export default async function PacientesPage() {
-  const supabase = createClient();
+  const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) redirect("/login");
 
-  const { data: appointments } = await supabase
-    .from("appointments")
-    .select("patient_id, patient:patient_id(full_name, email), status, scheduled_at")
-    .eq("professional_id", user.id)
-    .neq("status", "cancelled")
-    .order("scheduled_at", { ascending: false });
-
-  const uniqueMap = new Map<string, any>();
-  appointments?.forEach((a: any) => {
-    if (!uniqueMap.has(a.patient_id)) uniqueMap.set(a.patient_id, a.patient);
-  });
-  const patients = Array.from(uniqueMap.values());
+  const { data: pacientes } = await supabase
+    .from("pacientes")
+    .select("id, nombre, email, motivo_consulta, created_at")
+    .eq("profesional_id", user.id)
+    .eq("activo", true)
+    .order("nombre");
 
   return (
-    <div className="p-8 max-w-3xl">
-      <div className="mb-8">
-        <h1 className="text-2xl font-bold text-gray-900">Mis Pacientes</h1>
-        <p className="text-gris text-sm mt-1">{patients.length} paciente{patients.length !== 1 ? "s" : ""} con sesiones</p>
-      </div>
+    <div className="min-h-screen bg-[#FDFCFA]">
+      <header className="bg-white border-b border-gray-100 px-6 py-4">
+        <div className="max-w-4xl mx-auto flex items-center justify-between">
+          <Link href="/dashboard/profesional" className="text-sm text-gray-500 hover:text-[#2D6A4F]">
+            ← Dashboard
+          </Link>
+          <span className="font-medium text-sm text-gray-700">Pacientes</span>
+          <Link
+            href="/dashboard/profesional/pacientes/nuevo"
+            className="text-sm bg-[#2D6A4F] text-white px-4 py-1.5 rounded-lg hover:bg-[#235a41] transition"
+          >
+            + Nuevo
+          </Link>
+        </div>
+      </header>
 
-      <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
-        {patients.length === 0 ? (
-          <div className="text-center py-16">
-            <div className="text-4xl mb-3">👥</div>
-            <p className="font-semibold text-gray-800">Sin pacientes todavía</p>
-            <p className="text-sm text-gris mt-1">Tus pacientes aparecerán aquí cuando reserven un turno</p>
+      <main className="max-w-4xl mx-auto px-6 py-8">
+        {!pacientes || pacientes.length === 0 ? (
+          <div className="border border-dashed border-gray-200 rounded-xl p-12 text-center">
+            <p className="text-gray-400 text-sm">Aún no tenés pacientes cargados</p>
+            <Link
+              href="/dashboard/profesional/pacientes/nuevo"
+              className="inline-block mt-4 bg-[#2D6A4F] text-white text-sm px-6 py-2 rounded-lg hover:bg-[#235a41] transition"
+            >
+              Agregar primer paciente
+            </Link>
           </div>
         ) : (
-          <div className="divide-y divide-gray-50">
-            {patients.map((p: any, i: number) => {
-              const initials = (p?.full_name ?? "?").split(" ").map((n: string) => n[0]).slice(0, 2).join("").toUpperCase();
-              return (
-                <div key={i} className="flex items-center gap-4 px-6 py-4 hover:bg-gray-50 transition-colors">
-                  <div className="w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold text-white flex-shrink-0" style={{ background: "#2D6A4F" }}>
-                    {initials}
+          <div className="space-y-2">
+            {pacientes.map((p: any) => (
+              <Link
+                key={p.id}
+                href={`/dashboard/profesional/pacientes/${p.id}`}
+                className="block bg-white border border-gray-100 rounded-xl px-5 py-4 hover:border-[#2D6A4F]/30 transition"
+              >
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="font-medium text-gray-900 text-sm">{p.nombre}</p>
+                    {p.motivo_consulta && (
+                      <p className="text-xs text-gray-400 mt-0.5 truncate max-w-sm">{p.motivo_consulta}</p>
+                    )}
                   </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="font-semibold text-gray-900 text-sm truncate">{p?.full_name ?? "Paciente"}</p>
-                    <p className="text-xs text-gris truncate">{p?.email}</p>
-                  </div>
+                  <span className="text-xs text-gray-300">→</span>
                 </div>
-              );
-            })}
+              </Link>
+            ))}
           </div>
         )}
-      </div>
+      </main>
     </div>
   );
 }

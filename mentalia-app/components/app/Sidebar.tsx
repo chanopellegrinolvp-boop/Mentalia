@@ -4,7 +4,6 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
 import SignOutButton from "./SignOutButton";
-import ThemeToggle from "./ThemeToggle";
 import BackButton from "./BackButton";
 
 type Profile = {
@@ -93,7 +92,6 @@ export default function Sidebar({ profile }: { profile: Profile }) {
             <p className="text-xs truncate" style={{ color: "rgba(216,243,220,0.6)" }}>{profile.email}</p>
           </div>
         </div>
-        <ThemeToggle />
         <SignOutButton />
       </div>
     </aside>
