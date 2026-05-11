@@ -14,13 +14,10 @@ const supabaseAdmin = createClient(
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    console.log("Webhook MP recibido:", JSON.stringify(body));
 
     if (body.type === "payment" && body.data?.id) {
       const paymentClient = new Payment(mp);
       const paymentData = await paymentClient.get({ id: body.data.id });
-
-      console.log("Pago obtenido:", paymentData.status, paymentData.external_reference);
 
       if (paymentData.status === "approved") {
         const userId = paymentData.external_reference;
@@ -39,9 +36,7 @@ export async function POST(req: Request) {
           });
 
           if (error) {
-            console.error("Error guardando pago en Supabase:", error);
-          } else {
-            console.log("Pago guardado para usuario:", userId);
+            console.error("Error guardando pago:", error.message);
           }
         }
       }

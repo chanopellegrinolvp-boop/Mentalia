@@ -31,8 +31,33 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL("/login", request.url));
   }
 
+  const isProfRoute = path.startsWith("/dashboard/profesional");
+  const isPacRoute = path.startsWith("/dashboard/paciente");
+
+  if (user && (isProfRoute || isPacRoute)) {
+    const { data: profile } = await supabase
+      .from("profiles")
+      .select("role")
+      .eq("id", user.id)
+      .single();
+
+    if (isProfRoute && profile?.role !== "professional") {
+      return NextResponse.redirect(new URL("/dashboard/paciente", request.url));
+    }
+    if (isPacRoute && profile?.role !== "patient") {
+      return NextResponse.redirect(new URL("/dashboard/profesional", request.url));
+    }
+  }
+
   if ((path === "/login" || path === "/registro") && user) {
-    return NextResponse.redirect(new URL("/dashboard/profesional", request.url));
+    const { data: profile } = await supabase
+      .from("profiles")
+      .select("role")
+      .eq("id", user.id)
+      .single();
+
+    const dest = profile?.role === "patient" ? "/dashboard/paciente" : "/dashboard/profesional";
+    return NextResponse.redirect(new URL(dest, request.url));
   }
 
   return response;

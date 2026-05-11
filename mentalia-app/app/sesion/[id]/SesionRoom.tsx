@@ -70,6 +70,9 @@ export default function SesionRoom({
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ sesionId: sesion.id }),
     });
+    if (notas.trim()) {
+      generarResumenIA();
+    }
   }
 
   async function guardarNotas(texto: string) {
