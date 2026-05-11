@@ -45,8 +45,8 @@ export async function emailBienvenida(to: string, nombre: string, rol: "professi
       : "Ahora podés buscar el profesional ideal y reservar tu primera sesión."
     }</p>
     ${esPro
-      ? btn("Completar mi perfil →", `${process.env.NEXT_PUBLIC_SITE_URL ?? "https://mentalia-app.vercel.app"}/dashboard/profesional/perfil`)
-      : btn("Buscar profesionales →", `${process.env.NEXT_PUBLIC_SITE_URL ?? "https://mentalia-app.vercel.app"}/buscar`)
+      ? btn("Completar mi perfil →", `${process.env.NEXT_PUBLIC_SITE_URL}/dashboard/profesional/perfil`)
+      : btn("Buscar profesionales →", `${process.env.NEXT_PUBLIC_SITE_URL}/buscar`)
     }
     <p style="color:#6B7280;font-size:13px;">Tenés 10 días de prueba gratis. Sin tarjeta de crédito.</p>
   `);
@@ -94,7 +94,7 @@ export async function emailPagoConfirmado(opts: {
       <p style="margin:0 0 8px;color:#374151;"><strong>Monto:</strong> $${opts.monto.toLocaleString("es-AR")} ARS</p>
       <p style="margin:0;color:#6B7280;font-size:13px;">N° de pago: ${opts.paymentId}</p>
     </div>
-    ${btn("Ver mis pagos →", `${process.env.NEXT_PUBLIC_SITE_URL ?? "https://mentalia-app.vercel.app"}/dashboard/paciente/pagos`)}
+    ${btn("Ver mis pagos →", `${process.env.NEXT_PUBLIC_SITE_URL}/dashboard/paciente/pagos`)}
   `);
   await send(opts.to, subject, html);
 }
@@ -117,7 +117,7 @@ export async function emailNuevoTurnoProfesional(opts: {
       <p style="margin:0 0 8px;color:#374151;"><strong>Fecha:</strong> ${opts.fecha}</p>
       <p style="margin:0;color:#374151;"><strong>Hora:</strong> ${opts.hora}</p>
     </div>
-    ${btn("Ver mi agenda →", `${process.env.NEXT_PUBLIC_SITE_URL ?? "https://mentalia-app.vercel.app"}/dashboard/profesional/agenda`)}
+    ${btn("Ver mi agenda →", `${process.env.NEXT_PUBLIC_SITE_URL}/dashboard/profesional/agenda`)}
   `);
   await send(opts.to, subject, html);
 }

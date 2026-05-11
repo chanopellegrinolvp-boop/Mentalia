@@ -19,7 +19,12 @@ export async function GET(request: Request) {
           .single();
 
         const next = searchParams.get("next");
-        const dest = next ?? (profile?.role === "professional" ? "/dashboard/profesional" : "/dashboard/paciente");
+        let dest = next;
+        if (!dest) {
+          if (profile?.role === "professional") dest = "/dashboard/profesional";
+          else if (profile?.role === "patient") dest = "/dashboard/paciente";
+          else dest = "/";
+        }
         return NextResponse.redirect(`${origin}${dest}`);
       }
     }
