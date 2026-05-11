@@ -3,10 +3,8 @@
     "relation": ["delegate_permission/common.handle_all_urls"],
     "target": {
       "namespace": "android_app",
-      "package_name": "ar.com.mentalia.app",
-      "sha256_cert_fingerprints": [
-        "PLACEHOLDER_SHA256_FROM_PWABUILDER"
-      ]
+      "package_name": "com.mentalia.app",
+      "sha256_cert_fingerprints": ["REEMPLAZAR-CON-SHA256-DEL-KEYSTORE"]
     }
   }
 ]
