@@ -90,9 +90,17 @@ export default async function Home() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                 </svg>
               </div>
-              <h3 className="text-base font-bold text-white mb-3">Para psicólogos/as</h3>
-              <ul className="space-y-2 text-xs" style={{ color: "rgba(216,243,220,0.85)" }}>
-                {["Agenda y gestión de sesiones online","Historia clínica digital por paciente","Resumen automático de sesiones con IA","Detección de nivel de riesgo","Videollamadas integradas","Panel de estadísticas y cobros"].map(item => (
+              <h3 className="text-base font-bold text-white mb-1">Para psicólogos/as</h3>
+              <p className="text-xs mb-4" style={{ color: "rgba(216,243,220,0.6)" }}>Más tiempo para tus pacientes, menos para la administración.</p>
+              <ul className="space-y-2.5 text-xs" style={{ color: "rgba(216,243,220,0.85)" }}>
+                {[
+                  "Dedicás más tiempo a tus pacientes y menos al papeleo",
+                  "Toda la historia clínica accesible antes de cada sesión",
+                  "Nunca más perdés el hilo entre consultas",
+                  "Detectás señales de riesgo antes de que escalen",
+                  "Sesiones presenciales y online desde un solo lugar",
+                  "Controlás tu agenda e ingresos sin salir de la plataforma",
+                ].map(item => (
                   <li key={item} className="flex items-start gap-2">
                     <span className="flex-shrink-0 mt-0.5" style={{ color: "#D8F3DC" }}>✓</span>{item}
                   </li>
