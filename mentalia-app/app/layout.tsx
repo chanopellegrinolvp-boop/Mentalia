@@ -5,11 +5,11 @@ import PWARegister from "@/components/PWARegister";
 export const metadata: Metadata = {
   title: "Mentalia — Consultorio digital para psicólogos",
   description: "Plataforma de salud mental para psicólogos argentinos. Videollamadas, historia clínica digital, resumen clínico con IA y seguimiento del paciente. 10 días gratis, sin tarjeta.",
-  metadataBase: new URL("https://mentalia-app.vercel.app"),
+  metadataBase: new URL("https://mentalia.com.ar"),
   openGraph: {
     title: "Mentalia — Consultorio digital para psicólogos",
     description: "Gestión completa del consultorio: agenda, historia clínica, videollamadas y resumen clínico con IA. Argentina.",
-    url: "https://mentalia-app.vercel.app",
+    url: "https://mentalia.com.ar",
     siteName: "Mentalia",
     locale: "es_AR",
     type: "website",
