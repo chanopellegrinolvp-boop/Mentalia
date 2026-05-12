@@ -51,6 +51,12 @@ export default function RegistroPage() {
       license_number: matricula || null,
     });
 
+    fetch("/api/emails/bienvenida", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, nombre, rol: "professional" }),
+    }).catch(() => {});
+
     router.push("/dashboard/profesional");
     router.refresh();
   }

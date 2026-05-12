@@ -30,6 +30,13 @@ export default function NuevaSesionForm({ pacienteId, profesionalId }: { pacient
       setError("No se pudo programar la sesión. Intentá de nuevo.");
       return;
     }
+
+    fetch("/api/emails/turno", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ appointmentId: data.id }),
+    }).catch(() => {});
+
     router.push(`/sesion/${data.id}`);
   }
 

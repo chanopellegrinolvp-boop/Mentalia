@@ -35,20 +35,29 @@ function btn(text: string, url: string) {
   </div>`;
 }
 
+function sig() {
+  return `<p style="color:#9CA3AF;font-size:13px;margin-top:28px;padding-top:16px;border-top:1px solid #f3f4f6;">El equipo de Mentalia</p>`;
+}
+
 export async function emailBienvenida(to: string, nombre: string, rol: "professional" | "patient") {
   const esPro = rol === "professional";
-  const subject = `¡Bienvenido a Mentalia, ${nombre.split(" ")[0]}!`;
+  const primerNombre = nombre.split(" ")[0];
+  const subject = `Bienvenido a Mentalia, ${primerNombre}`;
   const html = base(`
-    <h2 style="color:#111827;margin-top:0;">¡Hola, ${nombre.split(" ")[0]}! 👋</h2>
-    <p style="color:#374151;line-height:1.7;">Tu cuenta de Mentalia está lista. ${esPro
-      ? "Completá tu perfil para que los pacientes puedan encontrarte en el directorio."
-      : "Ahora podés buscar el profesional ideal y reservar tu primera sesión."
-    }</p>
+    <h2 style="color:#111827;margin-top:0;">Hola, ${primerNombre}</h2>
+    <p style="color:#374151;line-height:1.7;">
+      Tu cuenta de Mentalia está lista.
+      ${esPro
+        ? "Completá tu perfil profesional para que tus pacientes puedan encontrarte y empezá a gestionar tu consultorio digital."
+        : "Ya podés conectarte con tu profesional y llevar un seguimiento de tu bienestar emocional."
+      }
+    </p>
     ${esPro
       ? btn("Completar mi perfil →", `${process.env.NEXT_PUBLIC_SITE_URL}/dashboard/profesional/perfil`)
-      : btn("Buscar profesionales →", `${process.env.NEXT_PUBLIC_SITE_URL}/buscar`)
+      : btn("Ver mi dashboard →", `${process.env.NEXT_PUBLIC_SITE_URL}/dashboard/paciente`)
     }
     <p style="color:#6B7280;font-size:13px;">Tenés 10 días de prueba gratis. Sin tarjeta de crédito.</p>
+    ${sig()}
   `);
   await send(to, subject, html);
 }
@@ -62,18 +71,23 @@ export async function emailTurnoConfirmado(opts: {
   modalidad: string;
   meetUrl?: string;
 }) {
-  const subject = `Turno confirmado con ${opts.profesionalName}`;
+  const primerNombre = opts.pacienteName.split(" ")[0];
+  const subject = `Tu sesión con ${opts.profesionalName} está confirmada`;
   const html = base(`
-    <h2 style="color:#111827;margin-top:0;">¡Turno confirmado! ✅</h2>
-    <p style="color:#374151;line-height:1.7;">Hola <strong>${opts.pacienteName}</strong>, tu sesión quedó agendada.</p>
+    <h2 style="color:#111827;margin-top:0;">Sesión confirmada</h2>
+    <p style="color:#374151;line-height:1.7;">Hola <strong>${primerNombre}</strong>, tu sesión quedó agendada.</p>
     <div style="background:#f0faf3;border-radius:12px;padding:20px 24px;margin:20px 0;border-left:4px solid #2D6A4F;">
       <p style="margin:0 0 8px;color:#374151;"><strong>Profesional:</strong> ${opts.profesionalName}</p>
       <p style="margin:0 0 8px;color:#374151;"><strong>Fecha:</strong> ${opts.fecha}</p>
       <p style="margin:0 0 8px;color:#374151;"><strong>Hora:</strong> ${opts.hora}</p>
       <p style="margin:0;color:#374151;"><strong>Modalidad:</strong> ${opts.modalidad}</p>
     </div>
-    ${opts.meetUrl ? btn("Unirme a la videollamada →", opts.meetUrl) : ""}
-    <p style="color:#6B7280;font-size:13px;">Si necesitás cancelar o reprogramar, hacelo con al menos 24hs de anticipación.</p>
+    ${opts.meetUrl
+      ? btn("Unirme a la videollamada →", opts.meetUrl)
+      : btn("Ver mis sesiones →", `${process.env.NEXT_PUBLIC_SITE_URL}/dashboard/paciente/sesiones`)
+    }
+    <p style="color:#6B7280;font-size:13px;">Si necesitás cancelar o reprogramar, hacelo con al menos 24 horas de anticipación.</p>
+    ${sig()}
   `);
   await send(opts.to, subject, html);
 }
@@ -85,16 +99,18 @@ export async function emailPagoConfirmado(opts: {
   monto: number;
   paymentId: string;
 }) {
-  const subject = "Pago confirmado — Mentalia";
+  const primerNombre = opts.nombre.split(" ")[0];
+  const subject = "Tu suscripción a Mentalia está activa";
   const html = base(`
-    <h2 style="color:#111827;margin-top:0;">Pago recibido ✅</h2>
-    <p style="color:#374151;line-height:1.7;">Hola <strong>${opts.nombre}</strong>, confirmamos el pago de tu sesión.</p>
+    <h2 style="color:#111827;margin-top:0;">Pago confirmado</h2>
+    <p style="color:#374151;line-height:1.7;">Hola <strong>${primerNombre}</strong>, recibimos tu pago. Tu plan ya está activo.</p>
     <div style="background:#f0faf3;border-radius:12px;padding:20px 24px;margin:20px 0;border-left:4px solid #2D6A4F;">
-      <p style="margin:0 0 8px;color:#374151;"><strong>Profesional:</strong> ${opts.profesionalName}</p>
       <p style="margin:0 0 8px;color:#374151;"><strong>Monto:</strong> $${opts.monto.toLocaleString("es-AR")} ARS</p>
       <p style="margin:0;color:#6B7280;font-size:13px;">N° de pago: ${opts.paymentId}</p>
     </div>
-    ${btn("Ver mis pagos →", `${process.env.NEXT_PUBLIC_SITE_URL}/dashboard/paciente/pagos`)}
+    ${btn("Ir a mi dashboard →", `${process.env.NEXT_PUBLIC_SITE_URL}/dashboard/profesional`)}
+    <p style="color:#6B7280;font-size:13px;">Ante cualquier consulta sobre tu facturación, respondé este email.</p>
+    ${sig()}
   `);
   await send(opts.to, subject, html);
 }
@@ -107,10 +123,11 @@ export async function emailNuevoTurnoProfesional(opts: {
   fecha: string;
   hora: string;
 }) {
-  const subject = `Nuevo turno reservado — ${opts.pacienteName}`;
+  const primerNombre = opts.profesionalName.split(" ")[0];
+  const subject = `Nueva sesión programada — ${opts.pacienteName}`;
   const html = base(`
-    <h2 style="color:#111827;margin-top:0;">Tenés un nuevo turno 📅</h2>
-    <p style="color:#374151;line-height:1.7;">Hola <strong>${opts.profesionalName}</strong>, un paciente acaba de reservar una sesión.</p>
+    <h2 style="color:#111827;margin-top:0;">Nueva sesión en tu agenda</h2>
+    <p style="color:#374151;line-height:1.7;">Hola <strong>${primerNombre}</strong>, se programó una nueva sesión.</p>
     <div style="background:#f0faf3;border-radius:12px;padding:20px 24px;margin:20px 0;border-left:4px solid #2D6A4F;">
       <p style="margin:0 0 8px;color:#374151;"><strong>Paciente:</strong> ${opts.pacienteName}</p>
       <p style="margin:0 0 8px;color:#374151;"><strong>Email:</strong> ${opts.patieneEmail}</p>
@@ -118,6 +135,7 @@ export async function emailNuevoTurnoProfesional(opts: {
       <p style="margin:0;color:#374151;"><strong>Hora:</strong> ${opts.hora}</p>
     </div>
     ${btn("Ver mi agenda →", `${process.env.NEXT_PUBLIC_SITE_URL}/dashboard/profesional/agenda`)}
+    ${sig()}
   `);
   await send(opts.to, subject, html);
 }

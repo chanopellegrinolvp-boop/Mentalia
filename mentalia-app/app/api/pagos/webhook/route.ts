@@ -1,6 +1,7 @@
 import { MercadoPagoConfig, Payment } from "mercadopago";
 import { createClient } from "@supabase/supabase-js";
 import { NextResponse } from "next/server";
+import { emailPagoConfirmado } from "@/lib/resend";
 
 const mp = new MercadoPagoConfig({
   accessToken: process.env.MP_ACCESS_TOKEN!,
@@ -37,12 +38,34 @@ export async function POST(req: Request) {
 
           if (error) {
             console.error("Error guardando pago:", error.message);
-          } else if (plan) {
-            // Actualizar el plan activo del profesional
-            await supabaseAdmin
-              .from("professionals")
-              .update({ plan })
-              .eq("id", professionalId);
+          } else {
+            if (plan) {
+              await supabaseAdmin
+                .from("professionals")
+                .update({ plan })
+                .eq("id", professionalId);
+            }
+
+            try {
+              const { data: prof } = await supabaseAdmin
+                .from("profiles")
+                .select("email, full_name")
+                .eq("id", professionalId)
+                .single();
+
+              if (prof?.email) {
+                console.log(`[EMAIL] pago_confirmado enviado a ${prof.email} - ${new Date().toISOString()}`);
+                await emailPagoConfirmado({
+                  to: prof.email,
+                  nombre: prof.full_name ?? "Profesional",
+                  profesionalName: prof.full_name ?? "Profesional",
+                  monto: monto ?? 0,
+                  paymentId: String(paymentData.id),
+                });
+              }
+            } catch {
+              // No bloquear el webhook si el email falla
+            }
           }
         }
       }
