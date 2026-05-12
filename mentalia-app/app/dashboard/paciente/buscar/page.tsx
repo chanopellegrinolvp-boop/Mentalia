@@ -1,4 +1,4 @@
-import { createClient } from "@/lib/supabase/server";
+﻿import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 
 const ESPECIALIDADES: Record<string, string> = {
@@ -42,7 +42,7 @@ export default async function BuscarProfesional() {
             {profesionales.map((p: any) => {
               const profile = Array.isArray(p.profiles) ? p.profiles[0] : p.profiles;
               return (
-                <div key={p.id} className="bg-white border border-gray-100 rounded-xl px-5 py-5 hover:border-[#2D6A4F]/30 transition">
+                <div key={p.id} className="bg-white border border-gray-100 rounded-xl px-5 py-5 hover:border-[#40916C]/30 transition">
                   <div className="flex items-start justify-between gap-4">
                     <div className="flex-1">
                       <div className="flex items-center gap-2 flex-wrap">
@@ -53,7 +53,7 @@ export default async function BuscarProfesional() {
                       </div>
                       <div className="flex items-center gap-3 mt-1 flex-wrap">
                         {p.specialty && (
-                          <span className="text-xs text-[#2D6A4F] bg-[#D8F3DC] px-2 py-0.5 rounded-full">
+                          <span className="text-xs text-[#40916C] bg-[#D8F3DC] px-2 py-0.5 rounded-full">
                             {ESPECIALIDADES[p.specialty] ?? p.specialty}
                           </span>
                         )}
@@ -78,7 +78,7 @@ export default async function BuscarProfesional() {
                   <div className="mt-4 flex gap-2">
                     <a
                       href={`mailto:${profile?.email}`}
-                      className="text-sm bg-[#2D6A4F] text-white px-4 py-2 rounded-lg hover:bg-[#235a41] transition"
+                      className="text-sm bg-[#40916C] text-white px-4 py-2 rounded-lg hover:bg-[#235a41] transition"
                     >
                       Contactar
                     </a>

@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 import { createClient } from "@/lib/supabase/client";
@@ -68,11 +68,11 @@ export default function PerfilForm({ profile, pro }: { profile: any; pro: any })
         <div className="grid grid-cols-2 gap-4">
           <div>
             <label className="text-xs text-gray-500 block mb-1">Nombre completo</label>
-            <input value={fullName} onChange={e => setFullName(e.target.value)} className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-[#2D6A4F]/50" />
+            <input value={fullName} onChange={e => setFullName(e.target.value)} className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-[#40916C]/50" />
           </div>
           <div>
             <label className="text-xs text-gray-500 block mb-1">Teléfono</label>
-            <input value={phone} onChange={e => setPhone(e.target.value)} placeholder="+54 9 11 ..." className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-[#2D6A4F]/50" />
+            <input value={phone} onChange={e => setPhone(e.target.value)} placeholder="+54 9 11 ..." className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-[#40916C]/50" />
           </div>
         </div>
       </div>
@@ -83,46 +83,46 @@ export default function PerfilForm({ profile, pro }: { profile: any; pro: any })
 
         <div>
           <label className="text-xs text-gray-500 block mb-1">Biografía (visible para pacientes)</label>
-          <textarea value={bio} onChange={e => setBio(e.target.value)} rows={4} placeholder="Contá tu enfoque terapéutico, experiencia y especialidades..." className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm resize-none focus:outline-none focus:border-[#2D6A4F]/50" />
+          <textarea value={bio} onChange={e => setBio(e.target.value)} rows={4} placeholder="Contá tu enfoque terapéutico, experiencia y especialidades..." className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm resize-none focus:outline-none focus:border-[#40916C]/50" />
         </div>
 
         <div className="grid grid-cols-2 gap-4">
           <div>
             <label className="text-xs text-gray-500 block mb-1">Especialidad</label>
-            <select value={specialty} onChange={e => setSpecialty(e.target.value)} className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-[#2D6A4F]/50">
+            <select value={specialty} onChange={e => setSpecialty(e.target.value)} className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-[#40916C]/50">
               {ESPECIALIDADES.map(e => <option key={e.value} value={e.value}>{e.label}</option>)}
             </select>
           </div>
           <div>
             <label className="text-xs text-gray-500 block mb-1">Matrícula</label>
-            <input value={license} onChange={e => setLicense(e.target.value)} placeholder="MP 12345" className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-[#2D6A4F]/50" />
+            <input value={license} onChange={e => setLicense(e.target.value)} placeholder="MP 12345" className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-[#40916C]/50" />
           </div>
           <div>
             <label className="text-xs text-gray-500 block mb-1">Ciudad</label>
-            <input value={city} onChange={e => setCity(e.target.value)} placeholder="Buenos Aires" className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-[#2D6A4F]/50" />
+            <input value={city} onChange={e => setCity(e.target.value)} placeholder="Buenos Aires" className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-[#40916C]/50" />
           </div>
           <div>
             <label className="text-xs text-gray-500 block mb-1">Provincia</label>
-            <input value={province} onChange={e => setProvince(e.target.value)} placeholder="CABA" className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-[#2D6A4F]/50" />
+            <input value={province} onChange={e => setProvince(e.target.value)} placeholder="CABA" className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-[#40916C]/50" />
           </div>
           <div>
             <label className="text-xs text-gray-500 block mb-1">Años de experiencia</label>
-            <input type="number" min={0} value={years} onChange={e => setYears(e.target.value)} className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-[#2D6A4F]/50" />
+            <input type="number" min={0} value={years} onChange={e => setYears(e.target.value)} className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-[#40916C]/50" />
           </div>
           <div>
             <label className="text-xs text-gray-500 block mb-1">Precio por sesión (ARS)</label>
-            <input type="number" min={0} value={price} onChange={e => setPrice(e.target.value)} className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-[#2D6A4F]/50" />
+            <input type="number" min={0} value={price} onChange={e => setPrice(e.target.value)} className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-[#40916C]/50" />
           </div>
           <div>
             <label className="text-xs text-gray-500 block mb-1">Modalidad</label>
-            <select value={modality} onChange={e => setModality(e.target.value)} className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-[#2D6A4F]/50">
+            <select value={modality} onChange={e => setModality(e.target.value)} className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-[#40916C]/50">
               <option value="online">Online</option>
               <option value="presencial">Presencial</option>
               <option value="ambas">Ambas</option>
             </select>
           </div>
           <div className="flex items-center gap-3">
-            <input type="checkbox" id="available" checked={available} onChange={e => setAvailable(e.target.checked)} className="accent-[#2D6A4F] w-4 h-4" />
+            <input type="checkbox" id="available" checked={available} onChange={e => setAvailable(e.target.checked)} className="accent-[#40916C] w-4 h-4" />
             <label htmlFor="available" className="text-sm text-gray-700">Disponible para nuevos pacientes</label>
           </div>
         </div>
@@ -133,7 +133,7 @@ export default function PerfilForm({ profile, pro }: { profile: any; pro: any })
       <button
         onClick={guardar}
         disabled={guardando}
-        className="w-full bg-[#2D6A4F] text-white py-3 rounded-xl font-medium text-sm hover:bg-[#235a41] transition disabled:opacity-60"
+        className="w-full bg-[#40916C] text-white py-3 rounded-xl font-medium text-sm hover:bg-[#235a41] transition disabled:opacity-60"
       >
         {guardando ? "Guardando..." : ok ? "¡Guardado!" : "Guardar cambios"}
       </button>

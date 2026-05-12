@@ -1,4 +1,4 @@
-@tailwind base;
+﻿@tailwind base;
 @tailwind components;
 @tailwind utilities;
 
@@ -36,7 +36,7 @@ html { scroll-behavior: smooth; }
 }
 
 .plan-pro {
-  border: 2px solid #2D6A4F;
+  border: 2px solid #40916C;
   box-shadow: 0 8px 30px rgba(45,106,79,0.18);
   transform: scale(1.03);
 }
@@ -49,13 +49,13 @@ html { scroll-behavior: smooth; }
   left: 0;
   width: 0;
   height: 2px;
-  background: #2D6A4F;
+  background: #40916C;
   transition: width 0.3s ease;
 }
 .link-underline:hover::after { width: 100%; }
 
 .badge-ia {
-  background: #2D6A4F;
+  background: #40916C;
   color: white;
   font-size: 10px;
   padding: 2px 6px;
@@ -68,7 +68,7 @@ html { scroll-behavior: smooth; }
 
 .pulse-dot {
   width: 8px; height: 8px;
-  background: #2D6A4F;
+  background: #40916C;
   border-radius: 50%;
   animation: pulse 2s infinite;
 }

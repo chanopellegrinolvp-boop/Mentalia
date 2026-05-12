@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
@@ -75,7 +75,7 @@ export default function RegistroPage() {
       </div>
       <div className="w-full max-w-sm">
         <div className="mb-6">
-          <Link href="/" className="inline-flex items-center gap-1.5 text-sm text-gray-400 hover:text-[#2D6A4F] transition">
+          <Link href="/" className="inline-flex items-center gap-1.5 text-sm text-gray-400 hover:text-[#40916C] transition">
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
             </svg>
@@ -83,7 +83,7 @@ export default function RegistroPage() {
           </Link>
         </div>
         <div className="text-center mb-8">
-          <span className="font-serif italic text-2xl font-bold text-[#2D6A4F]">Mentalia</span>
+          <span className="font-serif italic text-2xl font-bold text-[#40916C]">Mentalia</span>
           <p className="text-sm text-gray-500 mt-1">Creá tu consultorio digital</p>
         </div>
 
@@ -94,14 +94,14 @@ export default function RegistroPage() {
               <button
                 type="button"
                 onClick={() => setRol("professional")}
-                className={`py-2.5 text-sm font-medium rounded-lg border transition ${rol === "professional" ? "border-[#2D6A4F] bg-[#2D6A4F] text-white" : "border-gray-200 text-gray-600 hover:border-[#2D6A4F]/40"}`}
+                className={`py-2.5 text-sm font-medium rounded-lg border transition ${rol === "professional" ? "border-[#40916C] bg-[#40916C] text-white" : "border-gray-200 text-gray-600 hover:border-[#40916C]/40"}`}
               >
                 Profesional
               </button>
               <button
                 type="button"
                 onClick={() => setRol("patient")}
-                className={`py-2.5 text-sm font-medium rounded-lg border transition ${rol === "patient" ? "border-[#2D6A4F] bg-[#2D6A4F] text-white" : "border-gray-200 text-gray-600 hover:border-[#2D6A4F]/40"}`}
+                className={`py-2.5 text-sm font-medium rounded-lg border transition ${rol === "patient" ? "border-[#40916C] bg-[#40916C] text-white" : "border-gray-200 text-gray-600 hover:border-[#40916C]/40"}`}
               >
                 Paciente
               </button>
@@ -115,7 +115,7 @@ export default function RegistroPage() {
               onChange={e => setNombre(e.target.value)}
               required
               placeholder="Lic. María García"
-              className="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#2D6A4F] focus:border-transparent"
+              className="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#40916C] focus:border-transparent"
             />
           </div>
           <div>
@@ -126,7 +126,7 @@ export default function RegistroPage() {
               onChange={e => setEmail(e.target.value)}
               required
               placeholder="vos@email.com"
-              className="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#2D6A4F] focus:border-transparent"
+              className="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#40916C] focus:border-transparent"
             />
           </div>
           <div>
@@ -138,7 +138,7 @@ export default function RegistroPage() {
               required
               minLength={6}
               placeholder="Mínimo 6 caracteres"
-              className="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#2D6A4F] focus:border-transparent"
+              className="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#40916C] focus:border-transparent"
             />
           </div>
           {rol === "professional" && (
@@ -151,7 +151,7 @@ export default function RegistroPage() {
                 value={matricula}
                 onChange={e => setMatricula(e.target.value)}
                 placeholder="MP 12345"
-                className="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#2D6A4F] focus:border-transparent"
+                className="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#40916C] focus:border-transparent"
               />
             </div>
           )}
@@ -161,13 +161,13 @@ export default function RegistroPage() {
               type="checkbox"
               checked={terminos}
               onChange={e => setTerminos(e.target.checked)}
-              className="mt-0.5 accent-[#2D6A4F]"
+              className="mt-0.5 accent-[#40916C]"
             />
             <span className="text-xs text-gray-500 leading-relaxed">
               Acepto los{" "}
-              <a href="/terminos" target="_blank" className="text-[#2D6A4F] hover:underline">términos y condiciones</a>
+              <a href="/terminos" target="_blank" className="text-[#40916C] hover:underline">términos y condiciones</a>
               {" "}y la{" "}
-              <a href="/privacidad" target="_blank" className="text-[#2D6A4F] hover:underline">política de privacidad</a>
+              <a href="/privacidad" target="_blank" className="text-[#40916C] hover:underline">política de privacidad</a>
             </span>
           </label>
 
@@ -176,7 +176,7 @@ export default function RegistroPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-[#2D6A4F] text-white rounded-lg py-2.5 text-sm font-medium hover:bg-[#235a41] transition disabled:opacity-60"
+            className="w-full bg-[#40916C] text-white rounded-lg py-2.5 text-sm font-medium hover:bg-[#235a41] transition disabled:opacity-60"
           >
             {loading ? "Creando cuenta..." : rol === "professional" ? "Empezar gratis — 10 días sin tarjeta" : "Crear mi cuenta"}
           </button>
@@ -184,7 +184,7 @@ export default function RegistroPage() {
 
         <p className="text-center text-sm text-gray-500 mt-6">
           ¿Ya tenés cuenta?{" "}
-          <Link href="/login" className="text-[#2D6A4F] font-medium hover:underline">
+          <Link href="/login" className="text-[#40916C] font-medium hover:underline">
             Entrar
           </Link>
         </p>

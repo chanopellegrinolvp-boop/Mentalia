@@ -1,4 +1,4 @@
-import { createClient } from "@/lib/supabase/server";
+﻿import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import DiarioForm from "./DiarioForm";
 
@@ -64,7 +64,7 @@ export default async function DiarioEmocional() {
                       {e.emotions && e.emotions.length > 0 && (
                         <div className="flex flex-wrap gap-1 mt-2">
                           {e.emotions.map((emo: string) => (
-                            <span key={emo} className="text-xs bg-[#D8F3DC] text-[#2D6A4F] px-2 py-0.5 rounded-full">{emo}</span>
+                            <span key={emo} className="text-xs bg-[#D8F3DC] text-[#40916C] px-2 py-0.5 rounded-full">{emo}</span>
                           ))}
                         </div>
                       )}

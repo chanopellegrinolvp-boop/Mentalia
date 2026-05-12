@@ -50,7 +50,7 @@ export default function NuevaSesionForm({ pacienteId, profesionalId }: { pacient
             value={fecha}
             onChange={e => setFecha(e.target.value)}
             required
-            className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#2D6A4F]"
+            className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#40916C]"
           />
         </div>
         <div>
@@ -60,7 +60,7 @@ export default function NuevaSesionForm({ pacienteId, profesionalId }: { pacient
             value={hora}
             onChange={e => setHora(e.target.value)}
             required
-            className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#2D6A4F]"
+            className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#40916C]"
           />
         </div>
       </div>
@@ -69,7 +69,7 @@ export default function NuevaSesionForm({ pacienteId, profesionalId }: { pacient
         <select
           value={duracion}
           onChange={e => setDuracion(e.target.value)}
-          className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#2D6A4F]"
+          className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#40916C]"
         >
           <option value="30">30 minutos</option>
           <option value="45">45 minutos</option>
@@ -82,7 +82,7 @@ export default function NuevaSesionForm({ pacienteId, profesionalId }: { pacient
       <button
         type="submit"
         disabled={loading}
-        className="w-full bg-[#2D6A4F] text-white rounded-lg py-2.5 text-sm font-medium hover:bg-[#235a41] transition disabled:opacity-60"
+        className="w-full bg-[#40916C] text-white rounded-lg py-2.5 text-sm font-medium hover:bg-[#235a41] transition disabled:opacity-60"
       >
         {loading ? "Creando..." : "Programar sesión"}
       </button>

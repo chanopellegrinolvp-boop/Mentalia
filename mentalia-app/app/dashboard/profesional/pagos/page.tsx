@@ -1,4 +1,4 @@
-import { createClient } from "@/lib/supabase/server";
+﻿import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
 import PagoStatusBanner from "./PagoStatusBanner";
@@ -61,7 +61,7 @@ export default async function CobrosPage() {
         <div className="grid grid-cols-2 gap-3">
           <div className="bg-white border border-gray-100 rounded-xl p-5">
             <p className="text-xs text-gray-400">Este mes</p>
-            <p className="text-2xl font-bold text-[#2D6A4F] mt-1">
+            <p className="text-2xl font-bold text-[#40916C] mt-1">
               {totalMes.toLocaleString("es-AR", { style: "currency", currency: "ARS", maximumFractionDigits: 0 })}
             </p>
           </div>

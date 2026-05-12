@@ -102,7 +102,7 @@ export default function VideoRoom({ sala, role }: { sala: string; role: string }
               onClick={guardarNota}
               disabled={!nota.trim()}
               className="w-full mt-2 py-2 text-sm font-semibold rounded-xl transition-all disabled:opacity-40"
-              style={{ background: noteSaved ? "#22c55e" : "#2D6A4F", color: "white" }}
+              style={{ background: noteSaved ? "#22c55e" : "#40916C", color: "white" }}
             >
               {noteSaved ? "✓ Guardada" : "Guardar nota (Ctrl+Enter)"}
             </button>

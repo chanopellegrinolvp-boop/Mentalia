@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
@@ -48,7 +48,7 @@ export default function NuevoPacientePage() {
     <div className="min-h-screen bg-[#FDFCFA]">
       <header className="bg-white border-b border-gray-100 px-6 py-4">
         <div className="max-w-2xl mx-auto flex items-center justify-between">
-          <Link href="/dashboard/profesional/pacientes" className="text-sm text-gray-500 hover:text-[#2D6A4F]">
+          <Link href="/dashboard/profesional/pacientes" className="text-sm text-gray-500 hover:text-[#40916C]">
             ← Pacientes
           </Link>
           <span className="font-medium text-sm text-gray-700">Nuevo paciente</span>
@@ -66,7 +66,7 @@ export default function NuevoPacientePage() {
               onChange={e => setNombre(e.target.value)}
               required
               placeholder="Juan Pérez"
-              className="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#2D6A4F]"
+              className="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#40916C]"
             />
           </div>
           <div>
@@ -76,7 +76,7 @@ export default function NuevoPacientePage() {
               value={email}
               onChange={e => setEmail(e.target.value)}
               placeholder="paciente@email.com"
-              className="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#2D6A4F]"
+              className="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#40916C]"
             />
           </div>
           <div>
@@ -86,7 +86,7 @@ export default function NuevoPacientePage() {
               value={telefono}
               onChange={e => setTelefono(e.target.value)}
               placeholder="+54 11 1234-5678"
-              className="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#2D6A4F]"
+              className="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#40916C]"
             />
           </div>
           <div>
@@ -96,7 +96,7 @@ export default function NuevoPacientePage() {
               onChange={e => setMotivo(e.target.value)}
               rows={3}
               placeholder="Ansiedad, dificultades en relaciones, duelo..."
-              className="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#2D6A4F] resize-none"
+              className="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#40916C] resize-none"
             />
           </div>
 
@@ -105,7 +105,7 @@ export default function NuevoPacientePage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-[#2D6A4F] text-white rounded-lg py-2.5 text-sm font-medium hover:bg-[#235a41] transition disabled:opacity-60"
+            className="w-full bg-[#40916C] text-white rounded-lg py-2.5 text-sm font-medium hover:bg-[#235a41] transition disabled:opacity-60"
           >
             {loading ? "Guardando..." : "Guardar paciente"}
           </button>

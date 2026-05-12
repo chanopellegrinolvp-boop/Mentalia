@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 import { createClient } from "@/lib/supabase/client";
@@ -43,7 +43,7 @@ export default function OlvideContrasenaPage() {
             <div className="text-5xl mb-4">📧</div>
             <h2 className="text-xl font-bold text-gray-900 mb-2">Revisá tu email</h2>
             <p className="text-gris text-sm mb-6">Te enviamos un link para restablecer tu contraseña a <strong>{email}</strong></p>
-            <Link href="/login" className="inline-block px-6 py-3 text-white font-semibold rounded-xl" style={{ background: "#2D6A4F" }}>
+            <Link href="/login" className="inline-block px-6 py-3 text-white font-semibold rounded-xl" style={{ background: "#40916C" }}>
               Volver al inicio de sesión
             </Link>
           </div>
@@ -61,15 +61,15 @@ export default function OlvideContrasenaPage() {
                   type="email" value={email} onChange={e => setEmail(e.target.value)}
                   placeholder="tu@email.com"
                   className="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm"
-                  onFocus={e => (e.target.style.borderColor = "#2D6A4F")}
+                  onFocus={e => (e.target.style.borderColor = "#40916C")}
                   onBlur={e => (e.target.style.borderColor = "#e5e7eb")}
                 />
               </div>
-              <button type="submit" disabled={loading} className="w-full py-3.5 text-white font-semibold rounded-xl disabled:opacity-60" style={{ background: "#2D6A4F" }}>
+              <button type="submit" disabled={loading} className="w-full py-3.5 text-white font-semibold rounded-xl disabled:opacity-60" style={{ background: "#40916C" }}>
                 {loading ? "Enviando..." : "Enviar link de recuperación"}
               </button>
               <p className="text-center text-sm text-gris">
-                <Link href="/login" className="font-semibold hover:underline" style={{ color: "#2D6A4F" }}>← Volver al login</Link>
+                <Link href="/login" className="font-semibold hover:underline" style={{ color: "#40916C" }}>← Volver al login</Link>
               </p>
             </form>
           </div>

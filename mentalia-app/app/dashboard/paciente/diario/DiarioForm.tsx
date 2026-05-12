@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 import { createClient } from "@/lib/supabase/client";
@@ -61,11 +61,11 @@ export default function DiarioForm() {
 
   if (guardado) {
     return (
-      <div className="bg-white border border-[#2D6A4F]/20 rounded-xl p-6 text-center">
+      <div className="bg-white border border-[#40916C]/20 rounded-xl p-6 text-center">
         <p className="text-2xl mb-2">{moodEmoji(mood)}</p>
         <p className="font-medium text-gray-800">Registro guardado</p>
         <p className="text-sm text-gray-400 mt-1">Estado {mood}/10 · {emociones.length} emoción{emociones.length !== 1 ? "es" : ""}</p>
-        <button onClick={() => setGuardado(false)} className="mt-4 text-sm text-[#2D6A4F] hover:underline">
+        <button onClick={() => setGuardado(false)} className="mt-4 text-sm text-[#40916C] hover:underline">
           Editar
         </button>
       </div>
@@ -85,11 +85,11 @@ export default function DiarioForm() {
           max={10}
           value={mood}
           onChange={e => setMood(Number(e.target.value))}
-          className="w-full accent-[#2D6A4F]"
+          className="w-full accent-[#40916C]"
         />
         <div className="flex justify-between text-xs text-gray-400 mt-1">
           <span>Muy mal (1)</span>
-          <span className="font-medium text-[#2D6A4F]">{mood}/10</span>
+          <span className="font-medium text-[#40916C]">{mood}/10</span>
           <span>Excelente (10)</span>
         </div>
       </div>
@@ -103,8 +103,8 @@ export default function DiarioForm() {
               onClick={() => toggleEmocion(e)}
               className={`text-xs px-3 py-1.5 rounded-full border transition ${
                 emociones.includes(e)
-                  ? "bg-[#2D6A4F] text-white border-[#2D6A4F]"
-                  : "bg-white text-gray-600 border-gray-200 hover:border-[#2D6A4F]/40"
+                  ? "bg-[#40916C] text-white border-[#40916C]"
+                  : "bg-white text-gray-600 border-gray-200 hover:border-[#40916C]/40"
               }`}
             >
               {e}
@@ -120,7 +120,7 @@ export default function DiarioForm() {
           onChange={e => setNota(e.target.value)}
           placeholder="¿Qué pasó hoy? ¿Qué pensaste? ¿Qué sentiste?"
           rows={3}
-          className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm resize-none focus:outline-none focus:border-[#2D6A4F]/50 focus:ring-1 focus:ring-[#2D6A4F]/20"
+          className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm resize-none focus:outline-none focus:border-[#40916C]/50 focus:ring-1 focus:ring-[#40916C]/20"
         />
       </div>
 
@@ -129,7 +129,7 @@ export default function DiarioForm() {
       <button
         onClick={guardar}
         disabled={guardando}
-        className="w-full bg-[#2D6A4F] text-white py-3 rounded-xl font-medium text-sm hover:bg-[#235a41] transition disabled:opacity-60"
+        className="w-full bg-[#40916C] text-white py-3 rounded-xl font-medium text-sm hover:bg-[#235a41] transition disabled:opacity-60"
       >
         {guardando ? "Guardando..." : "Guardar registro de hoy"}
       </button>

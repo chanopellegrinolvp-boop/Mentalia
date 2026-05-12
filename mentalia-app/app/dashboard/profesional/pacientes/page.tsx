@@ -1,4 +1,4 @@
-import { createClient } from "@/lib/supabase/server";
+﻿import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 
@@ -18,13 +18,13 @@ export default async function PacientesPage() {
     <div className="min-h-screen bg-[#FDFCFA]">
       <header className="bg-white border-b border-gray-100 px-6 py-4">
         <div className="max-w-4xl mx-auto flex items-center justify-between">
-          <Link href="/dashboard/profesional" className="text-sm text-gray-500 hover:text-[#2D6A4F]">
+          <Link href="/dashboard/profesional" className="text-sm text-gray-500 hover:text-[#40916C]">
             ← Dashboard
           </Link>
           <span className="font-medium text-sm text-gray-700">Pacientes</span>
           <Link
             href="/dashboard/profesional/pacientes/nuevo"
-            className="text-sm bg-[#2D6A4F] text-white px-4 py-1.5 rounded-lg hover:bg-[#235a41] transition"
+            className="text-sm bg-[#40916C] text-white px-4 py-1.5 rounded-lg hover:bg-[#235a41] transition"
           >
             + Nuevo
           </Link>
@@ -37,7 +37,7 @@ export default async function PacientesPage() {
             <p className="text-gray-400 text-sm">Aún no tenés pacientes cargados</p>
             <Link
               href="/dashboard/profesional/pacientes/nuevo"
-              className="inline-block mt-4 bg-[#2D6A4F] text-white text-sm px-6 py-2 rounded-lg hover:bg-[#235a41] transition"
+              className="inline-block mt-4 bg-[#40916C] text-white text-sm px-6 py-2 rounded-lg hover:bg-[#235a41] transition"
             >
               Agregar primer paciente
             </Link>
@@ -48,7 +48,7 @@ export default async function PacientesPage() {
               <Link
                 key={p.id}
                 href={`/dashboard/profesional/pacientes/${p.id}`}
-                className="block bg-white border border-gray-100 rounded-xl px-5 py-4 hover:border-[#2D6A4F]/30 transition"
+                className="block bg-white border border-gray-100 rounded-xl px-5 py-4 hover:border-[#40916C]/30 transition"
               >
                 <div className="flex items-center justify-between">
                   <div>

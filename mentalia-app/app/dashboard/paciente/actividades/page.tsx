@@ -1,4 +1,4 @@
-import { createClient } from "@/lib/supabase/server";
+﻿import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 
 const ACTIVIDADES = [
@@ -67,7 +67,7 @@ export default async function MisActividades() {
                       <p className="font-medium text-sm text-gray-900">{act.titulo}</p>
                       <p className="text-sm text-gray-500 mt-1 leading-relaxed">{act.descripcion}</p>
                     </div>
-                    <span className="text-xs bg-[#D8F3DC] text-[#2D6A4F] px-2.5 py-1 rounded-full whitespace-nowrap flex-shrink-0">{act.duracion}</span>
+                    <span className="text-xs bg-[#D8F3DC] text-[#40916C] px-2.5 py-1 rounded-full whitespace-nowrap flex-shrink-0">{act.duracion}</span>
                   </div>
                 </div>
               ))}

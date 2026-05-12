@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
@@ -46,13 +46,13 @@ export default function BotonesPlanes() {
           key={plan.nombre}
           className={`relative rounded-2xl border p-6 flex flex-col gap-4 bg-white ${
             plan.destacado
-              ? "border-[#2D6A4F] shadow-lg ring-2 ring-[#2D6A4F]"
+              ? "border-[#40916C] shadow-lg ring-2 ring-[#40916C]"
               : "border-gray-200"
           }`}
         >
           {plan.destacado && (
             <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-              <span className="bg-[#2D6A4F] text-white text-xs font-medium px-3 py-1 rounded-full whitespace-nowrap">
+              <span className="bg-[#40916C] text-white text-xs font-medium px-3 py-1 rounded-full whitespace-nowrap">
                 Más elegido
               </span>
             </div>
@@ -73,8 +73,8 @@ export default function BotonesPlanes() {
             disabled={loading !== null}
             className={`mt-auto w-full py-2.5 rounded-xl text-sm font-medium transition-all ${
               plan.destacado
-                ? "bg-[#2D6A4F] text-white hover:bg-[#235a41] disabled:opacity-60"
-                : "border border-[#2D6A4F] text-[#2D6A4F] hover:bg-[#D8F3DC] disabled:opacity-60"
+                ? "bg-[#40916C] text-white hover:bg-[#235a41] disabled:opacity-60"
+                : "border border-[#40916C] text-[#40916C] hover:bg-[#D8F3DC] disabled:opacity-60"
             }`}
           >
             {loading === plan.nombre ? "Redirigiendo..." : `Elegir ${plan.nombre}`}

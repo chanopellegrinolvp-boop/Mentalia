@@ -1,4 +1,4 @@
-import type { Config } from "tailwindcss";
+﻿import type { Config } from "tailwindcss";
 
 const config: Config = {
   darkMode: "class",
@@ -10,7 +10,7 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        "verde-oscuro": "#2D6A4F",
+        "verde-oscuro": "#40916C",
         "verde-claro": "#D8F3DC",
         blanco: "#FDFCFA",
         gris: "#6B7280",

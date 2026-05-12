@@ -1,4 +1,4 @@
-import { createClient } from "@/lib/supabase/server";
+﻿import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 
@@ -18,7 +18,7 @@ export default async function AgendaPage() {
     <div className="min-h-screen bg-[#FDFCFA]">
       <header className="bg-white border-b border-gray-100 px-6 py-4">
         <div className="max-w-4xl mx-auto flex items-center justify-between">
-          <Link href="/dashboard/profesional" className="text-sm text-gray-500 hover:text-[#2D6A4F]">
+          <Link href="/dashboard/profesional" className="text-sm text-gray-500 hover:text-[#40916C]">
             ← Dashboard
           </Link>
           <span className="font-medium text-sm text-gray-700">Agenda</span>
@@ -39,7 +39,7 @@ export default async function AgendaPage() {
                 <Link
                   key={s.id}
                   href={`/sesion/${s.id}`}
-                  className="block bg-white border border-gray-100 rounded-xl px-5 py-4 hover:border-[#2D6A4F]/30 transition"
+                  className="block bg-white border border-gray-100 rounded-xl px-5 py-4 hover:border-[#40916C]/30 transition"
                 >
                   <div className="flex items-center justify-between">
                     <div>

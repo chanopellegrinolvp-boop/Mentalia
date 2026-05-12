@@ -1,4 +1,4 @@
-import { createClient } from "@/lib/supabase/server";
+﻿import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 
@@ -71,7 +71,7 @@ export default async function PacienteHome() {
                 </p>
               </div>
               {proxima.started_at ? (
-                <Link href={`/sesion/${proxima.id}`} className="text-sm bg-[#2D6A4F] text-white px-4 py-1.5 rounded-lg hover:bg-[#235a41] transition">
+                <Link href={`/sesion/${proxima.id}`} className="text-sm bg-[#40916C] text-white px-4 py-1.5 rounded-lg hover:bg-[#235a41] transition">
                   Unirse
                 </Link>
               ) : (
@@ -81,7 +81,7 @@ export default async function PacienteHome() {
           ) : (
             <div className="border border-dashed border-gray-200 rounded-xl p-6 text-center">
               <p className="text-gray-400 text-sm">No tenés sesiones próximas</p>
-              <Link href="/dashboard/paciente/buscar" className="inline-block mt-2 text-sm text-[#2D6A4F] font-medium hover:underline">
+              <Link href="/dashboard/paciente/buscar" className="inline-block mt-2 text-sm text-[#40916C] font-medium hover:underline">
                 Buscar profesional
               </Link>
             </div>
@@ -108,7 +108,7 @@ export default async function PacienteHome() {
                 </>
               )}
             </div>
-            <Link href="/dashboard/paciente/diario" className="bg-[#2D6A4F] rounded-xl p-5 flex flex-col justify-between hover:bg-[#235a41] transition">
+            <Link href="/dashboard/paciente/diario" className="bg-[#40916C] rounded-xl p-5 flex flex-col justify-between hover:bg-[#235a41] transition">
               <svg className="w-5 h-5 text-white/70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
               </svg>
@@ -121,19 +121,19 @@ export default async function PacienteHome() {
         <section>
           <h2 className="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-3">Accesos rápidos</h2>
           <div className="grid grid-cols-2 gap-3">
-            <Link href="/dashboard/paciente/sesiones" className="bg-white border border-gray-100 rounded-xl p-4 hover:border-[#2D6A4F]/30 transition">
+            <Link href="/dashboard/paciente/sesiones" className="bg-white border border-gray-100 rounded-xl p-4 hover:border-[#40916C]/30 transition">
               <p className="font-medium text-sm text-gray-800">Mis sesiones</p>
               <p className="text-xs text-gray-400 mt-1">Historial de consultas</p>
             </Link>
-            <Link href="/dashboard/paciente/progreso" className="bg-white border border-gray-100 rounded-xl p-4 hover:border-[#2D6A4F]/30 transition">
+            <Link href="/dashboard/paciente/progreso" className="bg-white border border-gray-100 rounded-xl p-4 hover:border-[#40916C]/30 transition">
               <p className="font-medium text-sm text-gray-800">Mi progreso</p>
               <p className="text-xs text-gray-400 mt-1">Ver evolución</p>
             </Link>
-            <Link href="/dashboard/paciente/actividades" className="bg-white border border-gray-100 rounded-xl p-4 hover:border-[#2D6A4F]/30 transition">
+            <Link href="/dashboard/paciente/actividades" className="bg-white border border-gray-100 rounded-xl p-4 hover:border-[#40916C]/30 transition">
               <p className="font-medium text-sm text-gray-800">Actividades</p>
               <p className="text-xs text-gray-400 mt-1">Ejercicios terapéuticos</p>
             </Link>
-            <Link href="/dashboard/mensajes" className="bg-white border border-gray-100 rounded-xl p-4 hover:border-[#2D6A4F]/30 transition">
+            <Link href="/dashboard/mensajes" className="bg-white border border-gray-100 rounded-xl p-4 hover:border-[#40916C]/30 transition">
               <p className="font-medium text-sm text-gray-800">Mensajes</p>
               <p className="text-xs text-gray-400 mt-1">Contactar al profesional</p>
             </Link>

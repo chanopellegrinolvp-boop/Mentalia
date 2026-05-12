@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState, useEffect } from "react";
 import { createClient } from "@/lib/supabase/client";
@@ -55,11 +55,11 @@ export default function NuevaContrasenaPage() {
                     <label className="block text-sm font-medium text-gray-700 mb-1.5">{label}</label>
                     <input type="password" value={value} onChange={e => setter(e.target.value)} placeholder="Mínimo 6 caracteres"
                       className="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm"
-                      onFocus={e => (e.target.style.borderColor = "#2D6A4F")}
+                      onFocus={e => (e.target.style.borderColor = "#40916C")}
                       onBlur={e => (e.target.style.borderColor = "#e5e7eb")} />
                   </div>
                 ))}
-                <button type="submit" disabled={loading} className="w-full py-3.5 text-white font-semibold rounded-xl disabled:opacity-60" style={{ background: "#2D6A4F" }}>
+                <button type="submit" disabled={loading} className="w-full py-3.5 text-white font-semibold rounded-xl disabled:opacity-60" style={{ background: "#40916C" }}>
                   {loading ? "Guardando..." : "Guardar nueva contraseña"}
                 </button>
               </form>

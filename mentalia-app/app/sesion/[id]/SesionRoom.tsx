@@ -152,7 +152,7 @@ export default function SesionRoom({
       {/* Header */}
       <header className="bg-white border-b border-gray-100 px-6 py-4 sticky top-0 z-10">
         <div className="max-w-5xl mx-auto flex items-center justify-between">
-          <Link href={`/dashboard/profesional/pacientes/${sesion.paciente_id}`} className="text-sm text-gray-500 hover:text-[#2D6A4F]">
+          <Link href={`/dashboard/profesional/pacientes/${sesion.paciente_id}`} className="text-sm text-gray-500 hover:text-[#40916C]">
             ← {paciente?.nombre ?? "Paciente"}
           </Link>
           <div className="text-center">
@@ -174,8 +174,8 @@ export default function SesionRoom({
           <div className="space-y-6">
             {/* Contexto previo */}
             {historialPrevio && historialPrevio.length > 0 && (
-              <section className="bg-[#D8F3DC]/30 border border-[#2D6A4F]/20 rounded-xl p-5">
-                <p className="text-xs font-semibold text-[#2D6A4F] uppercase tracking-wide mb-3">Última sesión</p>
+              <section className="bg-[#D8F3DC]/30 border border-[#40916C]/20 rounded-xl p-5">
+                <p className="text-xs font-semibold text-[#40916C] uppercase tracking-wide mb-3">Última sesión</p>
                 {historialPrevio[0]?.session_notes?.[0]?.ai_summary ? (
                   <p className="text-sm text-gray-700 leading-relaxed">{historialPrevio[0].session_notes[0].ai_summary}</p>
                 ) : (
@@ -190,14 +190,14 @@ export default function SesionRoom({
               <button
                 onClick={iniciarVideo}
                 disabled={iniciandoVideo}
-                className="bg-[#2D6A4F] text-white px-8 py-3 rounded-xl font-medium hover:bg-[#235a41] transition disabled:opacity-60"
+                className="bg-[#40916C] text-white px-8 py-3 rounded-xl font-medium hover:bg-[#235a41] transition disabled:opacity-60"
               >
                 {iniciandoVideo ? "Preparando sala..." : "Iniciar videollamada"}
               </button>
               <p className="text-xs text-gray-400">O bien</p>
               <button
                 onClick={() => setFase("notas")}
-                className="text-sm text-[#2D6A4F] hover:underline"
+                className="text-sm text-[#40916C] hover:underline"
               >
                 Registrar notas sin video
               </button>
@@ -235,13 +235,13 @@ export default function SesionRoom({
                 onChange={e => setNotas(e.target.value)}
                 rows={16}
                 placeholder={`Escribe lo que observaste en la sesión con ${paciente?.nombre}...\n\nEstado emocional, temas tratados, avances, tareas para la próxima sesión.`}
-                className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-700 leading-relaxed focus:outline-none focus:ring-2 focus:ring-[#2D6A4F] resize-none"
+                className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-700 leading-relaxed focus:outline-none focus:ring-2 focus:ring-[#40916C] resize-none"
               />
               <div className="flex gap-3">
                 <button
                   onClick={() => guardarNotas(notas)}
                   disabled={guardando}
-                  className="flex-1 border border-[#2D6A4F] text-[#2D6A4F] rounded-lg py-2 text-sm hover:bg-[#D8F3DC]/30 transition disabled:opacity-60"
+                  className="flex-1 border border-[#40916C] text-[#40916C] rounded-lg py-2 text-sm hover:bg-[#D8F3DC]/30 transition disabled:opacity-60"
                 >
                   {guardando ? "Guardando..." : "Guardar notas"}
                 </button>
@@ -249,7 +249,7 @@ export default function SesionRoom({
                   <button
                     onClick={generarResumenIA}
                     disabled={generandoIA || !notas.trim()}
-                    className="flex-1 bg-[#2D6A4F] text-white rounded-lg py-2 text-sm font-medium hover:bg-[#235a41] transition disabled:opacity-60"
+                    className="flex-1 bg-[#40916C] text-white rounded-lg py-2 text-sm font-medium hover:bg-[#235a41] transition disabled:opacity-60"
                   >
                     {generandoIA ? "Analizando..." : "Generar resumen IA →"}
                   </button>
@@ -262,15 +262,15 @@ export default function SesionRoom({
               <h2 className="font-semibold text-gray-800">Resumen IA</h2>
 
               {generandoIA && (
-                <div className="bg-[#D8F3DC]/30 border border-[#2D6A4F]/20 rounded-xl p-6 text-center">
-                  <div className="inline-block w-5 h-5 border-2 border-[#2D6A4F] border-t-transparent rounded-full animate-spin mb-3" />
+                <div className="bg-[#D8F3DC]/30 border border-[#40916C]/20 rounded-xl p-6 text-center">
+                  <div className="inline-block w-5 h-5 border-2 border-[#40916C] border-t-transparent rounded-full animate-spin mb-3" />
                   <p className="text-sm text-gray-500">Analizando la sesión...</p>
                 </div>
               )}
 
               {resumenIA && !generandoIA && (
                 <div className="space-y-3">
-                  <div className="bg-[#D8F3DC]/30 border border-[#2D6A4F]/20 rounded-xl p-5">
+                  <div className="bg-[#D8F3DC]/30 border border-[#40916C]/20 rounded-xl p-5">
                     <p className="text-sm text-gray-700 leading-relaxed">{resumenIA}</p>
                   </div>
 
@@ -279,7 +279,7 @@ export default function SesionRoom({
                       <p className="text-xs font-medium text-gray-500 mb-2">Temas identificados</p>
                       <div className="flex flex-wrap gap-2">
                         {temasIA.map(t => (
-                          <span key={t} className="text-xs bg-[#2D6A4F]/10 text-[#2D6A4F] px-3 py-1 rounded-full">{t}</span>
+                          <span key={t} className="text-xs bg-[#40916C]/10 text-[#40916C] px-3 py-1 rounded-full">{t}</span>
                         ))}
                       </div>
                     </div>
@@ -298,13 +298,13 @@ export default function SesionRoom({
                     <button
                       onClick={generarResumenIA}
                       disabled={generandoIA}
-                      className="text-xs text-gray-400 hover:text-[#2D6A4F] transition"
+                      className="text-xs text-gray-400 hover:text-[#40916C] transition"
                     >
                       Regenerar resumen
                     </button>
                     <Link
                       href="/dashboard/profesional"
-                      className="text-xs bg-[#2D6A4F] text-white px-4 py-2 rounded-lg hover:bg-[#235a41] transition"
+                      className="text-xs bg-[#40916C] text-white px-4 py-2 rounded-lg hover:bg-[#235a41] transition"
                     >
                       Volver al dashboard →
                     </Link>

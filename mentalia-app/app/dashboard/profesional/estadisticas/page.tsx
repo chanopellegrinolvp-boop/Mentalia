@@ -1,4 +1,4 @@
-import { createClient } from "@/lib/supabase/server";
+﻿import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 
 export default async function Estadisticas() {
@@ -67,7 +67,7 @@ export default async function Estadisticas() {
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
           {stats.map(s => (
             <div key={s.label} className="bg-white border border-gray-100 rounded-xl p-5">
-              <p className="text-2xl font-bold text-[#2D6A4F]">{s.valor}</p>
+              <p className="text-2xl font-bold text-[#40916C]">{s.valor}</p>
               <p className="text-sm font-medium text-gray-700 mt-1">{s.label}</p>
               <p className="text-xs text-gray-400">{s.sub}</p>
             </div>
@@ -90,7 +90,7 @@ export default async function Estadisticas() {
                         className="w-full rounded-t"
                         style={{
                           height: cnt > 0 ? `${(cnt / maxVal) * 56}px` : "4px",
-                          background: cnt > 0 ? "#2D6A4F" : "#e5e7eb",
+                          background: cnt > 0 ? "#40916C" : "#e5e7eb",
                         }}
                         title={`Día ${dia}: ${cnt} sesión${cnt !== 1 ? "es" : ""}`}
                       />

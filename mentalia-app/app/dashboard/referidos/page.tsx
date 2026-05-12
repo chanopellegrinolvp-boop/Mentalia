@@ -1,4 +1,4 @@
-import { createClient } from "@/lib/supabase/server";
+﻿import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import CopiarCodigo from "./CopiarCodigo";
 
@@ -41,7 +41,7 @@ export default async function Referidos() {
           <h2 className="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-3">Tu código de referido</h2>
           {referralCode ? (
             <div className="bg-white border border-gray-100 rounded-xl p-6 text-center">
-              <p className="text-3xl font-bold tracking-widest text-[#2D6A4F]">{referralCode}</p>
+              <p className="text-3xl font-bold tracking-widest text-[#40916C]">{referralCode}</p>
               <p className="text-xs text-gray-400 mt-2">Compartí este código con quien quieras invitar</p>
               <div className="mt-4 flex gap-2 justify-center">
                 <CopiarCodigo codigo={referralCode} />
@@ -56,12 +56,12 @@ export default async function Referidos() {
 
         <div className="grid grid-cols-2 gap-3">
           <div className="bg-white border border-gray-100 rounded-xl p-5 text-center">
-            <p className="text-3xl font-bold text-[#2D6A4F]">{totalReferidos ?? 0}</p>
+            <p className="text-3xl font-bold text-[#40916C]">{totalReferidos ?? 0}</p>
             <p className="text-xs text-gray-500 mt-1">Personas invitadas</p>
           </div>
           <div className="bg-[#D8F3DC] rounded-xl p-5 text-center">
-            <p className="text-3xl font-bold text-[#2D6A4F]">20% off</p>
-            <p className="text-xs text-[#2D6A4F]/70 mt-1">Descuento por 2 meses por referido</p>
+            <p className="text-3xl font-bold text-[#40916C]">20% off</p>
+            <p className="text-xs text-[#40916C]/70 mt-1">Descuento por 2 meses por referido</p>
           </div>
         </div>
 
@@ -74,7 +74,7 @@ export default async function Referidos() {
               { num: "3", texto: "Vos obtenés un 20% de descuento durante 2 meses en tu plan actual" },
             ].map(step => (
               <div key={step.num} className="bg-white border border-gray-100 rounded-xl px-5 py-4 flex items-center gap-4">
-                <span className="w-7 h-7 rounded-full bg-[#2D6A4F] text-white text-xs font-bold flex items-center justify-center flex-shrink-0">
+                <span className="w-7 h-7 rounded-full bg-[#40916C] text-white text-xs font-bold flex items-center justify-center flex-shrink-0">
                   {step.num}
                 </span>
                 <p className="text-sm text-gray-700">{step.texto}</p>

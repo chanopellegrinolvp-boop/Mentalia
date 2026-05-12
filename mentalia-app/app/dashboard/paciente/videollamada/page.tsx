@@ -1,4 +1,4 @@
-import { createClient } from "@/lib/supabase/server";
+﻿import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 
@@ -42,9 +42,9 @@ export default async function Videollamada() {
 
       <main className="max-w-3xl mx-auto px-6 py-8">
         {activa ? (
-          <div className="bg-white border border-[#2D6A4F]/30 rounded-xl p-8 text-center space-y-4">
+          <div className="bg-white border border-[#40916C]/30 rounded-xl p-8 text-center space-y-4">
             <div className="w-16 h-16 bg-green-50 rounded-full flex items-center justify-center mx-auto">
-              <svg className="w-8 h-8 text-[#2D6A4F]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-8 h-8 text-[#40916C]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.069A1 1 0 0121 8.87v6.26a1 1 0 01-1.447.894L15 14M3 8a2 2 0 012-2h10a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V8z" />
               </svg>
             </div>
@@ -54,7 +54,7 @@ export default async function Videollamada() {
             </div>
             <Link
               href={`/sesion/${activa.id}`}
-              className="inline-block bg-[#2D6A4F] text-white px-8 py-3 rounded-xl font-medium hover:bg-[#235a41] transition"
+              className="inline-block bg-[#40916C] text-white px-8 py-3 rounded-xl font-medium hover:bg-[#235a41] transition"
             >
               Unirse a la sesión
             </Link>
@@ -68,7 +68,7 @@ export default async function Videollamada() {
             </div>
             <div>
               <p className="font-semibold text-gray-900">Próxima sesión</p>
-              <p className="text-lg font-medium text-[#2D6A4F] mt-2">
+              <p className="text-lg font-medium text-[#40916C] mt-2">
                 {new Date(proxima.scheduled_at).toLocaleDateString("es-AR", { weekday: "long", day: "numeric", month: "long" })}
               </p>
               <p className="text-sm text-gray-500 mt-1">
@@ -84,7 +84,7 @@ export default async function Videollamada() {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 10l4.553-2.069A1 1 0 0121 8.87v6.26a1 1 0 01-1.447.894L15 14M3 8a2 2 0 012-2h10a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V8z" />
             </svg>
             <p className="text-gray-400 text-sm">No tenés sesiones programadas</p>
-            <Link href="/dashboard/paciente/buscar" className="inline-block mt-3 text-sm text-[#2D6A4F] font-medium hover:underline">
+            <Link href="/dashboard/paciente/buscar" className="inline-block mt-3 text-sm text-[#40916C] font-medium hover:underline">
               Buscar un profesional
             </Link>
           </div>

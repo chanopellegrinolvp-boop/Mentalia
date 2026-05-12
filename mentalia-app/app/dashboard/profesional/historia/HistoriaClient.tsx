@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState, useEffect } from "react";
 import { createClient } from "@/lib/supabase/client";
@@ -25,11 +25,11 @@ type ResumenSemanal = {
 
 const moodColors: Record<number, string> = {
   1: "#ef4444", 2: "#f97316", 3: "#f59e0b", 4: "#eab308", 5: "#84cc16",
-  6: "#22c55e", 7: "#10b981", 8: "#14b8a6", 9: "#06b6d4", 10: "#2D6A4F",
+  6: "#22c55e", 7: "#10b981", 8: "#14b8a6", 9: "#06b6d4", 10: "#40916C",
 };
 
 const tendenciaConfig = {
-  positiva: { bg: "#D8F3DC", color: "#2D6A4F", label: "Tendencia positiva" },
+  positiva: { bg: "#D8F3DC", color: "#40916C", label: "Tendencia positiva" },
   negativa: { bg: "#fee2e2", color: "#991b1b", label: "Tendencia negativa" },
   estable: { bg: "#f0f9ff", color: "#0369a1", label: "Tendencia estable" },
   mixta: { bg: "#fef3c7", color: "#92400e", label: "Tendencia mixta" },
@@ -157,16 +157,16 @@ export default function HistoriaClient({ professionalId, patients }: { professio
 <title>Historia Clínica - ${patientName}</title>
 <style>
   body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 40px; color: #1f2937; }
-  h1 { color: #2D6A4F; margin-bottom: 4px; }
+  h1 { color: #40916C; margin-bottom: 4px; }
   .meta { color: #6B7280; font-size: 14px; margin-bottom: 24px; }
   hr { border: none; border-top: 1px solid #e5e7eb; margin: 20px 0; }
   .note { border: 1px solid #e5e7eb; border-radius: 8px; padding: 20px; margin: 16px 0; page-break-inside: avoid; }
   .note-header { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
   .note-date { font-weight: bold; font-size: 15px; }
-  .note-mood { background: #2D6A4F; color: white; padding: 2px 10px; border-radius: 20px; font-size: 12px; }
+  .note-mood { background: #40916C; color: white; padding: 2px 10px; border-radius: 20px; font-size: 12px; }
   .note-content { color: #374151; line-height: 1.7; white-space: pre-wrap; }
   .note-tags { margin-top: 12px; display: flex; flex-wrap: wrap; gap: 6px; }
-  .tag { background: #D8F3DC; color: #2D6A4F; padding: 2px 10px; border-radius: 20px; font-size: 11px; }
+  .tag { background: #D8F3DC; color: #40916C; padding: 2px 10px; border-radius: 20px; font-size: 11px; }
   .footer { margin-top: 48px; padding-top: 16px; border-top: 1px solid #e5e7eb; color: #9CA3AF; font-size: 12px; }
   @media print { body { padding: 20px; } }
 </style>
@@ -225,10 +225,10 @@ export default function HistoriaClient({ professionalId, patients }: { professio
                 className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left transition-all"
                 style={{
                   background: selectedPatient?.id === p.id ? "rgba(45,106,79,0.1)" : "white",
-                  border: selectedPatient?.id === p.id ? "1.5px solid #2D6A4F" : "1.5px solid #f3f4f6",
+                  border: selectedPatient?.id === p.id ? "1.5px solid #40916C" : "1.5px solid #f3f4f6",
                 }}
               >
-                <div className="w-9 h-9 rounded-full flex items-center justify-center text-xs font-bold text-white flex-shrink-0" style={{ background: "#2D6A4F" }}>
+                <div className="w-9 h-9 rounded-full flex items-center justify-center text-xs font-bold text-white flex-shrink-0" style={{ background: "#40916C" }}>
                   {initials(p.full_name)}
                 </div>
                 <div className="overflow-hidden">
@@ -279,14 +279,14 @@ export default function HistoriaClient({ professionalId, patients }: { professio
                   onClick={generarIA}
                   disabled={loadingIa || notes.length === 0}
                   className="flex items-center gap-2 px-4 py-2.5 text-sm font-semibold rounded-xl border-2 disabled:opacity-40 transition-all"
-                  style={{ borderColor: "#2D6A4F", color: "#2D6A4F" }}
+                  style={{ borderColor: "#40916C", color: "#40916C" }}
                 >
                   {loadingIa ? "Analizando..." : "🧠 Análisis IA"}
                 </button>
                 <button
                   onClick={openNew}
                   className="flex items-center gap-2 px-5 py-2.5 text-white text-sm font-semibold rounded-xl"
-                  style={{ background: "#2D6A4F" }}
+                  style={{ background: "#40916C" }}
                 >
                   + Nueva nota
                 </button>
@@ -344,7 +344,7 @@ export default function HistoriaClient({ professionalId, patients }: { professio
                         {resumenSemanal.avgMood !== null && (
                           <p className="text-xs text-gris mt-1.5">
                             Promedio:{" "}
-                            <strong style={{ color: moodColors[Math.round(resumenSemanal.avgMood)] ?? "#2D6A4F" }}>
+                            <strong style={{ color: moodColors[Math.round(resumenSemanal.avgMood)] ?? "#40916C" }}>
                               {resumenSemanal.avgMood}/10
                             </strong>
                           </p>
@@ -358,7 +358,7 @@ export default function HistoriaClient({ professionalId, patients }: { professio
                         <p className="text-xs font-bold text-gris uppercase tracking-wide mb-2">Emociones más frecuentes</p>
                         <div className="flex flex-wrap gap-2">
                           {resumenSemanal.topEmociones.map((e, i) => (
-                            <span key={i} className="text-xs px-3 py-1.5 rounded-full font-medium" style={{ background: "#D8F3DC", color: "#2D6A4F" }}>
+                            <span key={i} className="text-xs px-3 py-1.5 rounded-full font-medium" style={{ background: "#D8F3DC", color: "#40916C" }}>
                               {e}
                             </span>
                           ))}
@@ -381,7 +381,7 @@ export default function HistoriaClient({ professionalId, patients }: { professio
                         <ul className="space-y-1.5">
                           {resumenSemanal.puntosClave!.map((p, i) => (
                             <li key={i} className="text-sm text-gray-700 flex items-start gap-2">
-                              <span className="font-bold mt-0.5" style={{ color: "#2D6A4F" }}>·</span> {p}
+                              <span className="font-bold mt-0.5" style={{ color: "#40916C" }}>·</span> {p}
                             </li>
                           ))}
                         </ul>
@@ -417,7 +417,7 @@ export default function HistoriaClient({ professionalId, patients }: { professio
                   }}>
                     <span className="text-xl">{iaRiesgo.nivel === "alto" ? "🔴" : iaRiesgo.nivel === "medio" ? "🟡" : "🟢"}</span>
                     <div>
-                      <p className="text-sm font-bold capitalize" style={{ color: iaRiesgo.nivel === "alto" ? "#991b1b" : iaRiesgo.nivel === "medio" ? "#92400e" : "#2D6A4F" }}>
+                      <p className="text-sm font-bold capitalize" style={{ color: iaRiesgo.nivel === "alto" ? "#991b1b" : iaRiesgo.nivel === "medio" ? "#92400e" : "#40916C" }}>
                         Riesgo emocional: {iaRiesgo.nivel}
                       </p>
                       <p className="text-sm mt-0.5" style={{ color: iaRiesgo.nivel === "alto" ? "#7f1d1d" : iaRiesgo.nivel === "medio" ? "#78350f" : "#1b4332" }}>
@@ -449,7 +449,7 @@ export default function HistoriaClient({ professionalId, patients }: { professio
                         value={form.session_date}
                         onChange={e => setForm(f => ({ ...f, session_date: e.target.value }))}
                         className="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm"
-                        onFocus={e => (e.target.style.borderColor = "#2D6A4F")}
+                        onFocus={e => (e.target.style.borderColor = "#40916C")}
                         onBlur={e => (e.target.style.borderColor = "#e5e7eb")}
                       />
                     </div>
@@ -479,7 +479,7 @@ export default function HistoriaClient({ professionalId, patients }: { professio
                       placeholder="Resumen de la sesión, observaciones clínicas, avances del paciente..."
                       className="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm"
                       style={{ resize: "vertical" }}
-                      onFocus={e => (e.target.style.borderColor = "#2D6A4F")}
+                      onFocus={e => (e.target.style.borderColor = "#40916C")}
                       onBlur={e => (e.target.style.borderColor = "#e5e7eb")}
                     />
                   </div>
@@ -491,7 +491,7 @@ export default function HistoriaClient({ professionalId, patients }: { professio
                       onChange={e => setForm(f => ({ ...f, tags: e.target.value }))}
                       placeholder="ansiedad, duelo, avance positivo..."
                       className="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm"
-                      onFocus={e => (e.target.style.borderColor = "#2D6A4F")}
+                      onFocus={e => (e.target.style.borderColor = "#40916C")}
                       onBlur={e => (e.target.style.borderColor = "#e5e7eb")}
                     />
                   </div>
@@ -501,7 +501,7 @@ export default function HistoriaClient({ professionalId, patients }: { professio
                       type="submit"
                       disabled={saving || !form.content.trim()}
                       className="px-6 py-2.5 text-white font-semibold rounded-xl disabled:opacity-60"
-                      style={{ background: "#2D6A4F" }}
+                      style={{ background: "#40916C" }}
                     >
                       {saving ? "Guardando..." : editingNote ? "Actualizar nota" : "Guardar nota"}
                     </button>
@@ -520,14 +520,14 @@ export default function HistoriaClient({ professionalId, patients }: { professio
             {/* Lista de notas */}
             {loadingNotes ? (
               <div className="flex justify-center py-12">
-                <div className="w-8 h-8 rounded-full border-4 border-gray-200 animate-spin" style={{ borderTopColor: "#2D6A4F" }} />
+                <div className="w-8 h-8 rounded-full border-4 border-gray-200 animate-spin" style={{ borderTopColor: "#40916C" }} />
               </div>
             ) : notes.length === 0 ? (
               <div className="bg-white rounded-2xl border-2 border-dashed border-gray-200 p-12 text-center">
                 <div className="text-4xl mb-3">📋</div>
                 <p className="font-semibold text-gray-800 mb-1">Sin notas todavía</p>
                 <p className="text-sm text-gris mb-4">Registrá tus observaciones después de cada sesión</p>
-                <button onClick={openNew} className="inline-block px-5 py-2.5 text-white text-sm font-semibold rounded-xl" style={{ background: "#2D6A4F" }}>
+                <button onClick={openNew} className="inline-block px-5 py-2.5 text-white text-sm font-semibold rounded-xl" style={{ background: "#40916C" }}>
                   Crear primera nota
                 </button>
               </div>
@@ -561,7 +561,7 @@ export default function HistoriaClient({ professionalId, patients }: { professio
                     {note.tags && note.tags.length > 0 && (
                       <div className="flex flex-wrap gap-2 mt-4">
                         {note.tags.map((tag, i) => (
-                          <span key={i} className="text-xs px-2.5 py-1 rounded-full font-medium" style={{ background: "#D8F3DC", color: "#2D6A4F" }}>
+                          <span key={i} className="text-xs px-2.5 py-1 rounded-full font-medium" style={{ background: "#D8F3DC", color: "#40916C" }}>
                             {tag}
                           </span>
                         ))}

@@ -1,11 +1,11 @@
-{
+﻿{
   "name": "Mentalia",
   "short_name": "Mentalia",
   "description": "Plataforma de salud mental para psicólogos y pacientes argentinos",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#FDFCFA",
-  "theme_color": "#2D6A4F",
+  "theme_color": "#40916C",
   "lang": "es-AR",
   "orientation": "portrait-primary",
   "scope": "/",

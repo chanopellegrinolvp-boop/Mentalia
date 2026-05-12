@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
@@ -35,7 +35,7 @@ export default function LoginPage() {
       </div>
       <div className="w-full max-w-sm">
         <div className="mb-6">
-          <Link href="/" className="inline-flex items-center gap-1.5 text-sm text-gray-400 hover:text-[#2D6A4F] transition">
+          <Link href="/" className="inline-flex items-center gap-1.5 text-sm text-gray-400 hover:text-[#40916C] transition">
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
             </svg>
@@ -43,7 +43,7 @@ export default function LoginPage() {
           </Link>
         </div>
         <div className="text-center mb-8">
-          <span className="font-serif italic text-2xl font-bold text-[#2D6A4F]">Mentalia</span>
+          <span className="font-serif italic text-2xl font-bold text-[#40916C]">Mentalia</span>
           <p className="text-sm text-gray-500 mt-1">Accedé a tu consultorio</p>
         </div>
 
@@ -56,7 +56,7 @@ export default function LoginPage() {
               onChange={e => setEmail(e.target.value)}
               required
               placeholder="vos@email.com"
-              className="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#2D6A4F] focus:border-transparent"
+              className="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#40916C] focus:border-transparent"
             />
           </div>
           <div>
@@ -68,7 +68,7 @@ export default function LoginPage() {
                 onChange={e => setPassword(e.target.value)}
                 required
                 placeholder="••••••••"
-                className="w-full border border-gray-200 rounded-lg px-4 py-2.5 pr-10 text-sm focus:outline-none focus:ring-2 focus:ring-[#2D6A4F] focus:border-transparent"
+                className="w-full border border-gray-200 rounded-lg px-4 py-2.5 pr-10 text-sm focus:outline-none focus:ring-2 focus:ring-[#40916C] focus:border-transparent"
               />
               <button
                 type="button"
@@ -91,7 +91,7 @@ export default function LoginPage() {
             </div>
           </div>
           <div className="text-right -mt-2">
-            <a href="/olvide-contrasena" className="text-xs text-[#2D6A4F] hover:underline">
+            <a href="/olvide-contrasena" className="text-xs text-[#40916C] hover:underline">
               ¿Olvidaste tu contraseña?
             </a>
           </div>
@@ -101,7 +101,7 @@ export default function LoginPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-[#2D6A4F] text-white rounded-lg py-2.5 text-sm font-medium hover:bg-[#235a41] transition disabled:opacity-60"
+            className="w-full bg-[#40916C] text-white rounded-lg py-2.5 text-sm font-medium hover:bg-[#235a41] transition disabled:opacity-60"
           >
             {loading ? "Entrando..." : "Entrar"}
           </button>
@@ -109,7 +109,7 @@ export default function LoginPage() {
 
         <p className="text-center text-sm text-gray-500 mt-6">
           ¿No tenés cuenta?{" "}
-          <Link href="/registro" className="text-[#2D6A4F] font-medium hover:underline">
+          <Link href="/registro" className="text-[#40916C] font-medium hover:underline">
             Registrarse
           </Link>
         </p>

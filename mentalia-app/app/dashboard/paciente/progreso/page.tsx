@@ -1,4 +1,4 @@
-import { createClient } from "@/lib/supabase/server";
+﻿import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 
@@ -68,21 +68,21 @@ export default async function MiProgreso() {
         {/* Stats */}
         <div className="grid grid-cols-2 gap-3">
           <div className="bg-white border border-gray-100 rounded-xl p-5 text-center">
-            <p className="text-3xl font-bold text-[#2D6A4F]">{totalSesiones ?? 0}</p>
+            <p className="text-3xl font-bold text-[#40916C]">{totalSesiones ?? 0}</p>
             <p className="text-xs text-gray-500 mt-1">Sesiones completadas</p>
           </div>
           <div className="bg-white border border-gray-100 rounded-xl p-5 text-center">
-            <p className="text-3xl font-bold text-[#2D6A4F]">{sesionesMes ?? 0}</p>
+            <p className="text-3xl font-bold text-[#40916C]">{sesionesMes ?? 0}</p>
             <p className="text-xs text-gray-500 mt-1">Sesiones este mes</p>
           </div>
           <div className="bg-white border border-gray-100 rounded-xl p-5 text-center">
-            <p className="text-3xl font-bold text-[#2D6A4F]">
+            <p className="text-3xl font-bold text-[#40916C]">
               {avgMood ? `${moodEmoji(Number(avgMood))} ${avgMood}` : "—"}
             </p>
             <p className="text-xs text-gray-500 mt-1">Estado promedio</p>
           </div>
           <div className="bg-white border border-gray-100 rounded-xl p-5 text-center">
-            <p className="text-3xl font-bold text-[#2D6A4F]">{totalDiario ?? 0}</p>
+            <p className="text-3xl font-bold text-[#40916C]">{totalDiario ?? 0}</p>
             <p className="text-xs text-gray-500 mt-1">Días en el diario</p>
           </div>
         </div>
@@ -99,19 +99,19 @@ export default async function MiProgreso() {
                       className="w-full rounded-t-md transition-all"
                       style={{
                         height: mood ? `${(mood / 10) * 80}px` : "4px",
-                        background: mood ? "#2D6A4F" : "#e5e7eb",
+                        background: mood ? "#40916C" : "#e5e7eb",
                         opacity: mood ? 0.8 : 0.4,
                       }}
                     />
                     <span className="text-xs text-gray-400">{label}</span>
-                    {mood && <span className="text-xs font-medium text-[#2D6A4F]">{mood}</span>}
+                    {mood && <span className="text-xs font-medium text-[#40916C]">{mood}</span>}
                   </div>
                 ))}
               </div>
             ) : (
               <div className="text-center py-6">
                 <p className="text-sm text-gray-400">Registrá tu estado emocional para ver la evolución</p>
-                <Link href="/dashboard/paciente/diario" className="inline-block mt-2 text-sm text-[#2D6A4F] font-medium hover:underline">
+                <Link href="/dashboard/paciente/diario" className="inline-block mt-2 text-sm text-[#40916C] font-medium hover:underline">
                   Ir al diario
                 </Link>
               </div>
@@ -121,13 +121,13 @@ export default async function MiProgreso() {
 
         {(totalSesiones === 0 && (totalDiario ?? 0) === 0) && (
           <div className="bg-[#D8F3DC] rounded-xl p-5 text-center">
-            <p className="font-medium text-[#2D6A4F] text-sm">Empezá tu proceso</p>
-            <p className="text-xs text-[#2D6A4F]/70 mt-1">Agendá tu primera sesión y comenzá tu diario emocional</p>
+            <p className="font-medium text-[#40916C] text-sm">Empezá tu proceso</p>
+            <p className="text-xs text-[#40916C]/70 mt-1">Agendá tu primera sesión y comenzá tu diario emocional</p>
             <div className="flex gap-3 justify-center mt-3">
-              <Link href="/dashboard/paciente/buscar" className="text-xs bg-[#2D6A4F] text-white px-4 py-2 rounded-lg hover:bg-[#235a41] transition">
+              <Link href="/dashboard/paciente/buscar" className="text-xs bg-[#40916C] text-white px-4 py-2 rounded-lg hover:bg-[#235a41] transition">
                 Buscar profesional
               </Link>
-              <Link href="/dashboard/paciente/diario" className="text-xs bg-white text-[#2D6A4F] px-4 py-2 rounded-lg hover:bg-white/80 transition">
+              <Link href="/dashboard/paciente/diario" className="text-xs bg-white text-[#40916C] px-4 py-2 rounded-lg hover:bg-white/80 transition">
                 Mi diario
               </Link>
             </div>

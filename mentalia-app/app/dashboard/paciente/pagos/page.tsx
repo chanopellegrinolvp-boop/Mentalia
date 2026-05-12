@@ -1,4 +1,4 @@
-import { createClient } from "@/lib/supabase/server";
+﻿import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 
 export default async function MisPagos() {
@@ -39,7 +39,7 @@ export default async function MisPagos() {
           </div>
           <div className="text-right">
             <p className="text-xs text-gray-400">Total abonado</p>
-            <p className="font-semibold text-[#2D6A4F]">
+            <p className="font-semibold text-[#40916C]">
               {total.toLocaleString("es-AR", { style: "currency", currency: "ARS", maximumFractionDigits: 0 })}
             </p>
           </div>

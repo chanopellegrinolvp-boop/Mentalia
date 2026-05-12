@@ -1,4 +1,4 @@
-const FROM = process.env.EMAIL_FROM ?? "Mentalia <onboarding@resend.dev>";
+﻿const FROM = process.env.EMAIL_FROM ?? "Mentalia <onboarding@resend.dev>";
 
 async function send(to: string, subject: string, html: string) {
   const key = process.env.RESEND_API_KEY;
@@ -17,7 +17,7 @@ function base(content: string) {
   return `<!DOCTYPE html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Mentalia</title></head>
 <body style="margin:0;padding:0;background:#f0f7f2;font-family:Arial,sans-serif;">
 <div style="max-width:560px;margin:40px auto;background:white;border-radius:16px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,0.08);">
-  <div style="background:linear-gradient(135deg,#2D6A4F,#52B788);padding:32px 40px;text-align:center;">
+  <div style="background:linear-gradient(135deg,#40916C,#52B788);padding:32px 40px;text-align:center;">
     <h1 style="color:white;margin:0;font-size:28px;font-weight:bold;font-style:italic;">Mentalia</h1>
     <p style="color:rgba(255,255,255,0.8);margin:6px 0 0;font-size:13px;">Salud mental, organizada.</p>
   </div>
@@ -31,7 +31,7 @@ function base(content: string) {
 
 function btn(text: string, url: string) {
   return `<div style="text-align:center;margin:28px 0;">
-    <a href="${url}" style="background:#2D6A4F;color:white;text-decoration:none;padding:14px 32px;border-radius:10px;font-weight:bold;font-size:15px;display:inline-block;">${text}</a>
+    <a href="${url}" style="background:#40916C;color:white;text-decoration:none;padding:14px 32px;border-radius:10px;font-weight:bold;font-size:15px;display:inline-block;">${text}</a>
   </div>`;
 }
 
@@ -76,7 +76,7 @@ export async function emailTurnoConfirmado(opts: {
   const html = base(`
     <h2 style="color:#111827;margin-top:0;">Sesión confirmada</h2>
     <p style="color:#374151;line-height:1.7;">Hola <strong>${primerNombre}</strong>, tu sesión quedó agendada.</p>
-    <div style="background:#f0faf3;border-radius:12px;padding:20px 24px;margin:20px 0;border-left:4px solid #2D6A4F;">
+    <div style="background:#f0faf3;border-radius:12px;padding:20px 24px;margin:20px 0;border-left:4px solid #40916C;">
       <p style="margin:0 0 8px;color:#374151;"><strong>Profesional:</strong> ${opts.profesionalName}</p>
       <p style="margin:0 0 8px;color:#374151;"><strong>Fecha:</strong> ${opts.fecha}</p>
       <p style="margin:0 0 8px;color:#374151;"><strong>Hora:</strong> ${opts.hora}</p>
@@ -104,7 +104,7 @@ export async function emailPagoConfirmado(opts: {
   const html = base(`
     <h2 style="color:#111827;margin-top:0;">Pago confirmado</h2>
     <p style="color:#374151;line-height:1.7;">Hola <strong>${primerNombre}</strong>, recibimos tu pago. Tu plan ya está activo.</p>
-    <div style="background:#f0faf3;border-radius:12px;padding:20px 24px;margin:20px 0;border-left:4px solid #2D6A4F;">
+    <div style="background:#f0faf3;border-radius:12px;padding:20px 24px;margin:20px 0;border-left:4px solid #40916C;">
       <p style="margin:0 0 8px;color:#374151;"><strong>Monto:</strong> $${opts.monto.toLocaleString("es-AR")} ARS</p>
       <p style="margin:0;color:#6B7280;font-size:13px;">N° de pago: ${opts.paymentId}</p>
     </div>
@@ -128,7 +128,7 @@ export async function emailNuevoTurnoProfesional(opts: {
   const html = base(`
     <h2 style="color:#111827;margin-top:0;">Nueva sesión en tu agenda</h2>
     <p style="color:#374151;line-height:1.7;">Hola <strong>${primerNombre}</strong>, se programó una nueva sesión.</p>
-    <div style="background:#f0faf3;border-radius:12px;padding:20px 24px;margin:20px 0;border-left:4px solid #2D6A4F;">
+    <div style="background:#f0faf3;border-radius:12px;padding:20px 24px;margin:20px 0;border-left:4px solid #40916C;">
       <p style="margin:0 0 8px;color:#374151;"><strong>Paciente:</strong> ${opts.pacienteName}</p>
       <p style="margin:0 0 8px;color:#374151;"><strong>Email:</strong> ${opts.patieneEmail}</p>
       <p style="margin:0 0 8px;color:#374151;"><strong>Fecha:</strong> ${opts.fecha}</p>

@@ -30,7 +30,7 @@ export default async function PacienteDetallePage({ params }: { params: Promise<
     <div className="min-h-screen bg-[#FDFCFA]">
       <header className="bg-white border-b border-gray-100 px-6 py-4">
         <div className="max-w-4xl mx-auto flex items-center justify-between">
-          <Link href="/dashboard/profesional/pacientes" className="text-sm text-gray-500 hover:text-[#2D6A4F]">
+          <Link href="/dashboard/profesional/pacientes" className="text-sm text-gray-500 hover:text-[#40916C]">
             ← Pacientes
           </Link>
           <span className="font-medium text-sm text-gray-700">{paciente.nombre}</span>
@@ -75,19 +75,19 @@ export default async function PacienteDetallePage({ params }: { params: Promise<
                       </div>
                       <Link
                         href={`/sesion/${s.id}`}
-                        className="text-xs text-[#2D6A4F] hover:underline"
+                        className="text-xs text-[#40916C] hover:underline"
                       >
                         {nota ? "Ver notas" : "Abrir sesión"}
                       </Link>
                     </div>
                     {nota?.ai_summary && (
                       <div className="bg-[#D8F3DC]/40 rounded-lg p-3">
-                        <p className="text-xs font-medium text-[#2D6A4F] mb-1">Resumen IA</p>
+                        <p className="text-xs font-medium text-[#40916C] mb-1">Resumen IA</p>
                         <p className="text-xs text-gray-600 leading-relaxed">{nota.ai_summary}</p>
                         {nota.temas_clave?.length > 0 && (
                           <div className="flex flex-wrap gap-1 mt-2">
                             {nota.temas_clave.map((t: string) => (
-                              <span key={t} className="text-[10px] bg-[#2D6A4F]/10 text-[#2D6A4F] px-2 py-0.5 rounded-full">{t}</span>
+                              <span key={t} className="text-[10px] bg-[#40916C]/10 text-[#40916C] px-2 py-0.5 rounded-full">{t}</span>
                             ))}
                           </div>
                         )}

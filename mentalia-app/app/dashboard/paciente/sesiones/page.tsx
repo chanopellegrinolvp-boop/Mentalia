@@ -1,4 +1,4 @@
-import { createClient } from "@/lib/supabase/server";
+﻿import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 
@@ -36,7 +36,7 @@ export default async function MisSesiones() {
         {!sesiones || sesiones.length === 0 ? (
           <div className="border border-dashed border-gray-200 rounded-xl p-12 text-center">
             <p className="text-gray-400 text-sm">No tenés sesiones registradas</p>
-            <Link href="/dashboard/paciente/buscar" className="inline-block mt-3 text-sm text-[#2D6A4F] font-medium hover:underline">
+            <Link href="/dashboard/paciente/buscar" className="inline-block mt-3 text-sm text-[#40916C] font-medium hover:underline">
               Buscar profesional
             </Link>
           </div>
@@ -60,7 +60,7 @@ export default async function MisSesiones() {
                   <div className="flex items-center gap-2">
                     <span className={`text-xs px-2.5 py-1 rounded-full ${st.color}`}>{st.label}</span>
                     {esProxima && (
-                      <Link href={`/sesion/${s.id}`} className="text-xs bg-[#2D6A4F] text-white px-3 py-1 rounded-lg hover:bg-[#235a41] transition">
+                      <Link href={`/sesion/${s.id}`} className="text-xs bg-[#40916C] text-white px-3 py-1 rounded-lg hover:bg-[#235a41] transition">
                         Ver
                       </Link>
                     )}

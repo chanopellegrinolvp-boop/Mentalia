@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useState } from "react";
 import Link from "next/link";
 
@@ -24,7 +24,7 @@ export default function MobileNav() {
       {open && (
         <div
           className="md:hidden absolute top-14 left-0 right-0 z-50 border-t"
-          style={{ background: "#2D6A4F", borderColor: "rgba(255,255,255,0.1)" }}
+          style={{ background: "#40916C", borderColor: "rgba(255,255,255,0.1)" }}
         >
           <div className="flex flex-col px-6 py-5 gap-4">
             <a href="#funciones" onClick={() => setOpen(false)} className="text-sm font-medium text-green-100/80 hover:text-white transition">Funciones</a>
@@ -38,7 +38,7 @@ export default function MobileNav() {
               href="/registro"
               onClick={() => setOpen(false)}
               className="text-sm font-semibold px-4 py-2.5 rounded-lg text-center transition hover:opacity-90"
-              style={{ background: "#D8F3DC", color: "#2D6A4F" }}
+              style={{ background: "#D8F3DC", color: "#40916C" }}
             >
               Empezar gratis
             </Link>

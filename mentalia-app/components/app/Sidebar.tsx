@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -63,7 +63,7 @@ export default function Sidebar({ profile }: { profile: Profile }) {
   return (
     <>
       {/* Desktop sidebar */}
-      <aside className="hidden md:flex fixed left-0 top-0 h-full w-60 flex-col z-30" style={{ background: "#2D6A4F" }}>
+      <aside className="hidden md:flex fixed left-0 top-0 h-full w-60 flex-col z-30" style={{ background: "#40916C" }}>
         {/* Logo */}
         <div className="px-6 py-5 border-b border-white/10">
           <Link href="/" className="block">
@@ -128,7 +128,7 @@ export default function Sidebar({ profile }: { profile: Profile }) {
       {/* Mobile bottom nav */}
       <nav
         className="md:hidden fixed bottom-0 left-0 right-0 z-30 border-t"
-        style={{ background: "#2D6A4F", borderColor: "rgba(255,255,255,0.12)" }}
+        style={{ background: "#40916C", borderColor: "rgba(255,255,255,0.12)" }}
       >
         <div className="flex items-center justify-around px-1 py-1 pb-safe">
           {mobileNav.map((item) => {

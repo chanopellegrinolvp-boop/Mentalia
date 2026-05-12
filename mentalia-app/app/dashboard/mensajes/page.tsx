@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState, useEffect, useRef } from "react";
 import { createClient } from "@/lib/supabase/client";
@@ -154,7 +154,7 @@ export default function MensajesPage() {
                     const esMio = m.sender_id === userId;
                     return (
                       <div key={m.id} className={`flex ${esMio ? "justify-end" : "justify-start"}`}>
-                        <div className={`max-w-xs px-4 py-2 rounded-2xl text-sm ${esMio ? "bg-[#2D6A4F] text-white" : "bg-gray-100 text-gray-800"}`}>
+                        <div className={`max-w-xs px-4 py-2 rounded-2xl text-sm ${esMio ? "bg-[#40916C] text-white" : "bg-gray-100 text-gray-800"}`}>
                           {m.content}
                           <p className={`text-xs mt-1 ${esMio ? "text-white/60" : "text-gray-400"}`}>
                             {new Date(m.created_at).toLocaleTimeString("es-AR", { hour: "2-digit", minute: "2-digit" })}
@@ -172,12 +172,12 @@ export default function MensajesPage() {
                     onChange={e => setNuevo(e.target.value)}
                     onKeyDown={e => e.key === "Enter" && !e.shiftKey && enviar()}
                     placeholder="Escribí un mensaje..."
-                    className="flex-1 border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-[#2D6A4F]/50"
+                    className="flex-1 border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-[#40916C]/50"
                   />
                   <button
                     onClick={enviar}
                     disabled={enviando || !nuevo.trim()}
-                    className="bg-[#2D6A4F] text-white px-4 py-2.5 rounded-xl text-sm hover:bg-[#235a41] transition disabled:opacity-50"
+                    className="bg-[#40916C] text-white px-4 py-2.5 rounded-xl text-sm hover:bg-[#235a41] transition disabled:opacity-50"
                   >
                     Enviar
                   </button>

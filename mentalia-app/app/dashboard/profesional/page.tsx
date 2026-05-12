@@ -1,4 +1,4 @@
-import { createClient } from "@/lib/supabase/server";
+﻿import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 
@@ -35,9 +35,9 @@ export default async function DashboardProfesional() {
       {/* Header */}
       <header className="bg-white border-b border-gray-100 px-6 py-4">
         <div className="max-w-4xl mx-auto flex items-center justify-between">
-          <span className="font-serif italic text-xl font-bold text-[#2D6A4F]">Mentalia</span>
+          <span className="font-serif italic text-xl font-bold text-[#40916C]">Mentalia</span>
           <div className="flex items-center gap-4">
-            <Link href="/dashboard/profesional/pacientes" className="text-sm text-gray-600 hover:text-[#2D6A4F]">
+            <Link href="/dashboard/profesional/pacientes" className="text-sm text-gray-600 hover:text-[#40916C]">
               Pacientes
             </Link>
             <form action="/api/auth/signout" method="post">
@@ -60,7 +60,7 @@ export default async function DashboardProfesional() {
         <section>
           <div className="flex items-center justify-between mb-4">
             <h2 className="font-semibold text-gray-800">Próximas sesiones</h2>
-            <Link href="/dashboard/profesional/agenda" className="text-sm text-[#2D6A4F] hover:underline">
+            <Link href="/dashboard/profesional/agenda" className="text-sm text-[#40916C] hover:underline">
               Ver agenda
             </Link>
           </div>
@@ -70,7 +70,7 @@ export default async function DashboardProfesional() {
               <p className="text-gray-400 text-sm">No hay sesiones programadas</p>
               <Link
                 href="/dashboard/profesional/pacientes/nuevo"
-                className="inline-block mt-3 text-sm text-[#2D6A4F] font-medium hover:underline"
+                className="inline-block mt-3 text-sm text-[#40916C] font-medium hover:underline"
               >
                 + Agregar paciente
               </Link>
@@ -81,7 +81,7 @@ export default async function DashboardProfesional() {
                 const fecha = new Date(s.scheduled_at);
                 const esHoy = fecha.toDateString() === new Date().toDateString();
                 return (
-                  <div key={s.id} className="bg-white border border-gray-100 rounded-xl px-5 py-4 flex items-center justify-between hover:border-[#2D6A4F]/30 transition">
+                  <div key={s.id} className="bg-white border border-gray-100 rounded-xl px-5 py-4 flex items-center justify-between hover:border-[#40916C]/30 transition">
                     <div>
                       <p className="font-medium text-gray-900 text-sm">
                         {(s.pacientes as any)?.nombre ?? "Paciente"}
@@ -96,7 +96,7 @@ export default async function DashboardProfesional() {
                     </div>
                     <Link
                       href={`/sesion/${s.id}`}
-                      className="text-sm bg-[#2D6A4F] text-white px-4 py-1.5 rounded-lg hover:bg-[#235a41] transition"
+                      className="text-sm bg-[#40916C] text-white px-4 py-1.5 rounded-lg hover:bg-[#235a41] transition"
                     >
                       {esHoy ? "Iniciar" : "Ver"}
                     </Link>
@@ -109,11 +109,11 @@ export default async function DashboardProfesional() {
 
         {/* Acceso rápido */}
         <section className="grid grid-cols-2 gap-3">
-          <Link href="/dashboard/profesional/pacientes/nuevo" className="bg-white border border-gray-100 rounded-xl p-5 hover:border-[#2D6A4F]/30 transition">
+          <Link href="/dashboard/profesional/pacientes/nuevo" className="bg-white border border-gray-100 rounded-xl p-5 hover:border-[#40916C]/30 transition">
             <p className="font-medium text-sm text-gray-800">Nuevo paciente</p>
             <p className="text-xs text-gray-400 mt-1">Agregá un paciente a tu consultorio</p>
           </Link>
-          <Link href="/dashboard/profesional/pacientes" className="bg-white border border-gray-100 rounded-xl p-5 hover:border-[#2D6A4F]/30 transition">
+          <Link href="/dashboard/profesional/pacientes" className="bg-white border border-gray-100 rounded-xl p-5 hover:border-[#40916C]/30 transition">
             <p className="font-medium text-sm text-gray-800">Mis pacientes</p>
             <p className="text-xs text-gray-400 mt-1">Historial y notas de sesión</p>
           </Link>

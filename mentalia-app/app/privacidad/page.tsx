@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 
 export const metadata = {
   title: "Política de Privacidad — Mentalia",
@@ -10,7 +10,7 @@ export default function PrivacidadPage() {
     <div className="min-h-screen" style={{ background: "#FDFCFA" }}>
 
       {/* NAV */}
-      <header className="sticky top-0 z-50" style={{ background: "#2D6A4F" }}>
+      <header className="sticky top-0 z-50" style={{ background: "#40916C" }}>
         <div className="max-w-6xl mx-auto px-6 h-14 flex items-center justify-between">
           <Link href="/" className="text-lg font-bold italic text-white" style={{ fontFamily: "Georgia, serif" }}>
             Mentalia
@@ -25,8 +25,8 @@ export default function PrivacidadPage() {
       <main className="max-w-3xl mx-auto px-6 py-16">
 
         <div className="mb-10">
-          <p className="text-xs font-semibold uppercase tracking-widest mb-2" style={{ color: "#2D6A4F" }}>Legal</p>
-          <h1 className="text-3xl font-bold mb-2" style={{ fontFamily: "Georgia, serif", color: "#2D6A4F" }}>
+          <p className="text-xs font-semibold uppercase tracking-widest mb-2" style={{ color: "#40916C" }}>Legal</p>
+          <h1 className="text-3xl font-bold mb-2" style={{ fontFamily: "Georgia, serif", color: "#40916C" }}>
             Política de Privacidad
           </h1>
           <p className="text-sm" style={{ color: "#9CA3AF" }}>Vigente desde mayo de 2025</p>
@@ -36,18 +36,18 @@ export default function PrivacidadPage() {
 
           {/* 1 */}
           <section>
-            <h2 className="text-base font-semibold mb-3" style={{ color: "#2D6A4F" }}>1. Responsable del tratamiento de datos</h2>
+            <h2 className="text-base font-semibold mb-3" style={{ color: "#40916C" }}>1. Responsable del tratamiento de datos</h2>
             <p>El responsable del tratamiento de los datos personales recolectados a través de esta plataforma es:</p>
             <ul className="mt-3 space-y-1 pl-4">
               <li><strong>Nombre:</strong> Mentalia</li>
-              <li><strong>Email de contacto:</strong> <a href="mailto:privacidad@mentalia.com.ar" className="underline" style={{ color: "#2D6A4F" }}>privacidad@mentalia.com.ar</a></li>
+              <li><strong>Email de contacto:</strong> <a href="mailto:privacidad@mentalia.com.ar" className="underline" style={{ color: "#40916C" }}>privacidad@mentalia.com.ar</a></li>
               <li><strong>País:</strong> República Argentina</li>
             </ul>
           </section>
 
           {/* 2 */}
           <section>
-            <h2 className="text-base font-semibold mb-3" style={{ color: "#2D6A4F" }}>2. Qué datos recolectamos</h2>
+            <h2 className="text-base font-semibold mb-3" style={{ color: "#40916C" }}>2. Qué datos recolectamos</h2>
             <div className="space-y-4">
               <div>
                 <p className="font-medium mb-1">Datos de registro</p>
@@ -78,7 +78,7 @@ export default function PrivacidadPage() {
 
           {/* 3 */}
           <section>
-            <h2 className="text-base font-semibold mb-3" style={{ color: "#2D6A4F" }}>3. Para qué usamos los datos</h2>
+            <h2 className="text-base font-semibold mb-3" style={{ color: "#40916C" }}>3. Para qué usamos los datos</h2>
             <ul className="space-y-2 pl-4 list-disc" style={{ color: "#6B7280" }}>
               <li>Prestar el servicio de gestión de consultorio digital.</li>
               <li>Enviar emails transaccionales: confirmación de registro, recordatorios de turno, confirmación de pago y notificaciones de nuevas sesiones.</li>
@@ -90,7 +90,7 @@ export default function PrivacidadPage() {
 
           {/* 4 */}
           <section>
-            <h2 className="text-base font-semibold mb-3" style={{ color: "#2D6A4F" }}>4. Con quién compartimos los datos</h2>
+            <h2 className="text-base font-semibold mb-3" style={{ color: "#40916C" }}>4. Con quién compartimos los datos</h2>
             <div className="space-y-3" style={{ color: "#6B7280" }}>
               <p><strong className="text-gray-800">Supabase:</strong> proveedor de base de datos y autenticación. Los datos se almacenan en servidores de AWS región us-east-1. Supabase actúa como encargado del tratamiento bajo contrato de confidencialidad.</p>
               <p><strong className="text-gray-800">OpenAI:</strong> únicamente el texto de las notas clínicas es enviado a la API de OpenAI para generar el resumen post-sesión. No se envían datos identificatorios del paciente (nombre, email, DNI). El profesional puede optar por no usar esta funcionalidad.</p>
@@ -102,7 +102,7 @@ export default function PrivacidadPage() {
 
           {/* 5 */}
           <section>
-            <h2 className="text-base font-semibold mb-3" style={{ color: "#2D6A4F" }}>5. Por cuánto tiempo guardamos los datos</h2>
+            <h2 className="text-base font-semibold mb-3" style={{ color: "#40916C" }}>5. Por cuánto tiempo guardamos los datos</h2>
             <ul className="space-y-2 pl-4 list-disc" style={{ color: "#6B7280" }}>
               <li>Los datos se conservan mientras la cuenta esté activa.</li>
               <li>Al solicitar la eliminación de la cuenta, los datos personales se eliminan en un plazo máximo de 30 días hábiles.</li>
@@ -112,7 +112,7 @@ export default function PrivacidadPage() {
 
           {/* 6 */}
           <section>
-            <h2 className="text-base font-semibold mb-3" style={{ color: "#2D6A4F" }}>6. Tus derechos — Ley 25.326 (Argentina)</h2>
+            <h2 className="text-base font-semibold mb-3" style={{ color: "#40916C" }}>6. Tus derechos — Ley 25.326 (Argentina)</h2>
             <p style={{ color: "#6B7280" }}>En cumplimiento de la Ley N° 25.326 de Protección de Datos Personales, tenés derecho a:</p>
             <ul className="mt-3 space-y-2 pl-4 list-disc" style={{ color: "#6B7280" }}>
               <li><strong className="text-gray-700">Acceso:</strong> solicitar qué datos tenemos sobre vos.</li>
@@ -122,7 +122,7 @@ export default function PrivacidadPage() {
             </ul>
             <p className="mt-3" style={{ color: "#6B7280" }}>
               Para ejercer cualquiera de estos derechos, escribí a{" "}
-              <a href="mailto:privacidad@mentalia.com.ar" className="underline" style={{ color: "#2D6A4F" }}>privacidad@mentalia.com.ar</a>.
+              <a href="mailto:privacidad@mentalia.com.ar" className="underline" style={{ color: "#40916C" }}>privacidad@mentalia.com.ar</a>.
               Respondemos en un plazo máximo de 10 días hábiles.
             </p>
             <p className="mt-2 text-xs" style={{ color: "#9CA3AF" }}>
@@ -133,7 +133,7 @@ export default function PrivacidadPage() {
 
           {/* 7 */}
           <section>
-            <h2 className="text-base font-semibold mb-3" style={{ color: "#2D6A4F" }}>7. Seguridad</h2>
+            <h2 className="text-base font-semibold mb-3" style={{ color: "#40916C" }}>7. Seguridad</h2>
             <ul className="space-y-2 pl-4 list-disc" style={{ color: "#6B7280" }}>
               <li>Toda la comunicación entre tu dispositivo y nuestros servidores está encriptada mediante HTTPS/TLS.</li>
               <li>La autenticación está gestionada por Supabase Auth, que implementa estándares de seguridad modernos (JWT, hashing de contraseñas con bcrypt).</li>
@@ -144,7 +144,7 @@ export default function PrivacidadPage() {
 
           {/* 8 */}
           <section>
-            <h2 className="text-base font-semibold mb-3" style={{ color: "#2D6A4F" }}>8. Cambios a esta política</h2>
+            <h2 className="text-base font-semibold mb-3" style={{ color: "#40916C" }}>8. Cambios a esta política</h2>
             <p style={{ color: "#6B7280" }}>
               Podemos actualizar esta política de privacidad periódicamente. Cuando lo hagamos, te notificaremos por email con al menos 15 días de anticipación. La fecha de vigencia en la parte superior de este documento siempre reflejará la versión actual.
             </p>
@@ -156,14 +156,14 @@ export default function PrivacidadPage() {
       {/* FOOTER */}
       <footer className="border-t py-8 mt-16" style={{ borderColor: "rgba(45,106,79,0.15)" }}>
         <div className="max-w-5xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4">
-          <span className="text-base font-bold italic" style={{ fontFamily: "Georgia, serif", color: "#2D6A4F" }}>Mentalia</span>
+          <span className="text-base font-bold italic" style={{ fontFamily: "Georgia, serif", color: "#40916C" }}>Mentalia</span>
           <p className="text-xs text-center" style={{ color: "#9CA3AF" }}>
             © {new Date().getFullYear()} Mentalia · Plataforma de salud mental · Argentina
           </p>
           <div className="flex gap-5 text-xs" style={{ color: "#9CA3AF" }}>
-            <Link href="/privacidad" className="hover:text-[#2D6A4F] transition font-medium" style={{ color: "#2D6A4F" }}>Privacidad</Link>
-            <Link href="/terminos" className="hover:text-[#2D6A4F] transition">Términos</Link>
-            <Link href="/login" className="hover:text-[#2D6A4F] transition">Login</Link>
+            <Link href="/privacidad" className="hover:text-[#40916C] transition font-medium" style={{ color: "#40916C" }}>Privacidad</Link>
+            <Link href="/terminos" className="hover:text-[#40916C] transition">Términos</Link>
+            <Link href="/login" className="hover:text-[#40916C] transition">Login</Link>
           </div>
         </div>
       </footer>
