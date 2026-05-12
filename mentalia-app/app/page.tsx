@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import Link from "next/link";
+import MobileNav from "@/components/landing/MobileNav";
 
 export default async function Home() {
   const supabase = createClient();
@@ -20,7 +21,7 @@ export default async function Home() {
     <div className="min-h-screen" style={{ background: "#FDFCFA", fontFamily: "system-ui, sans-serif" }}>
 
       {/* NAV */}
-      <header className="sticky top-0 z-50" style={{ background: "#2D6A4F" }}>
+      <header className="sticky top-0 z-50 relative" style={{ background: "#2D6A4F" }}>
         <div className="max-w-6xl mx-auto px-6 h-14 flex items-center justify-between">
           <span className="text-lg font-bold italic" style={{ fontFamily: "Georgia, serif", color: "white" }}>
             Mentalia
@@ -31,12 +32,13 @@ export default async function Home() {
             <a href="#quienes" className="text-xs font-medium text-green-100/70 hover:text-white transition">Para quién</a>
           </nav>
           <div className="flex items-center gap-3">
-            <Link href="/login" className="text-xs font-medium text-green-100/80 hover:text-white transition">
+            <Link href="/login" className="hidden md:inline text-xs font-medium text-green-100/80 hover:text-white transition">
               Iniciar sesión
             </Link>
-            <Link href="/registro" className="text-xs font-semibold px-4 py-2 rounded-lg transition hover:opacity-90" style={{ background: "#D8F3DC", color: "#2D6A4F" }}>
+            <Link href="/registro" className="hidden md:inline text-xs font-semibold px-4 py-2 rounded-lg transition hover:opacity-90" style={{ background: "#D8F3DC", color: "#2D6A4F" }}>
               Empezar gratis
             </Link>
+            <MobileNav />
           </div>
         </div>
       </header>
@@ -375,6 +377,35 @@ export default async function Home() {
         </div>
       </section>
 
+      {/* FAQ */}
+      <section className="py-16 border-t border-gray-100" style={{ background: "#f7faf8" }}>
+        <div className="max-w-3xl mx-auto px-6">
+          <p className="text-xs font-semibold text-center uppercase tracking-widest mb-2" style={{ color: "#2D6A4F" }}>Preguntas frecuentes</p>
+          <h2 className="text-2xl md:text-3xl font-bold text-center mb-10" style={{ fontFamily: "Georgia, serif", color: "#2D6A4F" }}>
+            Todo lo que querés saber
+          </h2>
+          <div className="space-y-3">
+            {[
+              { q: "¿Necesito tarjeta de crédito para empezar?", a: "No. El período de prueba de 10 días es completamente gratis y no requiere ningún dato de pago." },
+              { q: "¿Los datos de mis pacientes están protegidos?", a: "Sí. Toda la información se almacena cifrada y cumple con la Ley 25.326 de Protección de Datos Personales de Argentina." },
+              { q: "¿Puedo usar Mentalia para sesiones presenciales?", a: "Sí. Podés registrar sesiones presenciales y llevar la historia clínica sin usar la videollamada." },
+              { q: "¿Qué pasa si supero el límite de pacientes del plan Starter?", a: "Podés actualizar al plan Pro en cualquier momento sin perder ningún dato. El cambio es inmediato." },
+              { q: "¿Puedo cancelar cuando quiero?", a: "Sí. Podés cancelar tu suscripción en cualquier momento desde el panel. No hay períodos mínimos ni penalidades." },
+            ].map((item, i) => (
+              <details key={i} className="bg-white border border-gray-100 rounded-xl group">
+                <summary className="px-5 py-4 text-sm font-medium cursor-pointer list-none flex items-center justify-between gap-4" style={{ color: "#111827" }}>
+                  {item.q}
+                  <svg className="w-4 h-4 flex-shrink-0 transition-transform group-open:rotate-180" style={{ color: "#9CA3AF" }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </summary>
+                <p className="px-5 pb-4 text-xs leading-relaxed" style={{ color: "#6B7280" }}>{item.a}</p>
+              </details>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* CTA FINAL */}
       <section className="py-16 border-t border-gray-100" style={{ background: "#2D6A4F" }}>
         <div className="max-w-3xl mx-auto px-6 text-center">
@@ -405,7 +436,7 @@ export default async function Home() {
           <div className="flex gap-5 text-xs" style={{ color: "#9CA3AF" }}>
             <Link href="/privacidad" className="hover:text-[#2D6A4F] transition">Privacidad</Link>
             <Link href="/terminos" className="hover:text-[#2D6A4F] transition">Términos</Link>
-            <Link href="/login" className="hover:text-[#2D6A4F] transition">Login</Link>
+            <a href="mailto:hola@mentalia.com.ar" className="hover:text-[#2D6A4F] transition">Contacto</a>
           </div>
         </div>
       </footer>

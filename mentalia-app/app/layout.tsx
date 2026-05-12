@@ -3,8 +3,22 @@ import "./globals.css";
 import PWARegister from "@/components/PWARegister";
 
 export const metadata: Metadata = {
-  title: "Mentalia",
-  description: "El copiloto de IA para psicólogos latinoamericanos.",
+  title: "Mentalia — Consultorio digital para psicólogos",
+  description: "Plataforma de salud mental para psicólogos argentinos. Videollamadas, historia clínica digital, resumen clínico con IA y seguimiento del paciente. 10 días gratis, sin tarjeta.",
+  metadataBase: new URL("https://mentalia-app.vercel.app"),
+  openGraph: {
+    title: "Mentalia — Consultorio digital para psicólogos",
+    description: "Gestión completa del consultorio: agenda, historia clínica, videollamadas y resumen clínico con IA. Argentina.",
+    url: "https://mentalia-app.vercel.app",
+    siteName: "Mentalia",
+    locale: "es_AR",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Mentalia — Consultorio digital para psicólogos",
+    description: "Gestión completa del consultorio: agenda, historia clínica, videollamadas y resumen clínico con IA.",
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

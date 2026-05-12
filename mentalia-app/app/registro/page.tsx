@@ -9,6 +9,8 @@ export default function RegistroPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [matricula, setMatricula] = useState("");
+  const [rol, setRol] = useState<"professional" | "patient">("professional");
+  const [terminos, setTerminos] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const router = useRouter();
@@ -17,6 +19,10 @@ export default function RegistroPage() {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError("");
+    if (!terminos) {
+      setError("Debés aceptar los términos y condiciones.");
+      return;
+    }
     setLoading(true);
 
     const { data, error: signUpError } = await supabase.auth.signUp({
@@ -31,12 +37,11 @@ export default function RegistroPage() {
       return;
     }
 
-    // Crear profile con rol profesional
     const { error: profileError } = await supabase.from("profiles").upsert({
       id: data.user.id,
       email,
       full_name: nombre,
-      role: "professional",
+      role: rol,
     });
 
     if (profileError) {
@@ -45,19 +50,20 @@ export default function RegistroPage() {
       return;
     }
 
-    // Crear registro en professionals
-    await supabase.from("professionals").upsert({
-      id: data.user.id,
-      license_number: matricula || null,
-    });
+    if (rol === "professional") {
+      await supabase.from("professionals").upsert({
+        id: data.user.id,
+        license_number: matricula || null,
+      });
+    }
 
     fetch("/api/emails/bienvenida", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, nombre, rol: "professional" }),
+      body: JSON.stringify({ email, nombre, rol }),
     }).catch(() => {});
 
-    router.push("/dashboard/profesional");
+    router.push(rol === "professional" ? "/dashboard/profesional" : "/dashboard/paciente");
     router.refresh();
   }
 
@@ -82,6 +88,25 @@ export default function RegistroPage() {
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Soy</label>
+            <div className="grid grid-cols-2 gap-2">
+              <button
+                type="button"
+                onClick={() => setRol("professional")}
+                className={`py-2.5 text-sm font-medium rounded-lg border transition ${rol === "professional" ? "border-[#2D6A4F] bg-[#2D6A4F] text-white" : "border-gray-200 text-gray-600 hover:border-[#2D6A4F]/40"}`}
+              >
+                Profesional
+              </button>
+              <button
+                type="button"
+                onClick={() => setRol("patient")}
+                className={`py-2.5 text-sm font-medium rounded-lg border transition ${rol === "patient" ? "border-[#2D6A4F] bg-[#2D6A4F] text-white" : "border-gray-200 text-gray-600 hover:border-[#2D6A4F]/40"}`}
+              >
+                Paciente
+              </button>
+            </div>
+          </div>
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Nombre completo</label>
             <input
@@ -116,18 +141,35 @@ export default function RegistroPage() {
               className="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#2D6A4F] focus:border-transparent"
             />
           </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Matrícula <span className="text-gray-400 font-normal">(opcional)</span>
-            </label>
+          {rol === "professional" && (
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Matrícula <span className="text-gray-400 font-normal">(opcional)</span>
+              </label>
+              <input
+                type="text"
+                value={matricula}
+                onChange={e => setMatricula(e.target.value)}
+                placeholder="MP 12345"
+                className="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#2D6A4F] focus:border-transparent"
+              />
+            </div>
+          )}
+
+          <label className="flex items-start gap-2.5 cursor-pointer">
             <input
-              type="text"
-              value={matricula}
-              onChange={e => setMatricula(e.target.value)}
-              placeholder="MP 12345"
-              className="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#2D6A4F] focus:border-transparent"
+              type="checkbox"
+              checked={terminos}
+              onChange={e => setTerminos(e.target.checked)}
+              className="mt-0.5 accent-[#2D6A4F]"
             />
-          </div>
+            <span className="text-xs text-gray-500 leading-relaxed">
+              Acepto los{" "}
+              <a href="/terminos" target="_blank" className="text-[#2D6A4F] hover:underline">términos y condiciones</a>
+              {" "}y la{" "}
+              <a href="/privacidad" target="_blank" className="text-[#2D6A4F] hover:underline">política de privacidad</a>
+            </span>
+          </label>
 
           {error && <p className="text-sm text-red-500">{error}</p>}
 
@@ -136,7 +178,7 @@ export default function RegistroPage() {
             disabled={loading}
             className="w-full bg-[#2D6A4F] text-white rounded-lg py-2.5 text-sm font-medium hover:bg-[#235a41] transition disabled:opacity-60"
           >
-            {loading ? "Creando cuenta..." : "Empezar gratis — 10 días sin tarjeta"}
+            {loading ? "Creando cuenta..." : rol === "professional" ? "Empezar gratis — 10 días sin tarjeta" : "Crear mi cuenta"}
           </button>
         </form>
 
