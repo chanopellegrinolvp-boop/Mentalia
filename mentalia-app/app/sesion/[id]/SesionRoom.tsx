@@ -294,13 +294,21 @@ export default function SesionRoom({
                     </div>
                   )}
 
-                  <button
-                    onClick={generarResumenIA}
-                    disabled={generandoIA}
-                    className="text-xs text-gray-400 hover:text-[#2D6A4F] transition"
-                  >
-                    Regenerar resumen
-                  </button>
+                  <div className="flex items-center justify-between">
+                    <button
+                      onClick={generarResumenIA}
+                      disabled={generandoIA}
+                      className="text-xs text-gray-400 hover:text-[#2D6A4F] transition"
+                    >
+                      Regenerar resumen
+                    </button>
+                    <Link
+                      href="/dashboard/profesional"
+                      className="text-xs bg-[#2D6A4F] text-white px-4 py-2 rounded-lg hover:bg-[#235a41] transition"
+                    >
+                      Volver al dashboard →
+                    </Link>
+                  </div>
                 </div>
               )}
 

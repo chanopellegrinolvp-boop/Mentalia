@@ -8,14 +8,16 @@ export default function NuevaSesionForm({ pacienteId, profesionalId }: { pacient
   const [hora, setHora] = useState("");
   const [duracion, setDuracion] = useState("55");
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
   const router = useRouter();
   const supabase = createClient();
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setLoading(true);
+    setError("");
     const scheduled_at = new Date(`${fecha}T${hora}`).toISOString();
-    const { data, error } = await supabase.from("appointments").insert({
+    const { data, error: err } = await supabase.from("appointments").insert({
       professional_id: profesionalId,
       paciente_id: pacienteId,
       scheduled_at,
@@ -24,9 +26,11 @@ export default function NuevaSesionForm({ pacienteId, profesionalId }: { pacient
     }).select("id").single();
 
     setLoading(false);
-    if (!error && data) {
-      router.push(`/sesion/${data.id}`);
+    if (err || !data) {
+      setError("No se pudo programar la sesión. Intentá de nuevo.");
+      return;
     }
+    router.push(`/sesion/${data.id}`);
   }
 
   return (
@@ -66,6 +70,8 @@ export default function NuevaSesionForm({ pacienteId, profesionalId }: { pacient
           <option value="90">90 minutos</option>
         </select>
       </div>
+      {error && <p className="text-sm text-red-500">{error}</p>}
+
       <button
         type="submit"
         disabled={loading}

@@ -29,15 +29,17 @@ export default function PerfilForm({ profile, pro }: { profile: any; pro: any })
   const [available, setAvailable] = useState(pro?.is_available ?? true);
   const [guardando, setGuardando] = useState(false);
   const [ok, setOk] = useState(false);
+  const [error, setError] = useState("");
 
   const guardar = async () => {
     setGuardando(true);
     setOk(false);
+    setError("");
     const { data: { user } } = await supabase.auth.getUser();
-    if (!user) return;
+    if (!user) { setGuardando(false); return; }
 
-    await supabase.from("profiles").update({ full_name: fullName, phone }).eq("id", user.id);
-    await supabase.from("professionals").update({
+    const { error: e1 } = await supabase.from("profiles").update({ full_name: fullName, phone }).eq("id", user.id);
+    const { error: e2 } = await supabase.from("professionals").update({
       bio,
       specialty,
       license_number: license,
@@ -50,8 +52,12 @@ export default function PerfilForm({ profile, pro }: { profile: any; pro: any })
     }).eq("id", user.id);
 
     setGuardando(false);
-    setOk(true);
-    setTimeout(() => setOk(false), 3000);
+    if (e1 || e2) {
+      setError("No se pudo guardar. Intentá de nuevo.");
+    } else {
+      setOk(true);
+      setTimeout(() => setOk(false), 3000);
+    }
   };
 
   return (
@@ -121,6 +127,8 @@ export default function PerfilForm({ profile, pro }: { profile: any; pro: any })
           </div>
         </div>
       </div>
+
+      {error && <p className="text-sm text-red-500 text-center">{error}</p>}
 
       <button
         onClick={guardar}

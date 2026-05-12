@@ -26,6 +26,7 @@ export default function DiarioForm() {
   const [emociones, setEmociones] = useState<string[]>([]);
   const [guardando, setGuardando] = useState(false);
   const [guardado, setGuardado] = useState(false);
+  const [error, setError] = useState("");
 
   const toggleEmocion = (e: string) => {
     setEmociones(prev => prev.includes(e) ? prev.filter(x => x !== e) : [...prev, e]);
@@ -33,13 +34,13 @@ export default function DiarioForm() {
 
   const guardar = async () => {
     setGuardando(true);
+    setError("");
     const { data: { user } } = await supabase.auth.getUser();
-    if (!user) return;
+    if (!user) { setGuardando(false); return; }
 
     const hoy = new Date().toISOString().split("T")[0];
 
-    // Upsert por paciente + fecha (un registro por día)
-    const { error } = await supabase
+    const { error: err } = await supabase
       .from("emotional_diary")
       .upsert({
         patient_id: user.id,
@@ -50,9 +51,11 @@ export default function DiarioForm() {
       }, { onConflict: "patient_id,date" });
 
     setGuardando(false);
-    if (!error) {
+    if (!err) {
       setGuardado(true);
       router.refresh();
+    } else {
+      setError("No se pudo guardar. Intentá de nuevo.");
     }
   };
 
@@ -120,6 +123,8 @@ export default function DiarioForm() {
           className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm resize-none focus:outline-none focus:border-[#2D6A4F]/50 focus:ring-1 focus:ring-[#2D6A4F]/20"
         />
       </div>
+
+      {error && <p className="text-sm text-red-500">{error}</p>}
 
       <button
         onClick={guardar}

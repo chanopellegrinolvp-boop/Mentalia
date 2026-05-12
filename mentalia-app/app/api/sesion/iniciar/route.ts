@@ -25,9 +25,9 @@ export async function POST(req: NextRequest) {
     const dailyKey = process.env.DAILY_API_KEY;
 
     if (!dailyKey) {
-      // Sin Daily.co configurado: usar sala genérica para demo
+      // Sin Daily.co: usar Jitsi Meet como fallback
       roomName = `mentalia-${sesionId.slice(0, 8)}`;
-      roomUrl = `https://meet.daily.co/${roomName}`;
+      roomUrl = `https://meet.jit.si/${roomName}`;
     } else {
       const res = await fetch("https://api.daily.co/v1/rooms", {
         method: "POST",
