@@ -40,7 +40,7 @@ export default function PrivacidadPage() {
             <p>El responsable del tratamiento de los datos personales recolectados a través de esta plataforma es:</p>
             <ul className="mt-3 space-y-1 pl-4">
               <li><strong>Nombre:</strong> Mentalia</li>
-              <li><strong>Email de contacto:</strong> <a href="mailto:privacidad@mentalia.com.ar" className="underline" style={{ color: "#40916C" }}>privacidad@mentalia.com.ar</a></li>
+              <li><strong>Email de contacto:</strong> <a href="mailto:privacidad@mentaliasalud.lat" className="underline" style={{ color: "#40916C" }}>privacidad@mentaliasalud.lat</a></li>
               <li><strong>País:</strong> República Argentina</li>
             </ul>
           </section>
@@ -122,7 +122,7 @@ export default function PrivacidadPage() {
             </ul>
             <p className="mt-3" style={{ color: "#6B7280" }}>
               Para ejercer cualquiera de estos derechos, escribí a{" "}
-              <a href="mailto:privacidad@mentalia.com.ar" className="underline" style={{ color: "#40916C" }}>privacidad@mentalia.com.ar</a>.
+              <a href="mailto:privacidad@mentaliasalud.lat" className="underline" style={{ color: "#40916C" }}>privacidad@mentaliasalud.lat</a>.
               Respondemos en un plazo máximo de 10 días hábiles.
             </p>
             <p className="mt-2 text-xs" style={{ color: "#9CA3AF" }}>

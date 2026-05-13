@@ -23,7 +23,7 @@ function base(content: string) {
   </div>
   <div style="padding:36px 40px;">${content}</div>
   <div style="padding:20px 40px;border-top:1px solid #f3f4f6;text-align:center;">
-    <p style="color:#9ca3af;font-size:12px;margin:0;">mentalia.com.ar · Buenos Aires, Argentina</p>
+    <p style="color:#9ca3af;font-size:12px;margin:0;">mentaliasalud.lat · Buenos Aires, Argentina</p>
   </div>
 </div>
 </body></html>`;

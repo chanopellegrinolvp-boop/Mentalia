@@ -190,7 +190,7 @@ export default function HistoriaClient({ professionalId, patients }: { professio
     </div>
   `).join("")}
   <div class="footer">
-    <p>Mentalia — Plataforma de gestión clínica · mentalia.com.ar</p>
+    <p>Mentalia — Plataforma de gestión clínica · mentaliasalud.lat</p>
     <p>Documento confidencial · Solo para uso profesional · No compartir sin autorización del paciente</p>
   </div>
 </body>

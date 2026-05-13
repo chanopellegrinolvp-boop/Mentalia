@@ -1,9 +1,11 @@
-Colocar aquí las capturas de pantalla para Play Store.
-Tamaño requerido: 390x844px (móvil) o 1280x720px (tablet)
-Mínimo 2 screenshots requeridos por Google Play.
+Assets para Play Store — Mentalia
+==================================
+Archivos requeridos (colocar en esta carpeta):
+- mentalia-banner-playstore.png (1024x500px) → Feature Graphic
+- mentalia-screenshot-01.png → Screenshot 1 (dos teléfonos dashboard)
+- mentalia-screenshot-02.png → Screenshot 2 (diario emocional)
 
-Cómo obtenerlas:
-1. Abrir Chrome DevTools (F12)
-2. Activar modo dispositivo (Ctrl+Shift+M)
-3. Seleccionar "iPhone 12 Pro" (390x844)
-4. Navegar al dashboard y tomar screenshot con el botón de la cámara en DevTools
+Subir en Play Console:
+1. Feature Graphic → Store listing → Featured graphic
+2. Screenshots → Store listing → Phone screenshots (mínimo 2)
+3. Ícono → Store listing → App icon (usar /public/icon-512.png)

@@ -24,15 +24,6 @@
       "purpose": "any maskable"
     }
   ],
-  "screenshots": [
-    {
-      "src": "/screenshots/dashboard-mobile.png",
-      "sizes": "390x844",
-      "type": "image/png",
-      "form_factor": "narrow",
-      "label": "Dashboard del profesional"
-    }
-  ],
   "categories": ["medical", "health"],
   "prefer_related_applications": false
 }

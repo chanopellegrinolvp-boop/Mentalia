@@ -1,36 +1,97 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Mentalia — Plataforma de Salud Mental
 
-## Getting Started
+SaaS B2B2C para psicólogos y pacientes argentinos. El profesional gestiona
+su consultorio digital (agenda, historia clínica, videollamadas, cobros).
+El paciente accede a sus sesiones, diario emocional y seguimiento.
 
-First, run the development server:
+## Stack
+- **Framework:** Next.js 14 App Router + TypeScript
+- **Estilos:** Tailwind CSS
+- **Base de datos / Auth:** Supabase (PostgreSQL + RLS + Auth)
+- **IA:** OpenAI GPT-4o (resumen clínico post-sesión)
+- **Videollamadas:** Jitsi Meet embebido
+- **Emails:** Resend
+- **Pagos:** MercadoPago Checkout Pro
+- **Deploy:** Vercel
+- **PWA:** Instalable en Android e iOS
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## Variables de entorno requeridas
+
+Crear un archivo `.env.local` con:
+
+```
+NEXT_PUBLIC_SUPABASE_URL=
+NEXT_PUBLIC_SUPABASE_ANON_KEY=
+SUPABASE_SERVICE_ROLE_KEY=
+NEXT_PUBLIC_SITE_URL=https://mentaliasalud.lat
+OPENAI_API_KEY=
+RESEND_API_KEY=
+EMAIL_FROM=
+MP_ACCESS_TOKEN=
+NEXT_PUBLIC_MP_PUBLIC_KEY=
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Correr localmente
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+cd mentalia-app
+npm install
+npm run dev
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Estructura principal
 
-## Learn More
+```
+mentalia-app/
+├── app/
+│   ├── api/              # API routes (pagos, emails, IA, sesiones)
+│   ├── dashboard/
+│   │   ├── profesional/  # Dashboard del profesional
+│   │   └── paciente/     # Dashboard del paciente
+│   ├── login/
+│   ├── registro/
+│   ├── privacidad/
+│   └── terminos/
+├── components/
+│   ├── app/              # Sidebar, BotonesPlanes, etc.
+│   └── landing/          # Componentes de la landing page
+├── lib/                  # Supabase client, Resend, helpers
+├── public/               # Assets, manifest.json, sw.js, íconos
+└── supabase/             # SQL de RLS policies
+```
 
-To learn more about Next.js, take a look at the following resources:
+## Rutas principales
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Públicas
+- `/` — Landing page
+- `/login` — Iniciar sesión
+- `/registro` — Crear cuenta (profesional o paciente)
+- `/privacidad` — Política de privacidad
+- `/terminos` — Términos y condiciones
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Dashboard Profesional
+- `/dashboard/profesional` — Home con stats
+- `/dashboard/profesional/agenda` — Calendario
+- `/dashboard/profesional/pacientes` — Lista de pacientes
+- `/dashboard/profesional/historia` — Historias clínicas
+- `/dashboard/profesional/estadisticas` — KPIs y gráficos
+- `/dashboard/profesional/pagos` — Historial de ingresos
 
-## Deploy on Vercel
+### Dashboard Paciente
+- `/dashboard/paciente` — Home
+- `/dashboard/paciente/diario` — Diario emocional
+- `/dashboard/paciente/progreso` — Evolución emocional
+- `/dashboard/paciente/sesiones` — Historial de sesiones
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Deploy
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+El proyecto está deployado en Vercel conectado al repositorio GitHub.
+Cualquier push a `main` genera un deploy automático.
+
+Dominio: https://mentaliasalud.lat
+
+## Play Store
+
+La app está disponible como PWA instalable.
+Assets en `/public/screenshots/`
+Package name: com.mentaliasalud.app
