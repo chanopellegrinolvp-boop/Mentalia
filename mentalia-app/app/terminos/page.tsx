@@ -124,7 +124,7 @@ export default function TerminosPage() {
             <h2 className="text-base font-semibold mb-3" style={{ color: "#40916C" }}>9. Contacto</h2>
             <p style={{ color: "#6B7280" }}>
               Para consultas sobre estos términos escribí a{" "}
-              <a href="mailto:hola@mentaliasalud.lat" className="underline" style={{ color: "#40916C" }}>hola@mentaliasalud.lat</a>.
+              <a href="mailto:hola@mentaliasalud.online" className="underline" style={{ color: "#40916C" }}>hola@mentaliasalud.online</a>.
             </p>
           </section>
 
