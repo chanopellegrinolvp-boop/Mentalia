@@ -17,13 +17,19 @@ export default function LoginPage() {
     e.preventDefault();
     setError("");
     setLoading(true);
-    const { error } = await supabase.auth.signInWithPassword({ email, password });
+    const { error, data } = await supabase.auth.signInWithPassword({ email, password });
     if (error) {
       setError("Email o contraseña incorrectos.");
       setLoading(false);
       return;
     }
-    router.push("/dashboard/profesional");
+    const { data: profile } = await supabase
+      .from("profiles")
+      .select("role")
+      .eq("id", data.user.id)
+      .single();
+    const dest = profile?.role === "patient" ? "/dashboard/paciente" : "/dashboard/profesional";
+    router.push(dest);
     router.refresh();
   }
 
