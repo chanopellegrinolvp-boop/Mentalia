@@ -3,8 +3,10 @@
     "relation": ["delegate_permission/common.handle_all_urls"],
     "target": {
       "namespace": "android_app",
-      "package_name": "com.mentalia.app",
-      "sha256_cert_fingerprints": ["REEMPLAZAR-CON-SHA256-DEL-KEYSTORE"]
+      "package_name": "online.mentaliasalud.twa",
+      "sha256_cert_fingerprints": [
+        "5B:01:B8:AB:6F:8D:E4:DC:96:29:92:01:9E:0D:2E:26:F2:76:49:34:86:C6:DA:2D:54:D4:D3:4D:46:07:C8:9A"
+      ]
     }
   }
 ]
