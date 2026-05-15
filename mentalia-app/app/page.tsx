@@ -306,10 +306,10 @@ export default async function Home() {
                   <span className="text-4xl font-bold" style={{ color: "#40916C" }}>$89</span>
                   <span className="text-sm mb-1" style={{ color: "#9CA3AF" }}>USD/mes</span>
                 </div>
-                <p className="text-xs" style={{ color: "#9CA3AF" }}>$ 85.800 ARS/mes · hasta 5 profesionales</p>
+                <p className="text-xs" style={{ color: "#9CA3AF" }}>$ 85.800 ARS/mes · hasta 3 profesionales</p>
               </div>
               <ul className="px-6 py-5 space-y-3 flex-1">
-                {["Todo lo de Pro incluido", "Hasta 5 profesionales", "Panel de administración", "Reportes del equipo", "Integración MercadoPago", "Onboarding dedicado"].map(f => (
+                {["Todo lo de Pro incluido", "Hasta 3 profesionales", "Panel de administración", "Reportes del equipo", "Integración MercadoPago", "Onboarding dedicado"].map(f => (
                   <li key={f} className="flex items-center gap-2.5 text-xs" style={{ color: "#4B5563" }}>
                     <svg width="15" height="15" viewBox="0 0 15 15" fill="none" className="flex-shrink-0">
                       <circle cx="7.5" cy="7.5" r="7.5" fill="#D8F3DC"/>
