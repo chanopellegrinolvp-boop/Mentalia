@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { createClient } from "@/lib/supabase/client";
 
-type Patient = { id: string; full_name: string; email: string };
+type Patient = { id: string; full_name: string; email: string; tipo?: "online" | "offline" };
 type Note = {
   id: string;
   session_date: string;
@@ -43,7 +43,7 @@ export default function HistoriaClient({ professionalId, patients }: { professio
   const [editingNote, setEditingNote] = useState<Note | null>(null);
   const [saving, setSaving] = useState(false);
   const [iaResumen, setIaResumen] = useState("");
-  const [iaRiesgo, setIaRiesgo] = useState<{ nivel: string; mensaje: string } | null>(null);
+  const [iaRiesgo, setIaRiesgo] = useState<{ nivel: string; indicadores: string[]; recomendaciones: string[] } | null>(null);
   const [loadingIa, setLoadingIa] = useState(false);
   const [resumenSemanal, setResumenSemanal] = useState<ResumenSemanal | null>(null);
   const [loadingRS, setLoadingRS] = useState(false);
@@ -67,11 +67,14 @@ export default function HistoriaClient({ professionalId, patients }: { professio
 
   async function loadNotes(patientId: string) {
     setLoadingNotes(true);
+    const patient = patients.find(p => p.id === patientId);
+    const isOffline = patient?.tipo === "offline";
+
     const { data } = await supabase
       .from("session_notes")
       .select("*")
       .eq("professional_id", professionalId)
-      .eq("patient_id", patientId)
+      .eq(isOffline ? "paciente_id" : "patient_id", patientId)
       .order("session_date", { ascending: false });
     setNotes((data as Note[]) ?? []);
     setLoadingNotes(false);
@@ -94,9 +97,10 @@ export default function HistoriaClient({ professionalId, patients }: { professio
     if (!selectedPatient || !form.content.trim()) return;
     setSaving(true);
 
+    const isOffline = selectedPatient.tipo === "offline";
     const payload = {
       professional_id: professionalId,
-      patient_id: selectedPatient.id,
+      ...(isOffline ? { paciente_id: selectedPatient.id } : { patient_id: selectedPatient.id }),
       session_date: form.session_date,
       content: form.content.trim(),
       mood_rating: form.mood_rating,
@@ -106,7 +110,7 @@ export default function HistoriaClient({ professionalId, patients }: { professio
     if (editingNote) {
       await supabase.from("session_notes").update({ ...payload, updated_at: new Date().toISOString() }).eq("id", editingNote.id);
     } else {
-      await supabase.from("session_notes").insert(payload);
+      await supabase.from("session_notes").insert(payload as unknown as Record<string, unknown>);
     }
 
     setSaving(false);
@@ -121,8 +125,8 @@ export default function HistoriaClient({ professionalId, patients }: { professio
     setIaRiesgo(null);
 
     const [resRes, riesgoRes] = await Promise.all([
-      fetch("/api/ia/resumen", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ patientId: selectedPatient.id, patientName: selectedPatient.full_name }) }),
-      fetch("/api/ia/riesgo", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ patientId: selectedPatient.id, patientName: selectedPatient.full_name }) }),
+      fetch("/api/ia/resumen", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ notas: notes }) }),
+      fetch("/api/ia/riesgo", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ notas: notes }) }),
     ]);
 
     const resData = await resRes.json();
@@ -140,7 +144,7 @@ export default function HistoriaClient({ professionalId, patients }: { professio
     const res = await fetch("/api/ia/resumen-semanal", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ patientId: selectedPatient.id, patientName: selectedPatient.full_name }),
+      body: JSON.stringify({ notas: notes }),
     });
     const data = await res.json();
     setResumenSemanal(data);
@@ -412,18 +416,35 @@ export default function HistoriaClient({ professionalId, patients }: { professio
                 <h3 className="font-bold text-gray-900 flex items-center gap-2">🧠 Análisis clínico con IA</h3>
 
                 {iaRiesgo && iaRiesgo.nivel !== "sin_datos" && (
-                  <div className="flex items-start gap-3 p-4 rounded-xl" style={{
+                  <div className="p-4 rounded-xl space-y-3" style={{
                     background: iaRiesgo.nivel === "alto" ? "#fee2e2" : iaRiesgo.nivel === "medio" ? "#fef3c7" : "#D8F3DC",
                   }}>
-                    <span className="text-xl">{iaRiesgo.nivel === "alto" ? "🔴" : iaRiesgo.nivel === "medio" ? "🟡" : "🟢"}</span>
-                    <div>
+                    <div className="flex items-center gap-2">
+                      <span className="text-xl">{iaRiesgo.nivel === "alto" ? "🔴" : iaRiesgo.nivel === "medio" ? "🟡" : "🟢"}</span>
                       <p className="text-sm font-bold capitalize" style={{ color: iaRiesgo.nivel === "alto" ? "#991b1b" : iaRiesgo.nivel === "medio" ? "#92400e" : "#40916C" }}>
                         Riesgo emocional: {iaRiesgo.nivel}
                       </p>
-                      <p className="text-sm mt-0.5" style={{ color: iaRiesgo.nivel === "alto" ? "#7f1d1d" : iaRiesgo.nivel === "medio" ? "#78350f" : "#1b4332" }}>
-                        {iaRiesgo.mensaje}
-                      </p>
                     </div>
+                    {iaRiesgo.indicadores?.length > 0 && (
+                      <div>
+                        <p className="text-xs font-bold uppercase tracking-wide mb-1" style={{ color: iaRiesgo.nivel === "alto" ? "#991b1b" : iaRiesgo.nivel === "medio" ? "#92400e" : "#40916C" }}>Indicadores</p>
+                        <ul className="space-y-1">
+                          {iaRiesgo.indicadores.map((ind, i) => (
+                            <li key={i} className="text-sm" style={{ color: iaRiesgo.nivel === "alto" ? "#7f1d1d" : iaRiesgo.nivel === "medio" ? "#78350f" : "#1b4332" }}>· {ind}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                    {iaRiesgo.recomendaciones?.length > 0 && (
+                      <div>
+                        <p className="text-xs font-bold uppercase tracking-wide mb-1" style={{ color: iaRiesgo.nivel === "alto" ? "#991b1b" : iaRiesgo.nivel === "medio" ? "#92400e" : "#40916C" }}>Recomendaciones</p>
+                        <ul className="space-y-1">
+                          {iaRiesgo.recomendaciones.map((rec, i) => (
+                            <li key={i} className="text-sm" style={{ color: iaRiesgo.nivel === "alto" ? "#7f1d1d" : iaRiesgo.nivel === "medio" ? "#78350f" : "#1b4332" }}>→ {rec}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
                   </div>
                 )}
 
