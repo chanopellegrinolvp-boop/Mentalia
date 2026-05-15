@@ -3,7 +3,8 @@ import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import VideoRoom from "./VideoRoom";
 
-export default async function VideoPage({ params }: { params: { sala: string } }) {
+export default async function VideoPage({ params }: { params: Promise<{ sala: string }> }) {
+  const { sala } = await params;
   const supabase = createClient();
   const { data: { user } } = await supabase.auth.getUser();
 
@@ -34,7 +35,7 @@ export default async function VideoPage({ params }: { params: { sala: string } }
           <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
           <span className="text-xs text-green-400 font-medium">Sesión activa</span>
           <span className="text-xs text-white/30">·</span>
-          <span className="text-xs text-white/40 font-mono">{params.sala}</span>
+          <span className="text-xs text-white/40 font-mono">{sala}</span>
         </div>
 
         <Link
@@ -48,7 +49,7 @@ export default async function VideoPage({ params }: { params: { sala: string } }
 
       {/* Video room */}
       <div className="flex-1 overflow-hidden">
-        <VideoRoom sala={params.sala} role={role} />
+        <VideoRoom sala={sala} role={role} />
       </div>
     </div>
   );
