@@ -1,18 +1,26 @@
-﻿import { createClient } from "@/lib/supabase/server";
+import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import Link from "next/link";
+import SolicitudesPanel from "./SolicitudesPanel";
 
 export default async function AgendaPage() {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) redirect("/login");
 
-  const { data: sesiones } = await supabase
-    .from("appointments")
-    .select("id, scheduled_at, duration_minutes, status, paciente_id, pacientes(nombre)")
-    .eq("professional_id", user.id)
-    .order("scheduled_at", { ascending: true })
-    .limit(30);
+  const [{ data: sesiones }, { data: profile }] = await Promise.all([
+    supabase
+      .from("appointments")
+      .select("id, scheduled_at, duration_minutes, status, paciente_id, pacientes(nombre)")
+      .eq("professional_id", user.id)
+      .order("scheduled_at", { ascending: true })
+      .limit(30),
+    supabase
+      .from("profiles")
+      .select("full_name")
+      .eq("id", user.id)
+      .single(),
+  ]);
 
   return (
     <div className="min-h-screen bg-[#FDFCFA]">
@@ -27,6 +35,15 @@ export default async function AgendaPage() {
       </header>
 
       <main className="max-w-4xl mx-auto px-6 py-8">
+        <SolicitudesPanel
+          professionalId={user.id}
+          professionalName={profile?.full_name ?? ""}
+        />
+
+        <div className="flex items-center gap-2 mb-4">
+          <h2 className="font-semibold text-gray-800">Sesiones programadas</h2>
+        </div>
+
         {!sesiones || sesiones.length === 0 ? (
           <div className="border border-dashed border-gray-200 rounded-xl p-12 text-center">
             <p className="text-gray-400 text-sm">No hay sesiones programadas</p>

@@ -1,27 +1,25 @@
-﻿import { createClient } from "@/lib/supabase/server";
+import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
-
-const ESPECIALIDADES: Record<string, string> = {
-  clinica: "Psicología clínica",
-  infanto_juvenil: "Infanto-juvenil",
-  pareja: "Pareja",
-  familia: "Familia",
-  laboral: "Laboral",
-  neuropsicologia: "Neuropsicología",
-  otra: "Otra",
-};
+import BuscarClient from "./BuscarClient";
 
 export default async function BuscarProfesional() {
-  const supabase = createClient();
+  const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) redirect("/login");
 
-  const { data: profesionales } = await supabase
-    .from("professionals")
-    .select("id, specialty, bio, city, province, session_price, years_experience, modality, is_available, profiles(full_name, email)")
-    .eq("is_available", true)
-    .order("created_at", { ascending: false })
-    .limit(30);
+  const [{ data: profesionales }, { data: pacienteProfile }] = await Promise.all([
+    supabase
+      .from("professionals")
+      .select("id, specialty, bio, city, province, session_price, years_experience, modality, is_available, profiles(full_name, email)")
+      .eq("is_available", true)
+      .order("created_at", { ascending: false })
+      .limit(30),
+    supabase
+      .from("profiles")
+      .select("full_name")
+      .eq("id", user.id)
+      .single(),
+  ]);
 
   return (
     <div className="min-h-screen bg-[#FDFCFA]">
@@ -38,55 +36,11 @@ export default async function BuscarProfesional() {
             <p className="text-gray-400 text-sm">No hay profesionales disponibles por el momento</p>
           </div>
         ) : (
-          <div className="space-y-3">
-            {profesionales.map((p: any) => {
-              const profile = Array.isArray(p.profiles) ? p.profiles[0] : p.profiles;
-              return (
-                <div key={p.id} className="bg-white border border-gray-100 rounded-xl px-5 py-5 hover:border-[#40916C]/30 transition">
-                  <div className="flex items-start justify-between gap-4">
-                    <div className="flex-1">
-                      <div className="flex items-center gap-2 flex-wrap">
-                        <p className="font-medium text-gray-900">{profile?.full_name ?? "Profesional"}</p>
-                        {p.is_available && (
-                          <span className="text-xs bg-green-50 text-green-600 px-2 py-0.5 rounded-full">Disponible</span>
-                        )}
-                      </div>
-                      <div className="flex items-center gap-3 mt-1 flex-wrap">
-                        {p.specialty && (
-                          <span className="text-xs text-[#40916C] bg-[#D8F3DC] px-2 py-0.5 rounded-full">
-                            {ESPECIALIDADES[p.specialty] ?? p.specialty}
-                          </span>
-                        )}
-                        {p.city && <span className="text-xs text-gray-400">{p.city}{p.province ? `, ${p.province}` : ""}</span>}
-                        {p.modality && (
-                          <span className="text-xs text-gray-400 capitalize">{p.modality === "online" ? "Online" : p.modality === "presencial" ? "Presencial" : "Online y presencial"}</span>
-                        )}
-                      </div>
-                      {p.bio && <p className="text-sm text-gray-500 mt-2 line-clamp-2">{p.bio}</p>}
-                      <div className="flex items-center gap-4 mt-3">
-                        {p.years_experience > 0 && (
-                          <span className="text-xs text-gray-500">{p.years_experience} años de experiencia</span>
-                        )}
-                        {p.session_price > 0 && (
-                          <span className="text-xs font-medium text-gray-700">
-                            ${Number(p.session_price).toLocaleString("es-AR")} / sesión
-                          </span>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                  <div className="mt-4 flex gap-2">
-                    <a
-                      href={`mailto:${profile?.email}`}
-                      className="text-sm bg-[#40916C] text-white px-4 py-2 rounded-lg hover:bg-[#235a41] transition"
-                    >
-                      Contactar
-                    </a>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
+          <BuscarClient
+            profesionales={profesionales as any}
+            userId={user.id}
+            pacienteNombre={pacienteProfile?.full_name ?? "Paciente"}
+          />
         )}
       </main>
     </div>

@@ -115,6 +115,35 @@ export async function emailPagoConfirmado(opts: {
   await send(opts.to, subject, html);
 }
 
+export async function emailSolicitudConsulta(opts: {
+  to: string;
+  profesionalNombre: string;
+  pacienteNombre: string;
+  motivo: string;
+  modalidad: string;
+  disponibilidad: string[];
+  mensaje?: string;
+}) {
+  const primerNombre = opts.profesionalNombre.split(" ")[0];
+  const modalidadLabel: Record<string, string> = { online: "Online", presencial: "Presencial", sin_preferencia: "Sin preferencia" };
+  const subject = `Nueva solicitud de consulta — ${opts.pacienteNombre}`;
+  const html = base(`
+    <h2 style="color:#111827;margin-top:0;">Nueva solicitud de consulta</h2>
+    <p style="color:#374151;line-height:1.7;">Hola <strong>${primerNombre}</strong>, recibiste una nueva solicitud:</p>
+    <div style="background:#f0faf3;border-radius:12px;padding:20px 24px;margin:20px 0;border-left:4px solid #40916C;">
+      <p style="margin:0 0 8px;color:#374151;"><strong>Paciente:</strong> ${opts.pacienteNombre}</p>
+      <p style="margin:0 0 8px;color:#374151;"><strong>Motivo:</strong> ${opts.motivo}</p>
+      <p style="margin:0 0 8px;color:#374151;"><strong>Modalidad:</strong> ${modalidadLabel[opts.modalidad] ?? opts.modalidad}</p>
+      <p style="margin:0 0 ${opts.mensaje ? "8px" : "0"};color:#374151;"><strong>Disponibilidad:</strong> ${opts.disponibilidad.join(", ")}</p>
+      ${opts.mensaje ? `<p style="margin:0;color:#374151;"><strong>Mensaje:</strong> ${opts.mensaje}</p>` : ""}
+    </div>
+    ${btn("Ver solicitud en Mentalia →", `${process.env.NEXT_PUBLIC_SITE_URL ?? "https://mentaliasalud.online"}/dashboard/profesional/agenda`)}
+    <p style="color:#6B7280;font-size:13px;">El paciente está esperando tu respuesta.</p>
+    ${sig()}
+  `);
+  await send(opts.to, subject, html);
+}
+
 export async function emailNuevoTurnoProfesional(opts: {
   to: string;
   profesionalName: string;
