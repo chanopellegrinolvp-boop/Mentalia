@@ -7,6 +7,10 @@ export const metadata: Metadata = {
   description: "Espacio digital de salud mental que conecta profesionales con quienes cuidan su bienestar.",
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://mentaliasalud.online"),
   manifest: "/manifest.json",
+  icons: {
+    icon: "/icon-192.png",
+    apple: "/icon-192.png",
+  },
   openGraph: {
     title: "Mentalia — Consultorio digital para psicólogos",
     description: "Gestión completa del consultorio: agenda, historia clínica, videollamadas y resumen clínico con IA. Argentina.",
