@@ -52,14 +52,14 @@ export default async function Home() {
         </div>
 
         <span className="inline-block text-xs font-medium px-3 py-1.5 rounded-full mb-6" style={{ background: "#D8F3DC", color: "#40916C" }}>
-          Plataforma de salud mental con IA · Argentina
+          Plataforma de salud mental automatizada
         </span>
-        <h1 className="text-4xl md:text-5xl font-bold leading-tight mb-5" style={{ fontFamily: "Georgia, serif", color: "#40916C" }}>
+        <h1 className="text-4xl md:text-5xl font-bold leading-tight mb-4" style={{ fontFamily: "Georgia, serif", color: "#2D5A45" }}>
           Tu consultorio<br />
           <span className="italic">inteligente</span>
         </h1>
-        <p className="text-base max-w-xl mx-auto mb-10 leading-relaxed" style={{ color: "#6B7280" }}>
-          Videollamadas, historia clínica, resumen automático de sesiones con IA y seguimiento del paciente. Todo en un solo lugar.
+        <p className="text-xl max-w-lg mx-auto mb-10 leading-relaxed italic" style={{ fontFamily: "Georgia, serif", color: "#2D5A45" }}>
+          La forma más simple de ejercer mejor.
         </p>
         <div className="flex flex-col sm:flex-row gap-3 justify-center">
           <Link href="/registro" className="text-sm text-white px-7 py-3.5 rounded-xl font-semibold transition hover:opacity-90 shadow-sm" style={{ background: "#40916C" }}>
