@@ -225,10 +225,10 @@ export default async function Home() {
               </div>
               <div className="px-6 py-5" style={{ borderBottom: "1px solid #f3f4f6" }}>
                 <div className="flex items-end gap-1.5 mb-1">
-                  <span className="text-4xl font-bold" style={{ color: "#40916C" }}>$15</span>
+                  <span className="text-4xl font-bold" style={{ color: "#40916C" }}>$19</span>
                   <span className="text-sm mb-1" style={{ color: "#9CA3AF" }}>USD/mes</span>
                 </div>
-                <p className="text-xs" style={{ color: "#9CA3AF" }}>$ 14.500 ARS/mes</p>
+                <p className="text-xs" style={{ color: "#9CA3AF" }}>$ 18.300 ARS/mes</p>
               </div>
               <ul className="px-6 py-5 space-y-3 flex-1">
                 {["Hasta 15 pacientes activos", "Videollamadas ilimitadas", "Historia clínica digital", "5 resúmenes con IA / mes", "Agenda y gestión de cobros"].map(f => (
@@ -268,12 +268,12 @@ export default async function Home() {
               </div>
               <div className="px-7 py-5" style={{ borderBottom: "1px solid rgba(255,255,255,0.1)" }}>
                 <div className="flex items-end gap-2 mb-1">
-                  <span className="text-sm line-through" style={{ color: "rgba(216,243,220,0.3)" }}>$49</span>
-                  <span className="text-4xl font-bold text-white">$32</span>
+                  <span className="text-sm line-through" style={{ color: "rgba(216,243,220,0.3)" }}>$59</span>
+                  <span className="text-4xl font-bold text-white">$39</span>
                   <span className="text-sm mb-1" style={{ color: "rgba(216,243,220,0.5)" }}>USD/mes</span>
-                  <span className="text-xs font-bold px-2 py-0.5 rounded-md mb-1" style={{ background: "#D8F3DC", color: "#40916C" }}>−35%</span>
+                  <span className="text-xs font-bold px-2 py-0.5 rounded-md mb-1" style={{ background: "#D8F3DC", color: "#40916C" }}>−34%</span>
                 </div>
-                <p className="text-xs" style={{ color: "rgba(216,243,220,0.5)" }}>$ 30.000 ARS/mes · ≈ $2 por sesión</p>
+                <p className="text-xs" style={{ color: "rgba(216,243,220,0.5)" }}>$ 37.600 ARS/mes · ≈ $2.6 por sesión</p>
               </div>
               <ul className="px-7 py-5 space-y-3 flex-1">
                 {["Pacientes ilimitados", "Videollamadas ilimitadas", "Historia clínica completa", "Resúmenes IA ilimitados", "Estadísticas avanzadas", "Soporte prioritario"].map(f => (
@@ -303,10 +303,10 @@ export default async function Home() {
               </div>
               <div className="px-6 py-5" style={{ borderBottom: "1px solid #f3f4f6" }}>
                 <div className="flex items-end gap-1.5 mb-1">
-                  <span className="text-4xl font-bold" style={{ color: "#40916C" }}>$75</span>
+                  <span className="text-4xl font-bold" style={{ color: "#40916C" }}>$89</span>
                   <span className="text-sm mb-1" style={{ color: "#9CA3AF" }}>USD/mes</span>
                 </div>
-                <p className="text-xs" style={{ color: "#9CA3AF" }}>$ 70.000 ARS/mes · hasta 5 profesionales</p>
+                <p className="text-xs" style={{ color: "#9CA3AF" }}>$ 85.800 ARS/mes · hasta 5 profesionales</p>
               </div>
               <ul className="px-6 py-5 space-y-3 flex-1">
                 {["Todo lo de Pro incluido", "Hasta 5 profesionales", "Panel de administración", "Reportes del equipo", "Integración MercadoPago", "Onboarding dedicado"].map(f => (
