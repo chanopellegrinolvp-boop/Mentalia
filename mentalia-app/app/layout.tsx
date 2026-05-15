@@ -4,7 +4,7 @@ import PWARegister from "@/components/PWARegister";
 
 export const metadata: Metadata = {
   title: "Mentalia — Consultorio digital para psicólogos",
-  description: "Plataforma de salud mental para psicólogos argentinos. Videollamadas, historia clínica digital, resumen clínico con IA y seguimiento del paciente. 10 días gratis, sin tarjeta.",
+  description: "Espacio digital de salud mental que conecta profesionales con quienes cuidan su bienestar.",
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://mentaliasalud.online"),
   manifest: "/manifest.json",
   openGraph: {

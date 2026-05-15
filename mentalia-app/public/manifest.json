@@ -1,7 +1,7 @@
 {
   "name": "Mentalia",
   "short_name": "Mentalia",
-  "description": "Plataforma de salud mental para psicólogos y pacientes argentinos",
+  "description": "Espacio digital de salud mental que conecta profesionales con quienes cuidan su bienestar.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#FDFCFA",
