@@ -436,7 +436,7 @@ export default async function Home() {
           <div className="flex gap-5 text-xs" style={{ color: "#9CA3AF" }}>
             <Link href="/privacidad" className="hover:text-[#40916C] transition">Privacidad</Link>
             <Link href="/terminos" className="hover:text-[#40916C] transition">Términos</Link>
-            <a href="mailto:hola@mentaliasalud.online" className="hover:text-[#40916C] transition">Contacto</a>
+            <Link href="/contacto" className="hover:text-[#40916C] transition">Contacto</Link>
           </div>
         </div>
       </footer>
