@@ -71,7 +71,7 @@ export default async function PacienteHome() {
                 </p>
               </div>
               {proxima.started_at ? (
-                <Link href={`/sesion/${proxima.id}`} className="text-sm bg-[#40916C] text-white px-4 py-1.5 rounded-lg hover:bg-[#235a41] transition">
+                <Link href="/dashboard/paciente/videollamada" className="text-sm bg-[#40916C] text-white px-4 py-1.5 rounded-lg hover:bg-[#235a41] transition">
                   Unirse
                 </Link>
               ) : (

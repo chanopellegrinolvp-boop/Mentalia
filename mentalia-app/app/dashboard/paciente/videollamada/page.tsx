@@ -53,7 +53,7 @@ export default async function Videollamada() {
               <p className="text-sm text-gray-500 mt-1">Tu profesional ya inició la sesión</p>
             </div>
             <Link
-              href={`/sesion/${activa.id}`}
+              href={activa.daily_room_name ? `/videollamada/${activa.daily_room_name}` : "/dashboard/paciente/videollamada"}
               className="inline-block bg-[#40916C] text-white px-8 py-3 rounded-xl font-medium hover:bg-[#235a41] transition"
             >
               Unirse a la sesión

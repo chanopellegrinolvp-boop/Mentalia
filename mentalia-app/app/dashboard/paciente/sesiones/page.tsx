@@ -126,7 +126,7 @@ export default async function MisSesiones() {
                       <span className={`text-xs px-2.5 py-1 rounded-full ${st.color}`}>{st.label}</span>
                       {esProxima && (
                         <Link
-                          href={`/sesion/${s.id}`}
+                          href="/dashboard/paciente/videollamada"
                           className="text-xs bg-[#40916C] text-white px-3 py-1 rounded-lg hover:bg-[#235a41] transition"
                         >
                           Ver
