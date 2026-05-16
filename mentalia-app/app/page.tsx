@@ -437,6 +437,7 @@ export default async function Home() {
             <Link href="/privacidad" className="hover:text-[#40916C] transition">Privacidad</Link>
             <Link href="/terminos" className="hover:text-[#40916C] transition">Términos</Link>
             <Link href="/contacto" className="hover:text-[#40916C] transition">Contacto</Link>
+            <Link href="/como-instalar" className="hover:text-[#40916C] transition">Instalar app</Link>
           </div>
         </div>
       </footer>
