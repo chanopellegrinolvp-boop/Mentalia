@@ -2,6 +2,8 @@ import { MercadoPagoConfig, Preference } from "mercadopago";
 import { createClient } from "@/lib/supabase/server";
 import { NextResponse } from "next/server";
 
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://mentaliasalud.online";
+
 const mp = new MercadoPagoConfig({
   accessToken: process.env.MP_ACCESS_TOKEN!,
 });
@@ -42,12 +44,12 @@ export async function POST(req: Request) {
         ],
         payer: { email: user.email },
         back_urls: {
-          success: `${process.env.NEXT_PUBLIC_SITE_URL}/dashboard/profesional/pagos?status=success&plan=${plan}`,
-          failure: `${process.env.NEXT_PUBLIC_SITE_URL}/dashboard/profesional/pagos?status=failure`,
-          pending: `${process.env.NEXT_PUBLIC_SITE_URL}/dashboard/profesional/pagos?status=pending`,
+          success: `${SITE_URL}/dashboard/profesional/pagos?status=success&plan=${plan}`,
+          failure: `${SITE_URL}/dashboard/profesional/pagos?status=failure`,
+          pending: `${SITE_URL}/dashboard/profesional/pagos?status=pending`,
         },
         auto_return: "approved",
-        notification_url: `${process.env.NEXT_PUBLIC_SITE_URL}/api/pagos/webhook`,
+        notification_url: `${SITE_URL}/api/pagos/webhook`,
         external_reference: user.id,
         statement_descriptor: "MENTALIA",
       },

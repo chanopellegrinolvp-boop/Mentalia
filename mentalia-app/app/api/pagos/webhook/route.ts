@@ -13,12 +13,27 @@ const supabaseAdmin = createClient(
 );
 
 export async function POST(req: Request) {
+  if (!process.env.MP_ACCESS_TOKEN) {
+    console.error("[Webhook MP] MP_ACCESS_TOKEN no configurado");
+    return NextResponse.json({ ok: true });
+  }
+
   try {
     const body = await req.json();
+
+    if (!body || typeof body !== "object") {
+      console.warn("[Webhook MP] Body inválido recibido");
+      return NextResponse.json({ ok: true });
+    }
 
     if (body.type === "payment" && body.data?.id) {
       const paymentClient = new Payment(mp);
       const paymentData = await paymentClient.get({ id: body.data.id });
+
+      if (!paymentData?.id) {
+        console.warn("[Webhook MP] Payment ID no encontrado en MP:", body.data.id);
+        return NextResponse.json({ ok: true });
+      }
 
       if (paymentData.status === "approved") {
         const professionalId = paymentData.external_reference;

@@ -1,4 +1,5 @@
 ﻿const FROM = process.env.EMAIL_FROM ?? "Mentalia <onboarding@resend.dev>";
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://mentaliasalud.online";
 
 async function send(to: string, subject: string, html: string) {
   const key = process.env.RESEND_API_KEY;
@@ -53,8 +54,8 @@ export async function emailBienvenida(to: string, nombre: string, rol: "professi
       }
     </p>
     ${esPro
-      ? btn("Completar mi perfil →", `${process.env.NEXT_PUBLIC_SITE_URL}/dashboard/profesional/perfil`)
-      : btn("Ver mi dashboard →", `${process.env.NEXT_PUBLIC_SITE_URL}/dashboard/paciente`)
+      ? btn("Completar mi perfil →", `${SITE_URL}/dashboard/profesional/perfil`)
+      : btn("Ver mi dashboard →", `${SITE_URL}/dashboard/paciente`)
     }
     <p style="color:#6B7280;font-size:13px;">Tenés 10 días de prueba gratis. Sin tarjeta de crédito.</p>
     ${sig()}
@@ -84,7 +85,7 @@ export async function emailTurnoConfirmado(opts: {
     </div>
     ${opts.meetUrl
       ? btn("Unirme a la videollamada →", opts.meetUrl)
-      : btn("Ver mis sesiones →", `${process.env.NEXT_PUBLIC_SITE_URL}/dashboard/paciente/sesiones`)
+      : btn("Ver mis sesiones →", `${SITE_URL}/dashboard/paciente/sesiones`)
     }
     <p style="color:#6B7280;font-size:13px;">Si necesitás cancelar o reprogramar, hacelo con al menos 24 horas de anticipación.</p>
     ${sig()}
@@ -108,7 +109,7 @@ export async function emailPagoConfirmado(opts: {
       <p style="margin:0 0 8px;color:#374151;"><strong>Monto:</strong> $${opts.monto.toLocaleString("es-AR")} ARS</p>
       <p style="margin:0;color:#6B7280;font-size:13px;">N° de pago: ${opts.paymentId}</p>
     </div>
-    ${btn("Ir a mi dashboard →", `${process.env.NEXT_PUBLIC_SITE_URL}/dashboard/profesional`)}
+    ${btn("Ir a mi dashboard →", `${SITE_URL}/dashboard/profesional`)}
     <p style="color:#6B7280;font-size:13px;">Ante cualquier consulta sobre tu facturación, respondé este email.</p>
     ${sig()}
   `);
@@ -137,7 +138,7 @@ export async function emailSolicitudConsulta(opts: {
       <p style="margin:0 0 ${opts.mensaje ? "8px" : "0"};color:#374151;"><strong>Disponibilidad:</strong> ${opts.disponibilidad.join(", ")}</p>
       ${opts.mensaje ? `<p style="margin:0;color:#374151;"><strong>Mensaje:</strong> ${opts.mensaje}</p>` : ""}
     </div>
-    ${btn("Ver solicitud en Mentalia →", `${process.env.NEXT_PUBLIC_SITE_URL ?? "https://mentaliasalud.online"}/dashboard/profesional/agenda`)}
+    ${btn("Ver solicitud en Mentalia →", `${SITE_URL}/dashboard/profesional/agenda`)}
     <p style="color:#6B7280;font-size:13px;">El paciente está esperando tu respuesta.</p>
     ${sig()}
   `);
@@ -163,7 +164,7 @@ export async function emailNuevoTurnoProfesional(opts: {
       <p style="margin:0 0 8px;color:#374151;"><strong>Fecha:</strong> ${opts.fecha}</p>
       <p style="margin:0;color:#374151;"><strong>Hora:</strong> ${opts.hora}</p>
     </div>
-    ${btn("Ver mi agenda →", `${process.env.NEXT_PUBLIC_SITE_URL}/dashboard/profesional/agenda`)}
+    ${btn("Ver mi agenda →", `${SITE_URL}/dashboard/profesional/agenda`)}
     ${sig()}
   `);
   await send(opts.to, subject, html);
