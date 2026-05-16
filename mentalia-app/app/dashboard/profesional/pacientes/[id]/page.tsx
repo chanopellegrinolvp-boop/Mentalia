@@ -2,6 +2,7 @@ import { createClient } from "@/lib/supabase/server";
 import { redirect, notFound } from "next/navigation";
 import Link from "next/link";
 import NuevaSesionForm from "./NuevaSesionForm";
+import SubirArchivo from "@/components/app/SubirArchivo";
 
 export default async function PacienteDetallePage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -101,6 +102,10 @@ export default async function PacienteDetallePage({ params }: { params: Promise<
               })}
             </div>
           )}
+        </section>
+        {/* Archivos del paciente */}
+        <section className="bg-white border border-gray-100 rounded-xl p-6">
+          <SubirArchivo pacienteId={id} professionalId={user.id} />
         </section>
       </main>
     </div>

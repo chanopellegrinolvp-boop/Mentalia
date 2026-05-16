@@ -83,6 +83,28 @@ export default function MensajesPage() {
   useEffect(() => {
     if (!userId || !contactoActivo) return;
     cargarMensajes(contactoActivo.id);
+
+    const otroId = contactoActivo.id;
+    const channel = supabase
+      .channel("mensajes-" + otroId)
+      .on(
+        "postgres_changes",
+        { event: "INSERT", schema: "public", table: "messages" },
+        (payload) => {
+          const msg = payload.new as Mensaje;
+          const esConversacion =
+            (msg.sender_id === userId && msg.receiver_id === otroId) ||
+            (msg.sender_id === otroId && msg.receiver_id === userId);
+          if (esConversacion) {
+            setMensajes(prev => [...prev, msg]);
+          }
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
   }, [contactoActivo, userId]);
 
   const cargarMensajes = async (otroId: string) => {

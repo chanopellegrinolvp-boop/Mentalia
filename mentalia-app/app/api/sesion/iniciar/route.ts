@@ -18,7 +18,7 @@ export async function POST(req: NextRequest) {
   if (!sesion) return NextResponse.json({ error: "Sesión no encontrada" }, { status: 404 });
 
   let roomName = sesion.daily_room_name;
-  let roomUrl: string;
+  let roomUrl = "";
 
   if (!roomName) {
     // Crear sala en Daily.co
@@ -58,7 +58,7 @@ export async function POST(req: NextRequest) {
   } else {
     roomUrl = process.env.DAILY_API_KEY
       ? `https://${process.env.DAILY_DOMAIN ?? "mentalia"}.daily.co/${roomName}`
-      : `https://meet.daily.co/${roomName}`;
+      : `https://meet.jit.si/${roomName}`;
   }
 
   return NextResponse.json({ roomUrl: roomUrl!, roomName });
