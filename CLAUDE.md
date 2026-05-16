@@ -138,6 +138,11 @@ NEXT_PUBLIC_SITE_URL=<pendiente definir para producción>
 - Para publicar en Play Store: usar PWABuilder (1-2 días)
 - Para app nativa: wrappear con Capacitor (pendiente)
 
+## Reglas de flujo de trabajo
+- Después de cada commit, siempre hacer `git push origin main`
+- El deploy a Vercel es manual con `npx vercel deploy --prod --yes` desde `mentalia-app/`
+- GitHub auto-deploy NO está configurado — push y deploy son pasos separados
+
 ## Estado del proyecto
 ### Funcionando en producción
 - Autenticación completa (login, registro, recuperar contraseña)
