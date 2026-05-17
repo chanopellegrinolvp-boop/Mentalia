@@ -108,14 +108,6 @@ export default function ComoInstalarPage() {
           </a>
         </div>
 
-        {/* Ayuda */}
-        <p className="text-center text-sm" style={{ color: "#9CA3AF" }}>
-          ¿Necesitás ayuda? Escribinos a{" "}
-          <span className="font-semibold text-gray-700">
-            hola@mentaliasalud.online
-          </span>
-        </p>
-
       </main>
 
       {/* Footer */}

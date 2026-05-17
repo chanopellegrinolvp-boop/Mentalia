@@ -510,7 +510,10 @@ export default async function Home() {
           <div className="flex gap-5 text-xs" style={{ color: "#9CA3AF" }}>
             <Link href="/privacidad" className="hover:text-[#40916C] transition">Privacidad</Link>
             <Link href="/terminos" className="hover:text-[#40916C] transition">Términos</Link>
-            <Link href="/contacto" className="hover:text-[#40916C] transition">Contacto</Link>
+            <Link
+              href="/contacto"
+              className="px-3 py-1 rounded-lg border border-[#2D6A4F] text-[#2D6A4F] transition hover:bg-[#2D6A4F] hover:text-white"
+            >Contactanos</Link>
             <Link href="/como-instalar" className="hover:text-[#40916C] transition">Instalar app</Link>
           </div>
         </div>
