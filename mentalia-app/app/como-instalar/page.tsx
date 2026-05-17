@@ -111,13 +111,9 @@ export default function ComoInstalarPage() {
         {/* Ayuda */}
         <p className="text-center text-sm" style={{ color: "#9CA3AF" }}>
           ¿Necesitás ayuda? Escribinos a{" "}
-          <Link
-            href="/contacto"
-            className="hover:text-[#2D6A4F] transition"
-            style={{ color: "#6B7280" }}
-          >
+          <span className="font-semibold text-gray-700">
             hola@mentaliasalud.online
-          </Link>
+          </span>
         </p>
 
       </main>
