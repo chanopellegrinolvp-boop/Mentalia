@@ -426,6 +426,80 @@ export default async function Home() {
         </div>
       </section>
 
+      {/* INSTALAR APP */}
+      <section id="instalar" className="py-16" style={{ background: "#2D6A4F" }}>
+        <div className="max-w-4xl mx-auto px-6">
+          <div className="text-center mb-10">
+            <h2 className="text-2xl md:text-3xl font-bold mb-2 text-white" style={{ fontFamily: "Georgia, serif" }}>
+              Instalá Mentalia en tu celular
+            </h2>
+            <p className="text-sm font-medium" style={{ color: "#D8F3DC" }}>
+              Gratis · En menos de 30 segundos
+            </p>
+          </div>
+
+          <div className="grid sm:grid-cols-2 gap-4 mb-8">
+            {/* iPhone */}
+            <div className="rounded-2xl p-6" style={{ background: "rgba(255,255,255,0.12)" }}>
+              <div className="text-4xl mb-3">🍎</div>
+              <h3 className="font-bold text-white mb-4">En iPhone</h3>
+              <ol className="space-y-2">
+                {[
+                  "Abrí Safari → mentaliasalud.online",
+                  "Tocá el botón compartir ↑",
+                  '"Agregar a pantalla de inicio"',
+                  'Tocá "Agregar" — ¡listo!',
+                ].map((paso, i) => (
+                  <li key={i} className="flex items-start gap-2.5 text-sm" style={{ color: "rgba(255,255,255,0.85)" }}>
+                    <span className="w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5" style={{ background: "rgba(255,255,255,0.2)", color: "white" }}>
+                      {i + 1}
+                    </span>
+                    {paso}
+                  </li>
+                ))}
+              </ol>
+              <p className="text-xs mt-4 pt-3" style={{ color: "rgba(216,243,220,0.6)", borderTop: "1px solid rgba(255,255,255,0.1)" }}>
+                Solo desde Safari
+              </p>
+            </div>
+
+            {/* Android */}
+            <div className="rounded-2xl p-6" style={{ background: "rgba(255,255,255,0.12)" }}>
+              <div className="text-4xl mb-3">🤖</div>
+              <h3 className="font-bold text-white mb-4">En Android</h3>
+              <ol className="space-y-2">
+                {[
+                  "Abrí Chrome → mentaliasalud.online",
+                  "Tocá el banner que aparece abajo",
+                  'O tocá ⋮ → "Instalar aplicación"',
+                  "¡Listo!",
+                ].map((paso, i) => (
+                  <li key={i} className="flex items-start gap-2.5 text-sm" style={{ color: "rgba(255,255,255,0.85)" }}>
+                    <span className="w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5" style={{ background: "rgba(255,255,255,0.2)", color: "white" }}>
+                      {i + 1}
+                    </span>
+                    {paso}
+                  </li>
+                ))}
+              </ol>
+              <p className="text-xs mt-4 pt-3" style={{ color: "rgba(216,243,220,0.6)", borderTop: "1px solid rgba(255,255,255,0.1)" }}>
+                También en Google Play Store
+              </p>
+            </div>
+          </div>
+
+          <div className="text-center">
+            <a
+              href="https://mentaliasalud.online/login"
+              className="inline-block px-10 py-3.5 rounded-xl text-sm font-semibold transition hover:opacity-90"
+              style={{ background: "white", color: "#2D6A4F" }}
+            >
+              Abrir Mentalia →
+            </a>
+          </div>
+        </div>
+      </section>
+
       {/* FOOTER */}
       <footer className="border-t py-8" style={{ borderColor: "rgba(45,106,79,0.15)" }}>
         <div className="max-w-5xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4">
