@@ -86,13 +86,9 @@ export default function ContactoPage() {
                   <p className="text-xs font-bold uppercase tracking-wide mb-1" style={{ color: "#2D6A4F" }}>
                     Email
                   </p>
-                  <a
-                    href="mailto:hola@mentaliasalud.online"
-                    className="text-sm"
-                    style={{ color: "#374151" }}
-                  >
+                  <span className="text-sm" style={{ color: "#374151" }}>
                     hola@mentaliasalud.online
-                  </a>
+                  </span>
                 </div>
                 <div>
                   <p className="text-xs font-bold uppercase tracking-wide mb-1" style={{ color: "#2D6A4F" }}>
