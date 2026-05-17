@@ -17,7 +17,51 @@ export default async function Home() {
     redirect("/dashboard/paciente");
   }
 
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Mentalia",
+    "applicationCategory": "HealthApplication",
+    "operatingSystem": "Web, iOS, Android",
+    "url": "https://mentaliasalud.online",
+    "description": "Plataforma digital de salud mental para psicólogos y pacientes en Argentina. Gestión de consultorio, videollamadas, historia clínica y seguimiento.",
+    "inLanguage": "es-AR",
+    "offers": [
+      {
+        "@type": "Offer",
+        "name": "Starter",
+        "price": "15",
+        "priceCurrency": "USD",
+        "priceSpecification": { "@type": "UnitPriceSpecification", "billingDuration": "P1M" },
+      },
+      {
+        "@type": "Offer",
+        "name": "Pro",
+        "price": "32",
+        "priceCurrency": "USD",
+        "priceSpecification": { "@type": "UnitPriceSpecification", "billingDuration": "P1M" },
+      },
+      {
+        "@type": "Offer",
+        "name": "Clínica",
+        "price": "75",
+        "priceCurrency": "USD",
+        "priceSpecification": { "@type": "UnitPriceSpecification", "billingDuration": "P1M" },
+      },
+    ],
+    "provider": {
+      "@type": "Organization",
+      "name": "Mentalia",
+      "url": "https://mentaliasalud.online",
+    },
+  };
+
   return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
     <div className="min-h-screen" style={{ background: "#FDFCFA", fontFamily: "system-ui, sans-serif" }}>
 
       {/* NAV */}
@@ -520,5 +564,6 @@ export default async function Home() {
       </footer>
 
     </div>
+    </>
   );
 }

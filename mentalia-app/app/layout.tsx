@@ -3,26 +3,64 @@ import "./globals.css";
 import PWARegister from "@/components/PWARegister";
 
 export const metadata: Metadata = {
-  title: "Mentalia — Consultorio digital para psicólogos",
-  description: "Espacio digital de salud mental que conecta profesionales con quienes cuidan su bienestar.",
+  title: "Mentalia — Plataforma de Salud Mental para Psicólogos",
+  description: "Plataforma digital de salud mental para psicólogos y pacientes. Gestioná tu consultorio online: agenda, videollamadas, historia clínica e inteligencia artificial.",
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://mentaliasalud.online"),
   manifest: "/manifest.json",
   icons: {
     icon: "/icon-192.png",
     apple: "/icon-192.png",
   },
+  keywords: [
+    "psicólogo online",
+    "salud mental digital",
+    "consultorio virtual psicólogo",
+    "videollamadas psicología",
+    "agenda psicólogo",
+    "historia clínica digital",
+    "terapia online Argentina",
+    "plataforma psicólogos",
+    "gestión consultorio psicológico",
+    "salud mental app",
+  ],
+  authors: [{ name: "Mentalia" }],
+  creator: "Mentalia",
+  publisher: "Mentalia",
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
   openGraph: {
-    title: "Mentalia — Consultorio digital para psicólogos",
-    description: "Gestión completa del consultorio: agenda, historia clínica, videollamadas y resumen clínico con IA. Argentina.",
-    url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://mentaliasalud.online",
-    siteName: "Mentalia",
-    locale: "es_AR",
     type: "website",
+    locale: "es_AR",
+    url: "https://mentaliasalud.online",
+    title: "Mentalia — Plataforma de Salud Mental para Psicólogos",
+    description: "Gestioná tu consultorio digital: agenda, videollamadas, historia clínica e IA. Para psicólogos y pacientes.",
+    siteName: "Mentalia",
+    images: [
+      {
+        url: "https://mentaliasalud.online/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Mentalia — Plataforma de Salud Mental",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Mentalia — Consultorio digital para psicólogos",
-    description: "Gestión completa del consultorio: agenda, historia clínica, videollamadas y resumen clínico con IA.",
+    title: "Mentalia — Plataforma de Salud Mental",
+    description: "Gestioná tu consultorio digital con videollamadas, agenda e historia clínica.",
+    images: ["https://mentaliasalud.online/og-image.png"],
+  },
+  alternates: {
+    canonical: "https://mentaliasalud.online",
   },
 };
 
