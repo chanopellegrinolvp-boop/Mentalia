@@ -1,6 +1,6 @@
 ﻿"use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { createClient } from "@/lib/supabase/client";
 
 type Mensaje = {
@@ -27,7 +27,9 @@ export default function MensajesPage() {
   const [mensajes, setMensajes] = useState<Mensaje[]>([]);
   const [nuevo, setNuevo] = useState("");
   const [enviando, setEnviando] = useState(false);
+  const [offline, setOffline] = useState(false);
   const bottomRef = useRef<HTMLDivElement>(null);
+  const channelRef = useRef<ReturnType<typeof supabase.channel> | null>(null);
 
   useEffect(() => {
     supabase.auth.getUser().then(({ data }) => {
@@ -80,11 +82,9 @@ export default function MensajesPage() {
     }
   };
 
-  useEffect(() => {
-    if (!userId || !contactoActivo) return;
-    cargarMensajes(contactoActivo.id);
+  const suscribir = useCallback((otroId: string, uid: string) => {
+    if (channelRef.current) supabase.removeChannel(channelRef.current);
 
-    const otroId = contactoActivo.id;
     const channel = supabase
       .channel("mensajes-" + otroId)
       .on(
@@ -93,8 +93,8 @@ export default function MensajesPage() {
         (payload) => {
           const msg = payload.new as Mensaje;
           const esConversacion =
-            (msg.sender_id === userId && msg.receiver_id === otroId) ||
-            (msg.sender_id === otroId && msg.receiver_id === userId);
+            (msg.sender_id === uid && msg.receiver_id === otroId) ||
+            (msg.sender_id === otroId && msg.receiver_id === uid);
           if (esConversacion) {
             setMensajes(prev => [...prev, msg]);
           }
@@ -102,10 +102,30 @@ export default function MensajesPage() {
       )
       .subscribe();
 
-    return () => {
-      supabase.removeChannel(channel);
+    channelRef.current = channel;
+  }, [supabase]);
+
+  useEffect(() => {
+    if (!userId || !contactoActivo) return;
+    cargarMensajes(contactoActivo.id);
+    suscribir(contactoActivo.id, userId);
+
+    const handleOnline = () => {
+      setOffline(false);
+      suscribir(contactoActivo.id, userId);
+      cargarMensajes(contactoActivo.id);
     };
-  }, [contactoActivo, userId]);
+    const handleOffline = () => setOffline(true);
+
+    window.addEventListener("online", handleOnline);
+    window.addEventListener("offline", handleOffline);
+
+    return () => {
+      if (channelRef.current) supabase.removeChannel(channelRef.current);
+      window.removeEventListener("online", handleOnline);
+      window.removeEventListener("offline", handleOffline);
+    };
+  }, [contactoActivo, userId, suscribir]);
 
   const cargarMensajes = async (otroId: string) => {
     const { data } = await supabase
@@ -139,6 +159,11 @@ export default function MensajesPage() {
         </div>
       </header>
 
+      {offline && (
+        <div className="bg-yellow-50 border-b border-yellow-200 px-6 py-2 text-center text-xs text-yellow-700">
+          Sin conexión — reconectando cuando vuelva la red...
+        </div>
+      )}
       <main className="max-w-4xl mx-auto px-6 py-6">
         <div className="bg-white border border-gray-100 rounded-xl flex overflow-hidden" style={{ height: "70vh" }}>
           {/* Contactos */}

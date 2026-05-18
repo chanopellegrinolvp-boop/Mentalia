@@ -125,13 +125,26 @@ export default function SolicitudesPanel({
       })
       .eq("id", rechazarSolicitud.id);
 
-    if (mensajeRechazo.trim()) {
-      await supabase.from("messages").insert({
-        sender_id: professionalId,
-        receiver_id: rechazarSolicitud.paciente_id,
-        content: `Lo sentimos, no podemos aceptar tu solicitud en este momento.\n\n${mensajeRechazo}`,
-      });
-    }
+    const msgContent = mensajeRechazo.trim()
+      ? `Lo sentimos, no podemos atenderte en este momento.\n\n${mensajeRechazo}\n\nPodés buscar otro profesional disponible en /dashboard/paciente/buscar`
+      : "Tu solicitud de consulta fue revisada. Lamentablemente no podemos atenderte en este momento. Podés buscar otro profesional disponible.";
+
+    await supabase.from("messages").insert({
+      sender_id: professionalId,
+      receiver_id: rechazarSolicitud.paciente_id,
+      content: msgContent,
+    });
+
+    fetch("/api/emails/solicitud-rechazada", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        paciente_email: rechazarSolicitud.paciente?.email,
+        paciente_nombre: rechazarSolicitud.paciente?.full_name ?? "Paciente",
+        profesional_nombre: professionalName,
+        mensaje_rechazo: mensajeRechazo.trim() || null,
+      }),
+    }).catch(() => {});
 
     setRechazando(false);
     setRechazarSolicitud(null);

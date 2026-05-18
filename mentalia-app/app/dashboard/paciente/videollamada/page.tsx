@@ -52,12 +52,16 @@ export default async function Videollamada() {
               <p className="font-semibold text-gray-900">Sesión en curso</p>
               <p className="text-sm text-gray-500 mt-1">Tu profesional ya inició la sesión</p>
             </div>
-            <Link
-              href={activa.daily_room_name ? `/videollamada/${activa.daily_room_name}` : "/dashboard/paciente/videollamada"}
-              className="inline-block bg-[#40916C] text-white px-8 py-3 rounded-xl font-medium hover:bg-[#235a41] transition"
-            >
-              Unirse a la sesión
-            </Link>
+            {activa.daily_room_name ? (
+              <Link
+                href={`/videollamada/${activa.daily_room_name}`}
+                className="inline-block bg-[#40916C] text-white px-8 py-3 rounded-xl font-medium hover:bg-[#235a41] transition"
+              >
+                Unirse a la sesión
+              </Link>
+            ) : (
+              <p className="text-sm text-gray-400">El enlace estará disponible en instantes. Recargá la página.</p>
+            )}
           </div>
         ) : proxima ? (
           <div className="bg-white border border-gray-100 rounded-xl p-8 text-center space-y-4">
