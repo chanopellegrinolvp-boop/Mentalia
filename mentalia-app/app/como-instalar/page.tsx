@@ -91,9 +91,6 @@ export default function ComoInstalarPage() {
               <Paso numero={3} texto="Si no aparece el banner: tocá los 3 puntos ⋮ arriba" />
               <Paso numero={4} texto='"Instalar aplicación" — ¡listo!' />
             </div>
-            <p className="text-xs mt-5 pt-4 border-t border-gray-100" style={{ color: "#9CA3AF" }}>
-              También disponible en Google Play Store
-            </p>
           </div>
         </div>
 
