@@ -35,11 +35,41 @@ export async function POST(req: Request) {
         return NextResponse.json({ ok: true });
       }
 
+      if (process.env.NODE_ENV !== "production") {
+        console.log("[Webhook MP] paymentData:", JSON.stringify(paymentData, null, 2));
+      }
+
       if (paymentData.status === "approved") {
         const professionalId = paymentData.external_reference;
         const monto = paymentData.transaction_amount;
-        const itemId = paymentData.additional_info?.items?.[0]?.id ?? "";
-        const plan = itemId.replace("plan-", "") as "starter" | "pro" | "clinica";
+
+        // Extraer plan en orden de prioridad
+        let plan: string = "unknown";
+
+        // 1. Desde description ("Suscripción mensual al plan Pro de Mentalia")
+        const descMatch = paymentData.description?.match(/plan\s+(\w+)/i);
+        if (descMatch) {
+          plan = descMatch[1].toLowerCase();
+        }
+        // 2. Desde additional_info.items[0].title
+        else if (paymentData.additional_info?.items?.[0]?.title) {
+          const titleMatch = paymentData.additional_info.items[0].title.match(/plan\s+(\w+)/i);
+          if (titleMatch) plan = titleMatch[1].toLowerCase();
+        }
+        // 3. Desde la tabla payments existente para este professional_id
+        else if (professionalId) {
+          const { data: lastPayment } = await supabaseAdmin
+            .from("payments")
+            .select("plan")
+            .eq("professional_id", professionalId)
+            .not("plan", "is", null)
+            .order("created_at", { ascending: false })
+            .limit(1)
+            .single();
+          if (lastPayment?.plan) plan = lastPayment.plan;
+        }
+
+        console.log(`[Webhook MP] plan extraído: ${plan}`);
 
         if (professionalId) {
           const { error } = await supabaseAdmin.from("payments").insert({
