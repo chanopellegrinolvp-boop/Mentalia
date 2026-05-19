@@ -8,6 +8,7 @@
   "background_color": "#FDFCFA",
   "theme_color": "#40916C",
   "lang": "es-AR",
+  "dir": "ltr",
   "orientation": "portrait-primary",
   "scope": "/",
   "id": "/",
@@ -28,14 +29,14 @@
   "screenshots": [
     {
       "src": "/screenshots/desktop.png",
-      "sizes": "1280x720",
+      "sizes": "1200x630",
       "type": "image/png",
       "form_factor": "wide",
       "label": "Dashboard profesional de Mentalia"
     },
     {
       "src": "/screenshots/mobile.png",
-      "sizes": "390x844",
+      "sizes": "512x512",
       "type": "image/png",
       "form_factor": "narrow",
       "label": "App móvil de Mentalia"
