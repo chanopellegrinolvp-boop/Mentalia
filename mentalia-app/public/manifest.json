@@ -4,6 +4,7 @@
   "description": "Espacio digital de salud mental que conecta profesionales con quienes cuidan su bienestar.",
   "start_url": "/",
   "display": "standalone",
+  "display_override": ["window-controls-overlay", "standalone"],
   "background_color": "#FDFCFA",
   "theme_color": "#40916C",
   "lang": "es-AR",
@@ -24,6 +25,29 @@
       "purpose": "any maskable"
     }
   ],
+  "screenshots": [
+    {
+      "src": "/screenshots/desktop.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Dashboard profesional de Mentalia"
+    },
+    {
+      "src": "/screenshots/mobile.png",
+      "sizes": "390x844",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "App móvil de Mentalia"
+    }
+  ],
   "categories": ["medical", "health"],
+  "iarc_rating_id": "",
+  "related_applications": [
+    {
+      "platform": "webapp",
+      "url": "https://mentaliasalud.online/manifest.json"
+    }
+  ],
   "prefer_related_applications": false
 }
