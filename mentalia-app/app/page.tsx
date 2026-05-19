@@ -74,6 +74,7 @@ export default async function Home() {
             <a href="#funciones" className="text-xs font-medium text-green-100/70 hover:text-white transition">Funciones</a>
             <a href="#precios" className="text-xs font-medium text-green-100/70 hover:text-white transition">Precios</a>
             <a href="#quienes" className="text-xs font-medium text-green-100/70 hover:text-white transition">Para quién</a>
+            <Link href="/nosotros" className="text-xs font-medium text-green-100/70 hover:text-white transition">Quiénes somos</Link>
           </nav>
           <div className="flex items-center gap-3">
             <Link href="/login" className="hidden md:inline text-xs font-medium text-green-100/80 hover:text-white transition">
@@ -557,6 +558,7 @@ export default async function Home() {
               className="px-3 py-1 rounded-lg border border-[#2D6A4F] text-[#2D6A4F] transition hover:bg-[#2D6A4F] hover:text-white"
             >Contactanos</Link>
             <Link href="/como-instalar" className="hover:text-[#40916C] transition">Instalar app</Link>
+            <Link href="/nosotros" className="hover:text-[#40916C] transition">Quiénes somos</Link>
           </div>
         </div>
       </footer>
