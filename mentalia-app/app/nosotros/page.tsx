@@ -91,7 +91,7 @@ export default function NosotrosPage() {
         </div>
         <div className="relative max-w-3xl mx-auto px-6">
           <span className="inline-block text-xs font-medium px-3 py-1.5 rounded-full mb-6" style={{ background: "rgba(216,243,220,0.2)", color: "#D8F3DC" }}>
-            Plataforma de salud mental · Latinoamérica · 2025
+            Plataforma de salud mental · Latinoamérica
           </span>
           <h1 className="text-4xl md:text-5xl font-bold mb-5 text-white" style={{ fontFamily: "Georgia, serif" }}>
             Quiénes somos
@@ -141,7 +141,6 @@ export default function NosotrosPage() {
       {/* EQUIPO */}
       <section className="py-16 border-b border-gray-100" style={{ background: "#f7faf8" }}>
         <div className="max-w-3xl mx-auto px-6 text-center">
-          <p className="text-xs font-semibold uppercase tracking-widest mb-3" style={{ color: "#40916C" }}>El equipo</p>
           <h2 className="text-2xl md:text-3xl font-bold mb-6" style={{ fontFamily: "Georgia, serif", color: "#2D6A4F" }}>
             Construido escuchando a quienes lo necesitaban
           </h2>
@@ -157,7 +156,6 @@ export default function NosotrosPage() {
       {/* A QUÉ NOS DEDICAMOS */}
       <section className="py-16 border-b border-gray-100">
         <div className="max-w-5xl mx-auto px-6">
-          <p className="text-xs font-semibold text-center uppercase tracking-widest mb-2" style={{ color: "#40916C" }}>La plataforma</p>
           <h2 className="text-2xl md:text-3xl font-bold text-center mb-3" style={{ fontFamily: "Georgia, serif", color: "#2D6A4F" }}>
             A qué nos dedicamos
           </h2>
