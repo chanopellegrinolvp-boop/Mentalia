@@ -4,7 +4,7 @@
     "target": {
       "namespace": "android_app",
       "package_name": "online.mentaliasalud.pro",
-      "sha256_cert_fingerprints": ["REEMPLAZAR-CON-NUEVO-SHA256"]
+      "sha256_cert_fingerprints": ["EB:82:34:78:4F:39:18:6A:34:64:45:4C:F3:56:6C:65:95:32:E3:F6:CF:E7:79:E7:D6:02:F6:9C:73:B7:83:51"]
     }
   }
 ]
