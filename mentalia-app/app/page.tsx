@@ -390,7 +390,7 @@ export default async function Home() {
       <section className="py-16 border-t border-gray-100">
         <div className="max-w-5xl mx-auto px-6">
           <h2 className="text-2xl md:text-3xl font-bold text-center mb-10" style={{ fontFamily: "var(--font-playfair), Georgia, serif", color: "#40916C" }}>
-            Confiado por psicólogos de Argentina
+            Confiado por profesionales de Argentina
           </h2>
           <div className="grid md:grid-cols-3 gap-4">
             {[
