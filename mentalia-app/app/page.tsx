@@ -67,7 +67,7 @@ export default async function Home() {
       {/* NAV */}
       <header className="sticky top-0 z-50 relative" style={{ background: "#40916C" }}>
         <div className="max-w-6xl mx-auto px-6 h-14 flex items-center justify-between">
-          <span className="text-lg font-bold italic" style={{ fontFamily: "Georgia, serif", color: "white" }}>
+          <span className="text-lg font-bold italic" style={{ fontFamily: "var(--font-playfair), Georgia, serif", color: "white" }}>
             Mentalia
           </span>
           <nav className="hidden md:flex items-center gap-7">
@@ -99,11 +99,11 @@ export default async function Home() {
         <span className="inline-block text-xs font-medium px-3 py-1.5 rounded-full mb-6" style={{ background: "#D8F3DC", color: "#40916C" }}>
           Plataforma de salud mental automatizada
         </span>
-        <h1 className="text-4xl md:text-5xl font-bold leading-tight mb-4" style={{ fontFamily: "Georgia, serif", color: "#2D5A45" }}>
+        <h1 className="text-4xl md:text-5xl font-bold leading-tight mb-4" style={{ fontFamily: "var(--font-playfair), Georgia, serif", color: "#2D5A45" }}>
           Tu consultorio<br />
           <span className="italic">inteligente</span>
         </h1>
-        <p className="text-xl max-w-lg mx-auto mb-10 leading-relaxed italic" style={{ fontFamily: "Georgia, serif", color: "#2D5A45" }}>
+        <p className="text-xl max-w-lg mx-auto mb-10 leading-relaxed italic" style={{ fontFamily: "var(--font-playfair), Georgia, serif", color: "#2D5A45" }}>
           La forma más simple de ejercer mejor.
         </p>
         <div className="flex flex-col sm:flex-row gap-3 justify-center">
@@ -126,8 +126,7 @@ export default async function Home() {
       {/* PARA QUIÉN */}
       <section id="quienes" className="py-16 border-t border-gray-100">
         <div className="max-w-5xl mx-auto px-6">
-          <p className="text-xs font-semibold text-center uppercase tracking-widest mb-2" style={{ color: "#40916C" }}>Para quién es Mentalia</p>
-          <h2 className="text-2xl md:text-3xl font-bold text-center mb-10" style={{ fontFamily: "Georgia, serif", color: "#40916C" }}>
+          <h2 className="text-2xl md:text-3xl font-bold text-center mb-10" style={{ fontFamily: "var(--font-playfair), Georgia, serif", color: "#40916C" }}>
             Diseñado para profesionales y pacientes
           </h2>
           <div className="grid md:grid-cols-2 gap-5">
@@ -176,8 +175,7 @@ export default async function Home() {
       {/* FUNCIONES IA */}
       <section id="funciones" className="py-16 border-t border-gray-100" style={{ background: "#f7faf8" }}>
         <div className="max-w-5xl mx-auto px-6">
-          <p className="text-xs font-semibold text-center uppercase tracking-widest mb-2" style={{ color: "#40916C" }}>Funciones</p>
-          <h2 className="text-2xl md:text-3xl font-bold text-center mb-3" style={{ fontFamily: "Georgia, serif", color: "#40916C" }}>
+          <h2 className="text-2xl md:text-3xl font-bold text-center mb-3" style={{ fontFamily: "var(--font-playfair), Georgia, serif", color: "#40916C" }}>
             Tu consultorio, completo desde el día uno
           </h2>
           <p className="text-sm text-center max-w-lg mx-auto mb-12" style={{ color: "#6B7280" }}>
@@ -209,8 +207,7 @@ export default async function Home() {
       {/* CÓMO FUNCIONA */}
       <section className="py-16 border-t border-gray-100">
         <div className="max-w-4xl mx-auto px-6">
-          <p className="text-xs font-semibold text-center uppercase tracking-widest mb-2" style={{ color: "#40916C" }}>Simple desde el día 1</p>
-          <h2 className="text-2xl md:text-3xl font-bold text-center mb-12" style={{ fontFamily: "Georgia, serif", color: "#40916C" }}>
+          <h2 className="text-2xl md:text-3xl font-bold text-center mb-12" style={{ fontFamily: "var(--font-playfair), Georgia, serif", color: "#40916C" }}>
             Cómo funciona
           </h2>
           <div className="grid md:grid-cols-3 gap-8">
@@ -220,7 +217,7 @@ export default async function Home() {
               { num: "03", titulo: "La IA hace el trabajo", desc: "Al finalizar cada sesión, transcribís tus notas y la IA genera el resumen clínico automáticamente." },
             ].map(step => (
               <div key={step.num} className="text-center">
-                <div className="text-3xl font-bold mb-3" style={{ color: "#D8F3DC", fontFamily: "Georgia, serif" }}>{step.num}</div>
+                <div className="text-3xl font-bold mb-3" style={{ color: "#D8F3DC", fontFamily: "var(--font-playfair), Georgia, serif" }}>{step.num}</div>
                 <h3 className="font-semibold text-sm mb-2" style={{ color: "#40916C" }}>{step.titulo}</h3>
                 <p className="text-xs leading-relaxed" style={{ color: "#6B7280" }}>{step.desc}</p>
               </div>
@@ -242,8 +239,7 @@ export default async function Home() {
 
           {/* Header */}
           <div className="text-center mb-14">
-            <p className="text-xs font-semibold uppercase tracking-widest mb-3" style={{ color: "#40916C" }}>Precios</p>
-            <h2 className="text-3xl md:text-4xl font-bold mb-3" style={{ fontFamily: "Georgia, serif", color: "#40916C" }}>
+            <h2 className="text-3xl md:text-4xl font-bold mb-3" style={{ fontFamily: "var(--font-playfair), Georgia, serif", color: "#40916C" }}>
               Invertí menos que una sesión
             </h2>
             <p className="text-sm max-w-md mx-auto mb-5" style={{ color: "#6B7280" }}>
@@ -393,8 +389,7 @@ export default async function Home() {
       {/* TESTIMONIOS */}
       <section className="py-16 border-t border-gray-100">
         <div className="max-w-5xl mx-auto px-6">
-          <p className="text-xs font-semibold text-center uppercase tracking-widest mb-2" style={{ color: "#40916C" }}>Lo que dicen los profesionales</p>
-          <h2 className="text-2xl md:text-3xl font-bold text-center mb-10" style={{ fontFamily: "Georgia, serif", color: "#40916C" }}>
+          <h2 className="text-2xl md:text-3xl font-bold text-center mb-10" style={{ fontFamily: "var(--font-playfair), Georgia, serif", color: "#40916C" }}>
             Confiado por psicólogos de Argentina
           </h2>
           <div className="grid md:grid-cols-3 gap-4">
@@ -423,8 +418,7 @@ export default async function Home() {
       {/* FAQ */}
       <section className="py-16 border-t border-gray-100" style={{ background: "#f7faf8" }}>
         <div className="max-w-3xl mx-auto px-6">
-          <p className="text-xs font-semibold text-center uppercase tracking-widest mb-2" style={{ color: "#40916C" }}>Preguntas frecuentes</p>
-          <h2 className="text-2xl md:text-3xl font-bold text-center mb-10" style={{ fontFamily: "Georgia, serif", color: "#40916C" }}>
+          <h2 className="text-2xl md:text-3xl font-bold text-center mb-10" style={{ fontFamily: "var(--font-playfair), Georgia, serif", color: "#40916C" }}>
             Todo lo que querés saber
           </h2>
           <div className="space-y-3">
@@ -452,7 +446,7 @@ export default async function Home() {
       {/* CTA FINAL */}
       <section className="py-16 border-t border-gray-100" style={{ background: "#40916C" }}>
         <div className="max-w-3xl mx-auto px-6 text-center">
-          <h2 className="text-2xl md:text-3xl font-bold mb-3" style={{ fontFamily: "Georgia, serif", color: "white" }}>
+          <h2 className="text-2xl md:text-3xl font-bold mb-3" style={{ fontFamily: "var(--font-playfair), Georgia, serif", color: "white" }}>
             Tu consultorio digital te espera
           </h2>
           <p className="text-sm mb-8" style={{ color: "rgba(216,243,220,0.8)" }}>
@@ -473,7 +467,7 @@ export default async function Home() {
       {/* FOOTER */}
       <footer className="border-t py-8" style={{ borderColor: "rgba(45,106,79,0.15)" }}>
         <div className="max-w-5xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4">
-          <span className="text-base font-bold italic" style={{ fontFamily: "Georgia, serif", color: "#40916C" }}>Mentalia</span>
+          <span className="text-base font-bold italic" style={{ fontFamily: "var(--font-playfair), Georgia, serif", color: "#40916C" }}>Mentalia</span>
           <p className="text-xs text-center" style={{ color: "#9CA3AF" }}>
             © {new Date().getFullYear()} Mentalia · Plataforma de salud mental · Argentina
           </p>
