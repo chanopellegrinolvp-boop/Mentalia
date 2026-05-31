@@ -26,7 +26,7 @@ export default function ComoInstalarPage() {
       {/* Header */}
       <header className="sticky top-0 z-50" style={{ background: "#2D6A4F" }}>
         <div className="max-w-5xl mx-auto px-6 h-14 flex items-center justify-between">
-          <Link href="/" className="text-lg font-bold italic text-white" style={{ fontFamily: "Georgia, serif" }}>
+          <Link href="/" className="text-lg font-bold italic text-white" style={{ fontFamily: "var(--font-playfair), Georgia, serif" }}>
             Mentalia
           </Link>
           <Link href="/login" className="text-xs font-medium text-white/70 hover:text-white transition">
@@ -45,7 +45,7 @@ export default function ComoInstalarPage() {
           >
             <span className="text-3xl">📲</span>
           </div>
-          <h1 className="text-3xl font-bold mb-3" style={{ color: "#111827", fontFamily: "Georgia, serif" }}>
+          <h1 className="text-3xl font-bold mb-3" style={{ color: "#111827", fontFamily: "var(--font-playfair), Georgia, serif" }}>
             Instalá Mentalia en tu celular
           </h1>
           <p className="text-lg" style={{ color: "#6B7280" }}>
@@ -90,6 +90,16 @@ export default function ComoInstalarPage() {
               <Paso numero={2} texto='"Agregar a pantalla de inicio" — tocá el banner que aparece abajo' />
               <Paso numero={3} texto="Si no aparece el banner: tocá los 3 puntos ⋮ arriba" />
               <Paso numero={4} texto='"Instalar aplicación" — ¡listo!' />
+            </div>
+            <div className="mt-5 pt-4 border-t border-gray-100">
+              <p className="text-xs font-semibold mb-2" style={{ color: "#374151" }}>También disponible en</p>
+              <span
+                className="inline-flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-medium"
+                style={{ background: "#D8F3DC", color: "#2D6A4F" }}
+              >
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M3.18 23.76c.3.17.64.24.99.2l12.6-12.6L13 7.6 3.18 23.76zm17.27-10.7L17.6 11.5l-3.77 3.76 3.77 3.77 2.87-1.58a1.63 1.63 0 000-2.79zM3.04.48A1.63 1.63 0 001 2.24v19.52l12-12L3.04.48zm10.2 10.77L4.06.29 16.42 7.2l-3.18 4.05z"/></svg>
+                Google Play — Próximamente
+              </span>
             </div>
           </div>
         </div>

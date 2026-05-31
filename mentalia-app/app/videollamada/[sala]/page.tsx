@@ -9,6 +9,7 @@ export default async function VideoPage({ params }: { params: Promise<{ sala: st
   const { data: { user } } = await supabase.auth.getUser();
 
   let role = "patient";
+  let appointmentId: string | null = null;
   if (user) {
     const { data: profile } = await supabase
       .from("profiles")
@@ -16,6 +17,16 @@ export default async function VideoPage({ params }: { params: Promise<{ sala: st
       .eq("id", user.id)
       .single();
     role = profile?.role ?? "patient";
+
+    if (role === "professional") {
+      const { data: appt } = await supabase
+        .from("appointments")
+        .select("id")
+        .eq("professional_id", user.id)
+        .or(`id.eq.${sala},room_name.eq.${sala}`)
+        .maybeSingle();
+      appointmentId = appt?.id ?? null;
+    }
   }
 
   const exitUrl = role === "professional" ? "/dashboard/profesional" : "/dashboard/paciente";
@@ -49,7 +60,7 @@ export default async function VideoPage({ params }: { params: Promise<{ sala: st
 
       {/* Video room */}
       <div className="flex-1 overflow-hidden">
-        <VideoRoom sala={sala} role={role} />
+        <VideoRoom sala={sala} role={role} userId={user?.id ?? null} appointmentId={appointmentId} />
       </div>
     </div>
   );

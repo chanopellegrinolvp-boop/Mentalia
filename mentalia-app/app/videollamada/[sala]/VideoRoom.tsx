@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { createClient } from "@/lib/supabase/client";
 
 declare global {
   interface Window { JitsiMeetExternalAPI: any; }
@@ -8,18 +9,52 @@ declare global {
 
 interface SavedNote { text: string; at: string }
 
-export default function VideoRoom({ sala, role }: { sala: string; role: string }) {
+export default function VideoRoom({
+  sala,
+  role,
+  userId,
+  appointmentId,
+}: {
+  sala: string;
+  role: string;
+  userId?: string | null;
+  appointmentId?: string | null;
+}) {
   const containerRef = useRef<HTMLDivElement>(null);
   const apiRef = useRef<any>(null);
   const [nota, setNota] = useState("");
   const [savedNotes, setSavedNotes] = useState<SavedNote[]>([]);
   const [noteSaved, setNoteSaved] = useState(false);
+  const [saving, setSaving] = useState(false);
+
+  const localKey = `mentalia-nota-${sala}`;
+  const supabase = createClient();
 
   useEffect(() => {
-    const key = `mentalia-nota-${sala}`;
-    try {
-      setSavedNotes(JSON.parse(localStorage.getItem(key) ?? "[]"));
-    } catch { /* ignore */ }
+    // Load notes: Supabase first (if linked to appointment), else localStorage
+    async function loadNotes() {
+      if (appointmentId) {
+        const { data } = await supabase
+          .from("session_notes")
+          .select("content")
+          .eq("appointment_id", appointmentId)
+          .maybeSingle();
+        if (data?.content) {
+          // Content stored as JSON array of SavedNote
+          try {
+            const parsed = JSON.parse(data.content);
+            if (Array.isArray(parsed)) {
+              setSavedNotes(parsed);
+              return;
+            }
+          } catch { /* not JSON array — plain text from SesionRoom, don't override */ }
+        }
+      }
+      try {
+        setSavedNotes(JSON.parse(localStorage.getItem(localKey) ?? "[]"));
+      } catch { /* ignore */ }
+    }
+    loadNotes();
 
     const script = document.createElement("script");
     script.src = "https://meet.jit.si/external_api.js";
@@ -57,18 +92,49 @@ export default function VideoRoom({ sala, role }: { sala: string; role: string }
       apiRef.current = null;
       if (document.head.contains(script)) document.head.removeChild(script);
     };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sala]);
 
-  function guardarNota() {
+  async function guardarNota() {
     if (!nota.trim()) return;
-    const key = `mentalia-nota-${sala}`;
-    const updated: SavedNote[] = [
-      ...savedNotes,
-      { text: nota.trim(), at: new Date().toLocaleTimeString("es-AR", { hour: "2-digit", minute: "2-digit" }) },
-    ];
-    localStorage.setItem(key, JSON.stringify(updated));
+    setSaving(true);
+
+    const newNote: SavedNote = {
+      text: nota.trim(),
+      at: new Date().toLocaleTimeString("es-AR", { hour: "2-digit", minute: "2-digit" }),
+    };
+    const updated = [...savedNotes, newNote];
     setSavedNotes(updated);
     setNota("");
+
+    // Always persist to localStorage
+    localStorage.setItem(localKey, JSON.stringify(updated));
+
+    // Persist to Supabase if linked to an appointment
+    if (appointmentId && userId) {
+      const { data: existing } = await supabase
+        .from("session_notes")
+        .select("id")
+        .eq("appointment_id", appointmentId)
+        .maybeSingle();
+
+      const content = JSON.stringify(updated);
+      if (existing?.id) {
+        await supabase
+          .from("session_notes")
+          .update({ content, updated_at: new Date().toISOString() })
+          .eq("id", existing.id);
+      } else {
+        await supabase.from("session_notes").insert({
+          appointment_id: appointmentId,
+          professional_id: userId,
+          session_date: new Date().toISOString().split("T")[0],
+          content,
+        });
+      }
+    }
+
+    setSaving(false);
     setNoteSaved(true);
     setTimeout(() => setNoteSaved(false), 2000);
   }
@@ -100,11 +166,11 @@ export default function VideoRoom({ sala, role }: { sala: string; role: string }
             />
             <button
               onClick={guardarNota}
-              disabled={!nota.trim()}
+              disabled={!nota.trim() || saving}
               className="w-full mt-2 py-2 text-sm font-semibold rounded-xl transition-all disabled:opacity-40"
               style={{ background: noteSaved ? "#22c55e" : "#40916C", color: "white" }}
             >
-              {noteSaved ? "✓ Guardada" : "Guardar nota (Ctrl+Enter)"}
+              {noteSaved ? "✓ Guardada" : saving ? "Guardando..." : "Guardar nota (Ctrl+Enter)"}
             </button>
 
             {/* Notes list */}
