@@ -37,24 +37,22 @@ export default function RegistroPage() {
       return;
     }
 
-    const { error: profileError } = await supabase.from("profiles").upsert({
-      id: data.user.id,
-      email,
-      full_name: nombre,
-      role: rol,
+    const perfilRes = await fetch("/api/auth/crear-perfil", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        userId: data.user.id,
+        email,
+        fullName: nombre,
+        role: rol,
+        matricula,
+      }),
     });
 
-    if (profileError) {
+    if (!perfilRes.ok) {
       setError("Error al crear perfil.");
       setLoading(false);
       return;
-    }
-
-    if (rol === "professional") {
-      await supabase.from("professionals").upsert({
-        id: data.user.id,
-        license_number: matricula || null,
-      });
     }
 
     fetch("/api/emails/bienvenida", {
