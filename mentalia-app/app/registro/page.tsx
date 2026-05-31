@@ -55,6 +55,15 @@ export default function RegistroPage() {
       return;
     }
 
+    // Sign in automático — el perfil ya está confirmado server-side
+    const { error: signInError } = await supabase.auth.signInWithPassword({ email, password });
+    if (signInError) {
+      setError("Cuenta creada. Por favor iniciá sesión.");
+      setLoading(false);
+      router.push("/login");
+      return;
+    }
+
     fetch("/api/emails/bienvenida", {
       method: "POST",
       headers: { "Content-Type": "application/json" },

@@ -35,5 +35,8 @@ export async function POST(req: Request) {
     }
   }
 
+  // Auto-confirmar email para que el usuario pueda iniciar sesión inmediatamente
+  await supabaseAdmin.auth.admin.updateUserById(userId, { email_confirm: true });
+
   return NextResponse.json({ ok: true });
 }
