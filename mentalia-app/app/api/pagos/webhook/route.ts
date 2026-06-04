@@ -28,7 +28,14 @@ export async function POST(req: Request) {
 
     if (body.type === "payment" && body.data?.id) {
       const paymentClient = new Payment(mp);
-      const paymentData = await paymentClient.get({ id: body.data.id });
+
+      let paymentData;
+      try {
+        paymentData = await paymentClient.get({ id: body.data.id });
+      } catch {
+        console.warn("[Webhook MP] No se pudo obtener el pago:", body.data.id);
+        return NextResponse.json({ ok: true });
+      }
 
       if (!paymentData?.id) {
         console.warn("[Webhook MP] Payment ID no encontrado en MP:", body.data.id);
