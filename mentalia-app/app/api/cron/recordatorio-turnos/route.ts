@@ -14,9 +14,17 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
+  // Calcular "mañana completo" en ARS (UTC-3, sin DST)
   const ahora = new Date();
-  const desde = new Date(ahora.getTime() + 23 * 60 * 60 * 1000);
-  const hasta = new Date(ahora.getTime() + 25 * 60 * 60 * 1000);
+  const ahoraARS = new Date(ahora.getTime() - 3 * 60 * 60 * 1000);
+  // Inicio de mañana en ARS: 00:00 ARS = 03:00 UTC
+  const mañanaARS = new Date(ahoraARS);
+  mañanaARS.setUTCDate(mañanaARS.getUTCDate() + 1);
+  mañanaARS.setUTCHours(0, 0, 0, 0);
+  const pasadoARS = new Date(mañanaARS);
+  pasadoARS.setUTCDate(pasadoARS.getUTCDate() + 1);
+  const desde = new Date(mañanaARS.getTime() + 3 * 60 * 60 * 1000); // 03:00 UTC
+  const hasta = new Date(pasadoARS.getTime() + 3 * 60 * 60 * 1000); // 03:00 UTC siguiente
 
   const { data: turnos, error } = await supabase
     .from("appointments")

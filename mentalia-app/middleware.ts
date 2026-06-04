@@ -41,10 +41,15 @@ export async function middleware(request: NextRequest) {
       .eq("id", user.id)
       .single();
 
-    if (isProfRoute && profile?.role !== "professional") {
+    // Sin perfil: usuario auth sin fila en profiles → evitar redirect loop
+    if (!profile?.role) {
+      return NextResponse.redirect(new URL("/", request.url));
+    }
+
+    if (isProfRoute && profile.role !== "professional") {
       return NextResponse.redirect(new URL("/dashboard/paciente", request.url));
     }
-    if (isPacRoute && profile?.role !== "patient") {
+    if (isPacRoute && profile.role !== "patient") {
       return NextResponse.redirect(new URL("/dashboard/profesional", request.url));
     }
 
