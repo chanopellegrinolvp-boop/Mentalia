@@ -10,7 +10,7 @@ export async function POST(req: NextRequest) {
 
   await supabase
     .from("appointments")
-    .update({ ended_at: new Date().toISOString() })
+    .update({ ended_at: new Date().toISOString(), status: "completed" })
     .eq("id", sesionId)
     .eq("professional_id", user.id);
 

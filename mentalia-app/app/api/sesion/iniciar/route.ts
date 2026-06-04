@@ -23,7 +23,12 @@ export async function POST(req: NextRequest) {
   if (!sesion.daily_room_name) {
     await supabase
       .from("appointments")
-      .update({ daily_room_name: roomName, started_at: new Date().toISOString(), status: "confirmed" })
+      .update({
+        daily_room_name: roomName,
+        video_room_url: roomUrl,
+        started_at: new Date().toISOString(),
+        status: "confirmed",
+      })
       .eq("id", sesionId);
   }
 

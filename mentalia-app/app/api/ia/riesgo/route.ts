@@ -23,11 +23,18 @@ export async function POST(req: NextRequest) {
         { role: "system", content: "Eres un asistente clinico. Responde SOLO con JSON valido, sin texto adicional." },
         { role: "user", content: `Evalua el nivel de riesgo del paciente. Responde con este JSON: {"nivel":"bajo","indicadores":["..."],"recomendaciones":["..."]}\n\n${notasTexto}` },
       ],
+      response_format: { type: "json_object" },
       max_tokens: 400,
       temperature: 0.2,
     });
-    const raw = completion.choices[0].message.content ?? "{}";
-    const data = JSON.parse(raw.replace(/` + "```json|```" + `/g, "").trim());
+
+    let data: Record<string, unknown>;
+    try {
+      data = JSON.parse(completion.choices[0].message.content ?? "{}");
+    } catch {
+      console.error("[IA/riesgo] JSON inválido:", completion.choices[0].message.content);
+      return NextResponse.json({ error: "Respuesta de IA inválida" }, { status: 500 });
+    }
     return NextResponse.json(data);
   } catch (err) {
     console.error("[IA/riesgo]", err);

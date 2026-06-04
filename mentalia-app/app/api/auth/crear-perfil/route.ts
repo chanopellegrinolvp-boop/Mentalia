@@ -1,5 +1,12 @@
 import { createClient } from "@supabase/supabase-js";
 import { NextResponse } from "next/server";
+import { randomBytes } from "crypto";
+
+function generateReferralCode(): string {
+  const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+  const bytes = randomBytes(8);
+  return Array.from(bytes, b => chars[b % chars.length]).join("");
+}
 
 const supabaseAdmin = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -13,11 +20,21 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Datos incompletos" }, { status: 400 });
   }
 
+  // Preservar referral_code existente si el usuario ya tiene uno
+  const { data: existing } = await supabaseAdmin
+    .from("profiles")
+    .select("referral_code")
+    .eq("id", userId)
+    .maybeSingle();
+
+  const referralCode = existing?.referral_code ?? generateReferralCode();
+
   const { error: profileError } = await supabaseAdmin.from("profiles").upsert({
     id: userId,
     email,
     full_name: fullName,
     role,
+    referral_code: referralCode,
   });
 
   if (profileError) {

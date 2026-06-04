@@ -42,14 +42,17 @@ export default function VideoRoom({
           .eq("appointment_id", appointmentId)
           .maybeSingle();
         if (data?.content) {
-          // Content stored as JSON array of SavedNote
+          // Intentar JSON array (legacy) → si no, parsear como texto plano "[HH:mm] texto"
           try {
             const parsed = JSON.parse(data.content);
-            if (Array.isArray(parsed)) {
-              setSavedNotes(parsed);
-              return;
-            }
-          } catch { /* not JSON array — plain text from SesionRoom, don't override */ }
+            if (Array.isArray(parsed)) { setSavedNotes(parsed); return; }
+          } catch { /* no es JSON */ }
+          const lines = data.content.split("\n").filter((l: string) => l.trim());
+          const notes = lines.map((line: string) => {
+            const m = line.match(/^\[(\d{2}:\d{2})\] (.+)$/);
+            return m ? { at: m[1], text: m[2] } : { at: "", text: line };
+          });
+          if (notes.length > 0) { setSavedNotes(notes); return; }
         }
       }
       try {
@@ -120,7 +123,8 @@ export default function VideoRoom({
         .eq("appointment_id", appointmentId)
         .maybeSingle();
 
-      const content = JSON.stringify(updated);
+      // Guardar como texto plano para compatibilidad con SesionRoom
+      const content = updated.map(n => `[${n.at}] ${n.text}`).join("\n");
       if (existing?.id) {
         await supabase
           .from("session_notes")
