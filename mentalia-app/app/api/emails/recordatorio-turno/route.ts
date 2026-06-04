@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
-const FROM = process.env.EMAIL_FROM ?? "Mentalia <onboarding@resend.dev>";
+const FROM = process.env.EMAIL_FROM ?? "Mentalia <hola@mentaliasalud.online>";
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://mentaliasalud.online";
 
 export async function POST(req: NextRequest) {
