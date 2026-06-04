@@ -10,6 +10,7 @@ type Sesion = {
   status: string;
   daily_room_name: string | null;
   paciente_id: string;
+  patient_id: string | null;
   pacientes: { nombre: string; motivo_consulta: string | null } | null;
   session_notes: Array<{ id: string; content: string | null; ai_summary: string | null; temas_clave: string[]; nivel_riesgo: string | null }>;
 };
@@ -84,7 +85,7 @@ export default function SesionRoom({
       await supabase.from("session_notes").insert({
         appointment_id: sesion.id,
         professional_id: profesionalId,
-        patient_id: sesion.paciente_id,
+        patient_id: sesion.patient_id ?? null,
         session_date: new Date(sesion.scheduled_at).toISOString().split("T")[0],
         content: texto,
       });

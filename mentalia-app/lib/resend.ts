@@ -149,7 +149,7 @@ export async function emailNuevoTurnoProfesional(opts: {
   to: string;
   profesionalName: string;
   pacienteName: string;
-  patieneEmail: string;
+  patientEmail: string;
   fecha: string;
   hora: string;
 }) {
@@ -160,7 +160,7 @@ export async function emailNuevoTurnoProfesional(opts: {
     <p style="color:#374151;line-height:1.7;">Hola <strong>${primerNombre}</strong>, se programó una nueva sesión.</p>
     <div style="background:#f0faf3;border-radius:12px;padding:20px 24px;margin:20px 0;border-left:4px solid #40916C;">
       <p style="margin:0 0 8px;color:#374151;"><strong>Paciente:</strong> ${opts.pacienteName}</p>
-      <p style="margin:0 0 8px;color:#374151;"><strong>Email:</strong> ${opts.patieneEmail}</p>
+      <p style="margin:0 0 8px;color:#374151;"><strong>Email:</strong> ${opts.patientEmail}</p>
       <p style="margin:0 0 8px;color:#374151;"><strong>Fecha:</strong> ${opts.fecha}</p>
       <p style="margin:0;color:#374151;"><strong>Hora:</strong> ${opts.hora}</p>
     </div>

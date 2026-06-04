@@ -14,11 +14,13 @@ export default function VideoRoom({
   role,
   userId,
   appointmentId,
+  patientId,
 }: {
   sala: string;
   role: string;
   userId?: string | null;
   appointmentId?: string | null;
+  patientId?: string | null;
 }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const apiRef = useRef<any>(null);
@@ -128,6 +130,7 @@ export default function VideoRoom({
         await supabase.from("session_notes").insert({
           appointment_id: appointmentId,
           professional_id: userId,
+          patient_id: patientId ?? null,
           session_date: new Date().toISOString().split("T")[0],
           content,
         });

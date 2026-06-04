@@ -10,6 +10,7 @@ export default async function VideoPage({ params }: { params: Promise<{ sala: st
 
   let role = "patient";
   let appointmentId: string | null = null;
+  let patientId: string | null = null;
   if (user) {
     const { data: profile } = await supabase
       .from("profiles")
@@ -21,11 +22,12 @@ export default async function VideoPage({ params }: { params: Promise<{ sala: st
     if (role === "professional") {
       const { data: appt } = await supabase
         .from("appointments")
-        .select("id")
+        .select("id, patient_id")
         .eq("professional_id", user.id)
-        .or(`id.eq.${sala},room_name.eq.${sala}`)
+        .or(`id.eq.${sala},daily_room_name.eq.${sala}`)
         .maybeSingle();
       appointmentId = appt?.id ?? null;
+      patientId = appt?.patient_id ?? null;
     }
   }
 
@@ -60,7 +62,7 @@ export default async function VideoPage({ params }: { params: Promise<{ sala: st
 
       {/* Video room */}
       <div className="flex-1 overflow-hidden">
-        <VideoRoom sala={sala} role={role} userId={user?.id ?? null} appointmentId={appointmentId} />
+        <VideoRoom sala={sala} role={role} userId={user?.id ?? null} appointmentId={appointmentId} patientId={patientId} />
       </div>
     </div>
   );
