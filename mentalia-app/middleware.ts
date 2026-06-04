@@ -53,7 +53,7 @@ export async function middleware(request: NextRequest) {
       return NextResponse.redirect(new URL("/dashboard/profesional", request.url));
     }
 
-    // Trial enforcement: solo para profesionales fuera de la página de pagos
+    // Trial enforcement: solo para profesionales fuera de pagos y perfil
     if (isProfRoute && profile?.role === "professional" && !path.startsWith("/dashboard/profesional/pagos")) {
       const { data: prof } = await supabase
         .from("professionals")
@@ -61,19 +61,26 @@ export async function middleware(request: NextRequest) {
         .eq("id", user.id)
         .single();
 
-      const trialExpired = prof?.trial_ends_at && new Date(prof.trial_ends_at) < new Date();
+      // Sin fila en professionals → completar perfil
+      if (!prof) {
+        if (!path.startsWith("/dashboard/profesional/perfil")) {
+          return NextResponse.redirect(new URL("/dashboard/profesional/perfil?setup=true", request.url));
+        }
+      } else {
+        const trialExpired = prof.trial_ends_at && new Date(prof.trial_ends_at) < new Date();
 
-      if (trialExpired) {
-        const cutoff = new Date(Date.now() - 35 * 24 * 60 * 60 * 1000).toISOString();
-        const { count } = await supabase
-          .from("payments")
-          .select("*", { count: "exact", head: true })
-          .eq("professional_id", user.id)
-          .eq("status", "paid")
-          .gte("paid_at", cutoff);
+        if (trialExpired) {
+          const cutoff = new Date(Date.now() - 35 * 24 * 60 * 60 * 1000).toISOString();
+          const { count } = await supabase
+            .from("payments")
+            .select("*", { count: "exact", head: true })
+            .eq("professional_id", user.id)
+            .eq("status", "paid")
+            .gte("paid_at", cutoff);
 
-        if (!count) {
-          return NextResponse.redirect(new URL("/dashboard/profesional/pagos?trial_expired=true", request.url));
+          if (!count) {
+            return NextResponse.redirect(new URL("/dashboard/profesional/pagos?trial_expired=true", request.url));
+          }
         }
       }
     }

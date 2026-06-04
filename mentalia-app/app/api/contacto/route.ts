@@ -1,6 +1,24 @@
 import { NextRequest, NextResponse } from "next/server";
 
+const rateLimitMap = new Map<string, { count: number; resetAt: number }>();
+
+function checkRateLimit(ip: string): boolean {
+  const now = Date.now();
+  const entry = rateLimitMap.get(ip);
+  if (!entry || entry.resetAt < now) {
+    rateLimitMap.set(ip, { count: 1, resetAt: now + 60 * 60 * 1000 });
+    return true;
+  }
+  if (entry.count >= 3) return false;
+  entry.count++;
+  return true;
+}
+
 export async function POST(req: NextRequest) {
+  const ip = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ?? "unknown";
+  if (!checkRateLimit(ip)) {
+    return NextResponse.json({ error: "Demasiadas solicitudes. Intentá de nuevo en una hora." }, { status: 429 });
+  }
   const { nombre, email, asunto, mensaje } = await req.json();
 
   if (!nombre?.trim() || !email?.trim() || !asunto?.trim() || !mensaje?.trim()) {

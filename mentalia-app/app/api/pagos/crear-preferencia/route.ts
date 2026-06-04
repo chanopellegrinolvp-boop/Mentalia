@@ -24,7 +24,10 @@ export async function POST(req: Request) {
 
   const { plan, monto } = await req.json();
 
-  if (!planesValidos[plan] || planesValidos[plan] !== monto) {
+  // Normalizar: "Clínica" → "Clinica", "Starter" → "Starter", etc.
+  const planNorm: string = (plan ?? "").normalize("NFD").replace(/[̀-ͯ]/g, "");
+
+  if (!planesValidos[planNorm] || planesValidos[planNorm] !== monto) {
     return NextResponse.json({ error: "Plan o monto inválido" }, { status: 400 });
   }
 
@@ -34,9 +37,9 @@ export async function POST(req: Request) {
       body: {
         items: [
           {
-            id: `plan-${plan.toLowerCase()}`,
-            title: `Mentalia — Plan ${plan}`,
-            description: `Suscripción mensual al plan ${plan} de Mentalia`,
+            id: `plan-${planNorm.toLowerCase()}`,
+            title: `Mentalia — Plan ${planNorm}`,
+            description: `Suscripción mensual al plan ${planNorm} de Mentalia`,
             quantity: 1,
             unit_price: monto,
             currency_id: "ARS",
@@ -44,7 +47,7 @@ export async function POST(req: Request) {
         ],
         payer: { email: user.email },
         back_urls: {
-          success: `${SITE_URL}/dashboard/profesional/pagos?status=success&plan=${plan}`,
+          success: `${SITE_URL}/dashboard/profesional/pagos?status=success&plan=${planNorm}`,
           failure: `${SITE_URL}/dashboard/profesional/pagos?status=failure`,
           pending: `${SITE_URL}/dashboard/profesional/pagos?status=pending`,
         },

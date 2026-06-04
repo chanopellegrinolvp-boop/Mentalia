@@ -4,6 +4,11 @@ const FROM = process.env.EMAIL_FROM ?? "Mentalia <onboarding@resend.dev>";
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://mentaliasalud.online";
 
 export async function POST(req: NextRequest) {
+  const { createClient } = await import("@/lib/supabase/server");
+  const supabase = createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) return NextResponse.json({ error: "No autorizado" }, { status: 401 });
+
   const { paciente_email, paciente_nombre, profesional_nombre, mensaje_rechazo } = await req.json();
   if (!paciente_email) return NextResponse.json({ ok: true });
 

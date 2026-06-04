@@ -20,6 +20,16 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Datos incompletos" }, { status: 400 });
   }
 
+  // Verificar que el userId existe en auth y fue creado hace menos de 5 minutos
+  const { data: authData } = await supabaseAdmin.auth.admin.getUserById(userId);
+  if (!authData?.user) {
+    return NextResponse.json({ error: "No autorizado" }, { status: 401 });
+  }
+  const fiveMinutesAgo = new Date(Date.now() - 5 * 60 * 1000);
+  if (new Date(authData.user.created_at) < fiveMinutesAgo) {
+    return NextResponse.json({ error: "No autorizado" }, { status: 401 });
+  }
+
   // Preservar referral_code existente si el usuario ya tiene uno
   const { data: existing } = await supabaseAdmin
     .from("profiles")

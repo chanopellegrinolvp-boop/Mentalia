@@ -73,7 +73,7 @@ export async function GET(req: NextRequest) {
 
     const res = await fetch(`${SITE_URL}/api/emails/recordatorio-turno`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json", "x-internal-secret": process.env.CRON_SECRET ?? "" },
       body: JSON.stringify({
         paciente_email: pacienteProfile.email,
         paciente_nombre: pacienteProfile.full_name ?? "Paciente",

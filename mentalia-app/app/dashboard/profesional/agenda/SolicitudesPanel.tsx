@@ -83,7 +83,7 @@ export default function SolicitudesPanel({
         professional_id: professionalId,
         patient_id: aceptarSolicitud.paciente_id,
         scheduled_at: fechaISO,
-        status: "confirmed",
+        status: "scheduled",
         duration_minutes: 55,
       }),
       supabase

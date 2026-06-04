@@ -4,6 +4,11 @@ const FROM = process.env.EMAIL_FROM ?? "Mentalia <onboarding@resend.dev>";
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://mentaliasalud.online";
 
 export async function POST(req: NextRequest) {
+  const secret = req.headers.get("x-internal-secret");
+  if (secret !== process.env.CRON_SECRET) {
+    return NextResponse.json({ error: "No autorizado" }, { status: 401 });
+  }
+
   const { paciente_email, paciente_nombre, profesional_nombre, fecha, hora, meet_url } = await req.json();
   if (!paciente_email) return NextResponse.json({ ok: true });
 
