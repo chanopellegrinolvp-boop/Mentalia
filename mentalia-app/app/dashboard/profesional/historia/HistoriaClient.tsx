@@ -123,32 +123,39 @@ export default function HistoriaClient({ professionalId, patients }: { professio
     setLoadingIa(true);
     setIaResumen("");
     setIaRiesgo(null);
-
-    const [resRes, riesgoRes] = await Promise.all([
-      fetch("/api/ia/resumen", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ notas: notes }) }),
-      fetch("/api/ia/riesgo", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ notas: notes }) }),
-    ]);
-
-    const resData = await resRes.json();
-    const riesgoData = await riesgoRes.json();
-    setIaResumen(resData.resumen ?? resData.error ?? "");
-    setIaRiesgo(riesgoData);
-    setLoadingIa(false);
+    try {
+      const [resRes, riesgoRes] = await Promise.all([
+        fetch("/api/ia/resumen", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ notas: notes }) }),
+        fetch("/api/ia/riesgo", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ notas: notes }) }),
+      ]);
+      const resData = await resRes.json();
+      const riesgoData = await riesgoRes.json();
+      setIaResumen(resData.resumen ?? resData.error ?? "");
+      setIaRiesgo(riesgoData);
+    } catch {
+      setIaResumen("No se pudo generar el resumen. Verificá tu conexión e intentá de nuevo.");
+    } finally {
+      setLoadingIa(false);
+    }
   }
 
   async function generarResumenSemanal() {
     if (!selectedPatient) return;
     setLoadingRS(true);
     setResumenSemanal(null);
-
-    const res = await fetch("/api/ia/resumen-semanal", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ notas: notes }),
-    });
-    const data = await res.json();
-    setResumenSemanal(data);
-    setLoadingRS(false);
+    try {
+      const res = await fetch("/api/ia/resumen-semanal", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ notas: notes }),
+      });
+      const data = await res.json();
+      setResumenSemanal(data);
+    } catch {
+      setResumenSemanal({ moodTrend: [], topEmociones: [], avgMood: null, noData: true });
+    } finally {
+      setLoadingRS(false);
+    }
   }
 
   function exportarPDF() {
