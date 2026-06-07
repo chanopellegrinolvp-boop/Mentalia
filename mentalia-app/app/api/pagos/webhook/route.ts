@@ -2,6 +2,7 @@ import { MercadoPagoConfig, Payment } from "mercadopago";
 import { createClient } from "@supabase/supabase-js";
 import { NextResponse } from "next/server";
 import { emailPagoConfirmado } from "@/lib/resend";
+import crypto from "crypto";
 
 const mp = new MercadoPagoConfig({
   accessToken: process.env.MP_ACCESS_TOKEN!,
@@ -11,6 +12,34 @@ const supabaseAdmin = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.SUPABASE_SERVICE_ROLE_KEY!
 );
+
+// Fix 1: verificar firma HMAC de MercadoPago
+// Template: "id:<paymentId>;request-id:<x-request-id>;ts:<ts>"
+function verifyMPSignature(req: Request, paymentId: string): boolean {
+  const secret = process.env.MP_WEBHOOK_SECRET;
+  if (!secret) return true; // sin configurar → no bloquear (dev/staging)
+
+  const xSignature = req.headers.get("x-signature");
+  const xRequestId = req.headers.get("x-request-id") ?? "";
+  if (!xSignature) return false;
+
+  const parts: Record<string, string> = {};
+  xSignature.split(",").forEach(part => {
+    const idx = part.indexOf("=");
+    if (idx > 0) parts[part.slice(0, idx).trim()] = part.slice(idx + 1).trim();
+  });
+  const { ts, v1 } = parts;
+  if (!ts || !v1) return false;
+
+  const manifest = `id:${paymentId};request-id:${xRequestId};ts:${ts}`;
+  const expected = crypto.createHmac("sha256", secret).update(manifest).digest("hex");
+
+  try {
+    return crypto.timingSafeEqual(Buffer.from(v1, "hex"), Buffer.from(expected, "hex"));
+  } catch {
+    return false;
+  }
+}
 
 export async function POST(req: Request) {
   if (!process.env.MP_ACCESS_TOKEN) {
@@ -27,6 +56,12 @@ export async function POST(req: Request) {
     }
 
     if (body.type === "payment" && body.data?.id) {
+      // Fix 1: verificar firma antes de procesar
+      if (!verifyMPSignature(req, String(body.data.id))) {
+        console.warn("[Webhook MP] Firma HMAC inválida — request ignorada");
+        return NextResponse.json({ ok: true });
+      }
+
       const paymentClient = new Payment(mp);
 
       let paymentData;
@@ -50,21 +85,15 @@ export async function POST(req: Request) {
         const professionalId = paymentData.external_reference;
         const monto = paymentData.transaction_amount;
 
-        // Extraer plan en orden de prioridad
         let plan: string = "unknown";
 
-        // 1. Desde description ("Suscripción mensual al plan Pro de Mentalia")
         const descMatch = paymentData.description?.match(/plan\s+(\w+)/i);
         if (descMatch) {
           plan = descMatch[1].toLowerCase();
-        }
-        // 2. Desde additional_info.items[0].title
-        else if (paymentData.additional_info?.items?.[0]?.title) {
+        } else if (paymentData.additional_info?.items?.[0]?.title) {
           const titleMatch = paymentData.additional_info.items[0].title.match(/plan\s+(\w+)/i);
           if (titleMatch) plan = titleMatch[1].toLowerCase();
-        }
-        // 3. Desde la tabla payments existente para este professional_id
-        else if (professionalId) {
+        } else if (professionalId) {
           const { data: lastPayment } = await supabaseAdmin
             .from("payments")
             .select("plan")
@@ -126,6 +155,6 @@ export async function POST(req: Request) {
     return NextResponse.json({ ok: true });
   } catch (error) {
     console.error("Error en webhook MP:", error);
-    return NextResponse.json({ error: "Error interno" }, { status: 500 });
+    return NextResponse.json({ ok: true }); // Fix 2: siempre 200, nunca 500
   }
 }

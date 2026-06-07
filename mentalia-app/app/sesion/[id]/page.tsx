@@ -17,15 +17,20 @@ export default async function SesionPage({ params }: { params: Promise<{ id: str
 
   if (!sesion) notFound();
 
-  // Historial previo de este paciente (para contexto de la IA)
-  const { data: historial } = await supabase
+  // Fix 14: historial previo para pacientes offline (paciente_id) y online (patient_id)
+  const historialBase = supabase
     .from("appointments")
     .select("session_notes(content, ai_summary, temas_clave)")
     .eq("professional_id", user.id)
-    .eq("paciente_id", sesion.paciente_id)
     .neq("id", id)
     .order("scheduled_at", { ascending: false })
     .limit(3);
+
+  const { data: historial } = sesion.paciente_id
+    ? await historialBase.eq("paciente_id", sesion.paciente_id)
+    : sesion.patient_id
+    ? await historialBase.eq("patient_id", sesion.patient_id)
+    : { data: [] };
 
   return (
     <SesionRoom

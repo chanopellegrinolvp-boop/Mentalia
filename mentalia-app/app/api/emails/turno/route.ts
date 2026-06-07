@@ -1,25 +1,95 @@
 import { NextRequest, NextResponse } from "next/server";
 import { emailTurnoConfirmado } from "@/lib/resend";
 import { createClient } from "@/lib/supabase/server";
+import { createClient as createAdminClient } from "@supabase/supabase-js";
+
+const supabaseAdmin = createAdminClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.SUPABASE_SERVICE_ROLE_KEY!
+);
 
 export async function POST(req: NextRequest) {
   const supabase = createClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return NextResponse.json({ error: "No autorizado" }, { status: 401 });
 
-  const { paciente_email, paciente_nombre, profesional_nombre, fecha, hora, modalidad, meet_url } = await req.json();
+  const body = await req.json();
 
-  if (paciente_email) {
+  // Modo directo (legacy): si vienen los campos en el body, usarlos
+  if (body.paciente_email) {
     await emailTurnoConfirmado({
-      to: paciente_email,
-      pacienteName: paciente_nombre,
-      profesionalName: profesional_nombre,
-      fecha,
-      hora,
-      modalidad,
-      meetUrl: meet_url,
+      to: body.paciente_email,
+      pacienteName: body.paciente_nombre ?? "Paciente",
+      profesionalName: body.profesional_nombre ?? "Profesional",
+      fecha: body.fecha ?? "",
+      hora: body.hora ?? "",
+      modalidad: body.modalidad ?? "Online",
+      meetUrl: body.meet_url,
     }).catch(() => {});
+    return NextResponse.json({ ok: true });
   }
+
+  // Modo appointmentId: reconstruir datos desde la DB
+  const { appointmentId } = body;
+  if (!appointmentId) return NextResponse.json({ ok: true });
+
+  const { data: appt } = await supabaseAdmin
+    .from("appointments")
+    .select("id, scheduled_at, video_room_url, professional_id, patient_id, paciente_id")
+    .eq("id", appointmentId)
+    .eq("professional_id", user.id)
+    .single();
+
+  if (!appt) return NextResponse.json({ ok: true });
+
+  let destEmail: string | null = null;
+  let destNombre = "Paciente";
+
+  if (appt.patient_id) {
+    const { data: profile } = await supabaseAdmin
+      .from("profiles")
+      .select("email, full_name")
+      .eq("id", appt.patient_id)
+      .single();
+    destEmail = profile?.email ?? null;
+    destNombre = profile?.full_name ?? "Paciente";
+  } else if (appt.paciente_id) {
+    const { data: pac } = await supabaseAdmin
+      .from("pacientes")
+      .select("nombre, email")
+      .eq("id", appt.paciente_id)
+      .single();
+    destNombre = pac?.nombre ?? "Paciente";
+    destEmail = (pac as any)?.email ?? null;
+  }
+
+  if (!destEmail) return NextResponse.json({ ok: true });
+
+  const { data: profProfile } = await supabaseAdmin
+    .from("profiles")
+    .select("full_name")
+    .eq("id", appt.professional_id)
+    .single();
+
+  const fechaTurno = new Date(appt.scheduled_at);
+  const fechaStr = fechaTurno.toLocaleDateString("es-AR", {
+    weekday: "long", year: "numeric", month: "long", day: "numeric",
+    timeZone: "America/Argentina/Buenos_Aires",
+  });
+  const horaStr = fechaTurno.toLocaleTimeString("es-AR", {
+    hour: "2-digit", minute: "2-digit",
+    timeZone: "America/Argentina/Buenos_Aires",
+  });
+
+  await emailTurnoConfirmado({
+    to: destEmail,
+    pacienteName: destNombre,
+    profesionalName: profProfile?.full_name ?? "Profesional",
+    fecha: fechaStr,
+    hora: horaStr,
+    modalidad: "Online",
+    meetUrl: appt.video_room_url ?? undefined,
+  }).catch(() => {});
 
   return NextResponse.json({ ok: true });
 }

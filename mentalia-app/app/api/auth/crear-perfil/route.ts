@@ -20,6 +20,11 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Datos incompletos" }, { status: 400 });
   }
 
+  // Fix 12: validar que role sea uno de los valores permitidos
+  if (!["professional", "patient"].includes(role)) {
+    return NextResponse.json({ error: "Role inválido" }, { status: 400 });
+  }
+
   // Verificar que el userId existe en auth y fue creado hace menos de 5 minutos
   const { data: authData } = await supabaseAdmin.auth.admin.getUserById(userId);
   if (!authData?.user) {

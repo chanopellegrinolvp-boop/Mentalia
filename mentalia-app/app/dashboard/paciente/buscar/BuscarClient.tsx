@@ -130,6 +130,7 @@ export default function BuscarClient({
   const [mensaje, setMensaje] = useState("");
   const [enviando, setEnviando] = useState(false);
   const [enviado, setEnviado] = useState(false);
+  const [errorEnvio, setErrorEnvio] = useState("");
 
   function abrirModal(p: Professional) {
     setProfesionalSeleccionado(p);
@@ -144,6 +145,7 @@ export default function BuscarClient({
   function cerrarModal() {
     setModalAbierto(false);
     setProfesionalSeleccionado(null);
+    setErrorEnvio("");
   }
 
   function toggleDisponibilidad(op: string) {
@@ -156,11 +158,12 @@ export default function BuscarClient({
     e.preventDefault();
     if (!profesionalSeleccionado || !motivo || disponibilidad.length === 0) return;
     setEnviando(true);
+    setErrorEnvio("");
 
     const profile = getProfile(profesionalSeleccionado);
     const contenidoMensaje = `📋 Solicitud de consulta\n\nMotivo: ${motivo}\nModalidad: ${modalidad}\nDisponibilidad: ${disponibilidad.join(", ")}${mensaje ? `\n\nMensaje: ${mensaje}` : ""}`;
 
-    await Promise.all([
+    const [solicitudResult, messageResult] = await Promise.all([
       supabase.from("solicitudes_consulta").insert({
         paciente_id: userId,
         professional_id: profesionalSeleccionado.id,
@@ -176,6 +179,12 @@ export default function BuscarClient({
         content: contenidoMensaje,
       }),
     ]);
+
+    if (solicitudResult.error || messageResult.error) {
+      setEnviando(false);
+      setErrorEnvio("No se pudo enviar la solicitud. Intentá de nuevo.");
+      return;
+    }
 
     fetch("/api/emails/solicitud-consulta", {
       method: "POST",
@@ -382,6 +391,8 @@ export default function BuscarClient({
                       />
                       <p className="text-xs text-gray-400 text-right mt-1">{mensaje.length}/300</p>
                     </div>
+
+                    {errorEnvio && <p className="text-sm text-red-500">{errorEnvio}</p>}
 
                     <div className="flex gap-3 pt-1">
                       <button

@@ -332,7 +332,7 @@ export default function HistoriaClient({ professionalId, patients }: { professio
                 ) : (
                   <div className="space-y-5">
                     {/* Mood trend bars */}
-                    {resumenSemanal.moodTrend.length > 0 && (
+                    {(resumenSemanal.moodTrend?.length ?? 0) > 0 && (
                       <div>
                         <p className="text-xs font-bold text-gris uppercase tracking-wide mb-2">
                           Ánimo esta semana ({resumenSemanal.moodTrend.length} registros)
@@ -352,7 +352,7 @@ export default function HistoriaClient({ professionalId, patients }: { professio
                             />
                           ))}
                         </div>
-                        {resumenSemanal.avgMood !== null && (
+                        {resumenSemanal.avgMood != null && (
                           <p className="text-xs text-gris mt-1.5">
                             Promedio:{" "}
                             <strong style={{ color: moodColors[Math.round(resumenSemanal.avgMood)] ?? "#40916C" }}>
@@ -364,7 +364,7 @@ export default function HistoriaClient({ professionalId, patients }: { professio
                     )}
 
                     {/* Top emotions */}
-                    {resumenSemanal.topEmociones.length > 0 && (
+                    {(resumenSemanal.topEmociones?.length ?? 0) > 0 && (
                       <div>
                         <p className="text-xs font-bold text-gris uppercase tracking-wide mb-2">Emociones más frecuentes</p>
                         <div className="flex flex-wrap gap-2">

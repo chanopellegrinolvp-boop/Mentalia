@@ -1,24 +1,35 @@
 import { NextRequest, NextResponse } from "next/server";
+import { createClient as createAdminClient } from "@supabase/supabase-js";
 
-const rateLimitMap = new Map<string, { count: number; resetAt: number }>();
+const supabaseAdmin = createAdminClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.SUPABASE_SERVICE_ROLE_KEY!
+);
 
-function checkRateLimit(ip: string): boolean {
-  const now = Date.now();
-  const entry = rateLimitMap.get(ip);
-  if (!entry || entry.resetAt < now) {
-    rateLimitMap.set(ip, { count: 1, resetAt: now + 60 * 60 * 1000 });
-    return true;
-  }
-  if (entry.count >= 3) return false;
-  entry.count++;
+// Fix 10: rate limiting persistente en Supabase (funciona en serverless)
+async function checkRateLimit(ip: string): Promise<boolean> {
+  const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000).toISOString();
+
+  const { count } = await supabaseAdmin
+    .from("rate_limits")
+    .select("*", { count: "exact", head: true })
+    .eq("ip", ip)
+    .gte("created_at", oneHourAgo);
+
+  if ((count ?? 0) >= 3) return false;
+
+  await supabaseAdmin.from("rate_limits").insert({ ip });
   return true;
 }
 
 export async function POST(req: NextRequest) {
   const ip = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ?? "unknown";
-  if (!checkRateLimit(ip)) {
+
+  const allowed = await checkRateLimit(ip);
+  if (!allowed) {
     return NextResponse.json({ error: "Demasiadas solicitudes. Intentá de nuevo en una hora." }, { status: 429 });
   }
+
   const { nombre, email, asunto, mensaje } = await req.json();
 
   if (!nombre?.trim() || !email?.trim() || !asunto?.trim() || !mensaje?.trim()) {

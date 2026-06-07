@@ -51,26 +51,37 @@ export default function SesionRoom({
 
   async function iniciarVideo() {
     setIniciandoVideo(true);
-    const res = await fetch("/api/sesion/iniciar", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ sesionId: sesion.id }),
-    });
-    const data = await res.json();
-    if (data.roomUrl) {
-      setVideoUrl(data.roomUrl);
-      setFase("en-curso");
+    try {
+      const res = await fetch("/api/sesion/iniciar", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ sesionId: sesion.id }),
+      });
+      if (!res.ok) throw new Error(`Error ${res.status}`);
+      const data = await res.json();
+      if (data.roomUrl) {
+        setVideoUrl(data.roomUrl);
+        setFase("en-curso");
+      }
+    } catch (err) {
+      console.error("[SesionRoom] Error iniciando video:", err);
+    } finally {
+      setIniciandoVideo(false);
     }
-    setIniciandoVideo(false);
   }
 
   async function finalizarVideo() {
     setFase("notas");
-    await fetch("/api/sesion/finalizar", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ sesionId: sesion.id }),
-    });
+    try {
+      const res = await fetch("/api/sesion/finalizar", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ sesionId: sesion.id }),
+      });
+      if (!res.ok) console.error("[SesionRoom] Error finalizando sesión:", res.status);
+    } catch (err) {
+      console.error("[SesionRoom] Error finalizando sesión:", err);
+    }
     if (notas.trim()) {
       generarResumenIA();
     }
@@ -99,51 +110,58 @@ export default function SesionRoom({
     if (!notas.trim()) return;
     setGenerandoIA(true);
 
-    const contexto = historialPrevio
-      ?.flatMap((s: any) => s.session_notes ?? [])
-      .map((n: any) => n.ai_summary || n.content)
-      .filter(Boolean)
-      .slice(0, 3)
-      .join("\n\n---\n\n");
+    try {
+      const contexto = historialPrevio
+        ?.flatMap((s: any) => s.session_notes ?? [])
+        .map((n: any) => n.ai_summary || n.content)
+        .filter(Boolean)
+        .slice(0, 3)
+        .join("\n\n---\n\n");
 
-    const res = await fetch("/api/ia/resumen-sesion", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        notas,
-        pacienteNombre: paciente?.nombre,
-        motivoConsulta: paciente?.motivo_consulta,
-        historialPrevio: contexto,
-      }),
-    });
-
-    const data = await res.json();
-    setResumenIA(data.resumen ?? "");
-    setTemasIA(data.temas ?? []);
-    setNivelRiesgo(data.nivelRiesgo ?? "bajo");
-    setGenerandoIA(false);
-    setFase("completada");
-
-    // Guardar resumen en BD
-    const noteId = sesion.session_notes?.[0]?.id;
-    const payload = {
-      ai_summary: data.resumen,
-      temas_clave: data.temas ?? [],
-      nivel_riesgo: data.nivelRiesgo ?? "bajo",
-      content: notas,
-    };
-    if (noteId) {
-      await supabase.from("session_notes").update(payload).eq("id", noteId);
-    } else {
-      await supabase.from("session_notes").insert({
-        appointment_id: sesion.id,
-        professional_id: profesionalId,
-        patient_id: sesion.paciente_id,
-        session_date: new Date(sesion.scheduled_at).toISOString().split("T")[0],
-        ...payload,
+      const res = await fetch("/api/ia/resumen-sesion", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          notas,
+          pacienteNombre: paciente?.nombre,
+          motivoConsulta: paciente?.motivo_consulta,
+          historialPrevio: contexto,
+        }),
       });
+
+      if (!res.ok) throw new Error(`IA error: ${res.status}`);
+
+      const data = await res.json();
+      setResumenIA(data.resumen ?? "");
+      setTemasIA(data.temas ?? []);
+      setNivelRiesgo(data.nivelRiesgo ?? "bajo");
+      setFase("completada");
+
+      // Guardar resumen en BD
+      const noteId = sesion.session_notes?.[0]?.id;
+      const payload = {
+        ai_summary: data.resumen,
+        temas_clave: data.temas ?? [],
+        nivel_riesgo: data.nivelRiesgo ?? "bajo",
+        content: notas,
+      };
+      if (noteId) {
+        await supabase.from("session_notes").update(payload).eq("id", noteId);
+      } else {
+        await supabase.from("session_notes").insert({
+          appointment_id: sesion.id,
+          professional_id: profesionalId,
+          patient_id: sesion.paciente_id,
+          session_date: new Date(sesion.scheduled_at).toISOString().split("T")[0],
+          ...payload,
+        });
+      }
+      await supabase.from("appointments").update({ status: "completed", ended_at: new Date().toISOString() }).eq("id", sesion.id);
+    } catch (err) {
+      console.error("[SesionRoom] Error generando resumen IA:", err);
+    } finally {
+      setGenerandoIA(false);
     }
-    await supabase.from("appointments").update({ status: "completed", ended_at: new Date().toISOString() }).eq("id", sesion.id);
   }
 
   const riesgoColor = { bajo: "text-green-600 bg-green-50", medio: "text-yellow-600 bg-yellow-50", alto: "text-red-600 bg-red-50" }[nivelRiesgo] ?? "text-gray-600 bg-gray-50";

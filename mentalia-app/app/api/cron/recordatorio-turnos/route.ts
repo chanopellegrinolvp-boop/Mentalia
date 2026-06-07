@@ -28,7 +28,7 @@ export async function GET(req: NextRequest) {
 
   const { data: turnos, error } = await supabase
     .from("appointments")
-    .select("id, scheduled_at, video_room_url, patient_id, professional_id, professionals ( profiles (full_name) )")
+    .select("id, scheduled_at, video_room_url, patient_id, paciente_id, professional_id, professionals ( profiles (full_name) )")
     .eq("status", "scheduled")
     .gte("scheduled_at", desde.toISOString())
     .lte("scheduled_at", hasta.toISOString());
@@ -46,13 +46,29 @@ export async function GET(req: NextRequest) {
   let errores = 0;
 
   for (const turno of turnos) {
-    const { data: pacienteProfile } = await supabase
-      .from("profiles")
-      .select("full_name, email")
-      .eq("id", turno.patient_id)
-      .single();
+    // Fix 13: manejar pacientes online (patient_id → profiles) y offline (paciente_id → pacientes)
+    let pacienteEmail: string | null = null;
+    let pacienteNombre = "Paciente";
 
-    if (!pacienteProfile?.email) continue;
+    if (turno.patient_id) {
+      const { data: profile } = await supabase
+        .from("profiles")
+        .select("full_name, email")
+        .eq("id", turno.patient_id)
+        .single();
+      pacienteEmail = profile?.email ?? null;
+      pacienteNombre = profile?.full_name ?? "Paciente";
+    } else if ((turno as any).paciente_id) {
+      const { data: pac } = await supabase
+        .from("pacientes")
+        .select("nombre, email")
+        .eq("id", (turno as any).paciente_id)
+        .single();
+      pacienteNombre = pac?.nombre ?? "Paciente";
+      pacienteEmail = (pac as any)?.email ?? null;
+    }
+
+    if (!pacienteEmail) continue;
 
     const fechaTurno = new Date(turno.scheduled_at);
     const fecha = fechaTurno.toLocaleDateString("es-AR", {
@@ -75,8 +91,8 @@ export async function GET(req: NextRequest) {
       method: "POST",
       headers: { "Content-Type": "application/json", "x-internal-secret": process.env.CRON_SECRET ?? "" },
       body: JSON.stringify({
-        paciente_email: pacienteProfile.email,
-        paciente_nombre: pacienteProfile.full_name ?? "Paciente",
+        paciente_email: pacienteEmail,
+        paciente_nombre: pacienteNombre,
         profesional_nombre: profesionalNombre,
         fecha,
         hora,

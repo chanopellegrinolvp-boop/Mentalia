@@ -38,7 +38,7 @@ export default function DiarioForm() {
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) { setGuardando(false); return; }
 
-    const hoy = new Date().toISOString().split("T")[0];
+    const hoy = new Date().toLocaleDateString("en-CA", { timeZone: "America/Argentina/Buenos_Aires" });
 
     const { error: err } = await supabase
       .from("emotional_diary")

@@ -22,7 +22,7 @@ export default async function DiarioEmocional() {
     return "😢";
   };
 
-  const hoy = new Date().toISOString().split("T")[0];
+  const hoy = new Date().toLocaleDateString("en-CA", { timeZone: "America/Argentina/Buenos_Aires" });
   const tieneHoy = entradas?.some(e => e.date === hoy);
 
   return (
