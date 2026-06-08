@@ -144,10 +144,12 @@ export default function HistoriaClient({ professionalId, patients }: { professio
     setLoadingRS(true);
     setResumenSemanal(null);
     try {
+      // patientId solo para pacientes online (tienen diario emocional)
+      const patientId = selectedPatient.tipo !== "offline" ? selectedPatient.id : null;
       const res = await fetch("/api/ia/resumen-semanal", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ notas: notes }),
+        body: JSON.stringify({ notas: notes, patientId }),
       });
       const data = await res.json();
       setResumenSemanal(data);
