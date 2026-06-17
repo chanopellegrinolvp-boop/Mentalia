@@ -1,14 +1,23 @@
-﻿"use client";
+"use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { createClient } from "@/lib/supabase/client";
 
-async function cancelarPlan(setCancelling: (v: boolean) => void) {
+async function cancelarPlan(
+  setCancelling: (v: boolean) => void,
+  setPlanActivo: (v: string | null) => void
+) {
   setCancelling(true);
   try {
     const res = await fetch("/api/pagos/cancelar-plan", { method: "POST" });
     const data = await res.json();
-    alert(res.ok ? data.mensaje : data.error || "Error al cancelar");
+    if (res.ok) {
+      setPlanActivo(null);
+      alert(data.mensaje);
+    } else {
+      alert(data.error || "Error al cancelar");
+    }
   } catch {
     alert("Error de conexión. Intentá de nuevo.");
   } finally {
@@ -25,7 +34,21 @@ const PLANES = [
 export default function BotonesPlanes() {
   const [loading, setLoading] = useState<string | null>(null);
   const [cancelling, setCancelling] = useState(false);
+  const [planActivo, setPlanActivo] = useState<string | null>(null);
   const router = useRouter();
+  const supabase = createClient();
+
+  useEffect(() => {
+    supabase.auth.getUser().then(async ({ data: { user } }) => {
+      if (!user) return;
+      const { data } = await supabase
+        .from("professionals")
+        .select("plan")
+        .eq("id", user.id)
+        .single();
+      setPlanActivo(data?.plan ?? null);
+    });
+  }, []);
 
   async function handlePago(plan: string, monto: number) {
     setLoading(plan);
@@ -91,22 +114,17 @@ export default function BotonesPlanes() {
                 : "border border-[#40916C] text-[#40916C] hover:bg-[#D8F3DC] disabled:opacity-60"
             }`}
           >
-            {loading === plan.nombre ? "Redirigiendo..." : `Elegir ${plan.nombre}`}
+            {loading === plan.nombre ? "Redirigiendo..." : "Pagar ahora"}
           </button>
-          <button
-            onClick={() => handlePago(plan.nombre, plan.montoAPI)}
-            disabled={loading !== null}
-            className="w-full py-2 rounded-xl text-sm font-medium border border-gray-200 text-gray-500 hover:bg-gray-50 transition disabled:opacity-60"
-          >
-            Pagar ahora
-          </button>
-          <button
-            onClick={() => cancelarPlan(setCancelling)}
-            disabled={cancelling || loading !== null}
-            className="w-full py-2 rounded-xl text-sm font-medium border border-red-300 text-red-500 bg-transparent hover:bg-red-50 transition disabled:opacity-60"
-          >
-            {cancelling ? "Cancelando..." : "Cancelar plan"}
-          </button>
+          {planActivo && (
+            <button
+              onClick={() => cancelarPlan(setCancelling, setPlanActivo)}
+              disabled={cancelling || loading !== null}
+              className="w-full py-2 rounded-xl text-sm font-medium border border-red-300 text-red-500 bg-transparent hover:bg-red-50 transition disabled:opacity-60"
+            >
+              {cancelling ? "Cancelando..." : "Cancelar plan"}
+            </button>
+          )}
         </div>
       ))}
     </div>

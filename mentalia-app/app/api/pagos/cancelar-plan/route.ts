@@ -19,5 +19,10 @@ export async function POST() {
     return NextResponse.json({ error: "Error al cancelar el plan" }, { status: 500 });
   }
 
+  await supabase
+    .from("professionals")
+    .update({ plan: null })
+    .eq("id", user.id);
+
   return NextResponse.json({ mensaje: "Plan cancelado" });
 }
