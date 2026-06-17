@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Playfair_Display } from "next/font/google";
 import "./globals.css";
 import PWARegister from "@/components/PWARegister";
+import CookieBanner from "@/components/CookieBanner";
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
@@ -77,6 +78,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="bg-[#FDFCFA] text-gray-800 antialiased">
         <PWARegister />
         {children}
+        <CookieBanner />
       </body>
     </html>
   );

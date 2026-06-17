@@ -136,6 +136,19 @@ export default function MensajesPage() {
     setMensajes(data ?? []);
   };
 
+  const borrarConversacion = async () => {
+    if (!userId || !contactoActivo) return;
+    if (!window.confirm("¿Borrar esta conversación? No se puede deshacer.")) return;
+    await supabase
+      .from("messages")
+      .delete()
+      .eq("sender_id", userId)
+      .eq("receiver_id", contactoActivo.id);
+    setMensajes([]);
+    setContactoActivo(null);
+    await cargarContactos();
+  };
+
   const enviar = async () => {
     if (!nuevo.trim() || !userId || !contactoActivo) return;
     setEnviando(true);
@@ -193,8 +206,14 @@ export default function MensajesPage() {
           <div className="flex-1 flex flex-col">
             {contactoActivo ? (
               <>
-                <div className="px-5 py-3 border-b border-gray-100">
+                <div className="px-5 py-3 border-b border-gray-100 flex items-center justify-between">
                   <p className="font-medium text-sm text-gray-800">{contactoActivo.full_name ?? contactoActivo.email}</p>
+                  <button
+                    onClick={borrarConversacion}
+                    className="text-xs text-red-400 hover:text-red-600 transition"
+                  >
+                    Borrar conversación
+                  </button>
                 </div>
                 <div className="flex-1 overflow-y-auto px-5 py-4 space-y-2">
                   {mensajes.map(m => {

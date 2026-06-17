@@ -137,6 +137,10 @@ export default async function PacienteHome() {
               <p className="font-medium text-sm text-gray-800">Mensajes</p>
               <p className="text-xs text-gray-400 mt-1">Contactar al profesional</p>
             </Link>
+            <Link href="/dashboard/paciente/pagos" className="bg-white border border-gray-100 rounded-xl p-4 hover:border-[#40916C]/30 transition">
+              <p className="font-medium text-sm text-gray-800">Pagar ahora</p>
+              <p className="text-xs text-gray-400 mt-1">Gestionar suscripción</p>
+            </Link>
           </div>
         </section>
       </main>

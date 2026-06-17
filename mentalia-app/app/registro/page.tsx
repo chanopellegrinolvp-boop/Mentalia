@@ -1,7 +1,7 @@
 ﻿"use client";
 import { useState } from "react";
 import { createClient } from "@/lib/supabase/client";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 
 export default function RegistroPage() {
@@ -14,6 +14,8 @@ export default function RegistroPage() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const planParam = searchParams.get("plan");
   const supabase = createClient();
 
   async function handleSubmit(e: React.FormEvent) {
@@ -70,7 +72,11 @@ export default function RegistroPage() {
       body: JSON.stringify({ email, nombre, rol }),
     }).catch(() => {});
 
-    router.push(rol === "professional" ? "/dashboard/profesional" : "/dashboard/paciente");
+    if (planParam && rol === "professional") {
+      router.push("/dashboard/profesional/pagos");
+    } else {
+      router.push(rol === "professional" ? "/dashboard/profesional" : "/dashboard/paciente");
+    }
     router.refresh();
   }
 

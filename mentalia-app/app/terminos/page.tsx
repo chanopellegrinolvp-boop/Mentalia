@@ -84,17 +84,17 @@ export default function TerminosPage() {
                   <tr className="border-t border-gray-100">
                     <td className="px-4 py-3 font-medium">Starter</td>
                     <td className="px-4 py-3 text-right">USD 15</td>
-                    <td className="px-4 py-3 text-right">$ 14.500</td>
+                    <td className="px-4 py-3 text-right">$ 16.500</td>
                   </tr>
                   <tr className="border-t border-gray-100" style={{ background: "#f0faf3" }}>
                     <td className="px-4 py-3 font-medium">Pro <span className="text-xs font-normal text-[#40916C]">(recomendado)</span></td>
-                    <td className="px-4 py-3 text-right">USD 32</td>
-                    <td className="px-4 py-3 text-right">$ 30.000</td>
+                    <td className="px-4 py-3 text-right">USD 40</td>
+                    <td className="px-4 py-3 text-right">$ 45.000</td>
                   </tr>
                   <tr className="border-t border-gray-100">
                     <td className="px-4 py-3 font-medium">Clínica</td>
                     <td className="px-4 py-3 text-right">USD 75</td>
-                    <td className="px-4 py-3 text-right">$ 70.000</td>
+                    <td className="px-4 py-3 text-right">$ 85.000</td>
                   </tr>
                 </tbody>
               </table>

@@ -1,3 +1,22 @@
+# Workspace — Proyectos activos
+
+## IMPORTANTE — Separación de proyectos
+Cada proyecto tiene su propia carpeta, su propio repo git y su propio CLAUDE.md.
+Cuando trabajés en un proyecto, **todos los cambios van EXCLUSIVAMENTE dentro de su carpeta**.
+
+| Proyecto | Carpeta | CLAUDE.md |
+|---|---|---|
+| Mentalia (plataforma salud mental) | `mentalia-app/` | este archivo (raíz) |
+| Chatbot Inmobiliaria Martinez | `chatbot-inmobiliaria-martinez/` | `chatbot-inmobiliaria-martinez/CLAUDE.md` |
+| The Architect (meta-agente blueprints) | `the-architect/` | `the-architect/CLAUDE.md` |
+
+**Cómo abrir cada proyecto en Claude Code:**
+- Mentalia: abrir Claude Code en `c:\Users\chano\OneDrive\Escritorio\Pront Claude\`
+- Chatbot: abrir Claude Code en `c:\Users\chano\OneDrive\Escritorio\Pront Claude\chatbot-inmobiliaria-martinez\`
+- Architect: abrir Claude Code en `c:\Users\chano\OneDrive\Escritorio\Pront Claude\the-architect\`
+
+---
+
 # Mentalia — Plataforma de Salud Mental Argentina
 
 ## Descripción

@@ -3,14 +3,28 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
+async function cancelarPlan(setCancelling: (v: boolean) => void) {
+  setCancelling(true);
+  try {
+    const res = await fetch("/api/pagos/cancelar-plan", { method: "POST" });
+    const data = await res.json();
+    alert(res.ok ? data.mensaje : data.error || "Error al cancelar");
+  } catch {
+    alert("Error de conexión. Intentá de nuevo.");
+  } finally {
+    setCancelling(false);
+  }
+}
+
 const PLANES = [
-  { nombre: "Starter", precioARS: 14500, precioUSD: 15, descripcion: "Hasta 15 pacientes activos" },
-  { nombre: "Pro", precioARS: 30000, precioUSD: 32, descripcion: "Pacientes ilimitados · Recomendado", destacado: true },
-  { nombre: "Clinica", precioARS: 70000, precioUSD: 75, descripcion: "Múltiples profesionales" },
+  { nombre: "Starter", precioARS: 16500, montoAPI: 16500, precioUSD: 15, descripcion: "Hasta 15 pacientes activos" },
+  { nombre: "Pro", precioARS: 45000, montoAPI: 45000, precioUSD: 40, descripcion: "Pacientes ilimitados · Recomendado", destacado: true },
+  { nombre: "Clinica", precioARS: 85000, montoAPI: 85000, precioUSD: 75, descripcion: "Múltiples profesionales" },
 ];
 
 export default function BotonesPlanes() {
   const [loading, setLoading] = useState<string | null>(null);
+  const [cancelling, setCancelling] = useState(false);
   const router = useRouter();
 
   async function handlePago(plan: string, monto: number) {
@@ -69,7 +83,7 @@ export default function BotonesPlanes() {
             <p className="text-xs text-gray-400 mt-0.5">≈ USD {plan.precioUSD}/mes</p>
           </div>
           <button
-            onClick={() => handlePago(plan.nombre, plan.precioARS)}
+            onClick={() => handlePago(plan.nombre, plan.montoAPI)}
             disabled={loading !== null}
             className={`mt-auto w-full py-2.5 rounded-xl text-sm font-medium transition-all ${
               plan.destacado
@@ -78,6 +92,20 @@ export default function BotonesPlanes() {
             }`}
           >
             {loading === plan.nombre ? "Redirigiendo..." : `Elegir ${plan.nombre}`}
+          </button>
+          <button
+            onClick={() => handlePago(plan.nombre, plan.montoAPI)}
+            disabled={loading !== null}
+            className="w-full py-2 rounded-xl text-sm font-medium border border-gray-200 text-gray-500 hover:bg-gray-50 transition disabled:opacity-60"
+          >
+            Pagar ahora
+          </button>
+          <button
+            onClick={() => cancelarPlan(setCancelling)}
+            disabled={cancelling || loading !== null}
+            className="w-full py-2 rounded-xl text-sm font-medium border border-red-300 text-red-500 bg-transparent hover:bg-red-50 transition disabled:opacity-60"
+          >
+            {cancelling ? "Cancelando..." : "Cancelar plan"}
           </button>
         </div>
       ))}

@@ -1,0 +1,23 @@
+import { createClient } from "@/lib/supabase/server";
+import { NextResponse } from "next/server";
+
+export async function POST() {
+  const supabase = createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+
+  if (!user) {
+    return NextResponse.json({ error: "No autorizado" }, { status: 401 });
+  }
+
+  const { error } = await supabase
+    .from("profiles")
+    .update({ plan: null, subscription_status: "cancelled" })
+    .eq("id", user.id);
+
+  if (error) {
+    console.error("Error cancelando plan:", error);
+    return NextResponse.json({ error: "Error al cancelar el plan" }, { status: 500 });
+  }
+
+  return NextResponse.json({ mensaje: "Plan cancelado" });
+}

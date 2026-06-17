@@ -19,3 +19,7 @@ mentalia-landing-hoy-backup.html
 
 # Vercel build
 .vercel
+
+# Proyectos con repo propio — no trackear desde raíz
+chatbot-inmobiliaria-martinez/
+the-architect/

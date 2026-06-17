@@ -9,9 +9,9 @@ const mp = new MercadoPagoConfig({
 });
 
 const planesValidos: Record<string, number> = {
-  Starter: 14500,
-  Pro: 30000,
-  Clinica: 70000,
+  Starter: 16500,
+  Pro: 45000,
+  Clinica: 85000,
 };
 
 export async function POST(req: Request) {
