@@ -295,7 +295,7 @@ export default async function Home() {
             Tu consultorio digital te espera
           </h2>
           <p className="text-sm mb-8" style={{ color: "rgba(216,243,220,0.8)" }}>
-            Unite a los psicólogos que ya gestionan su práctica con Mentalia. 10 días gratis, sin compromiso.
+            Unite a los profesionales que ya gestionan su práctica con Mentalia. 10 días gratis, sin compromiso.
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <Link href="/registro" className="text-sm px-8 py-3.5 rounded-xl font-semibold transition hover:opacity-90" style={{ background: "#D8F3DC", color: "#40916C" }}>

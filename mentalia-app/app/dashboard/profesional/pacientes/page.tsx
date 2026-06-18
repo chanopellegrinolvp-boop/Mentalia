@@ -19,7 +19,7 @@ export default async function PacientesPage() {
       <header className="bg-white border-b border-gray-100 px-6 py-4">
         <div className="max-w-4xl mx-auto flex items-center justify-between">
           <Link href="/dashboard/profesional" className="text-sm text-gray-500 hover:text-[#40916C]">
-            ← Dashboard
+            ← Perfil
           </Link>
           <span className="font-medium text-sm text-gray-700">Pacientes</span>
           <Link
