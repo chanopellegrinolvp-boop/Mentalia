@@ -34,7 +34,7 @@ export default async function VideoPage({ params }: { params: Promise<{ sala: st
   const exitUrl = role === "professional" ? "/dashboard/profesional" : "/dashboard/paciente";
 
   return (
-    <div className="min-h-screen flex flex-col" style={{ background: "#0f1923" }}>
+    <div className="h-screen flex flex-col overflow-hidden" style={{ background: "#0f1923" }}>
       {/* Top bar */}
       <div
         className="flex items-center justify-between px-6 py-3 flex-shrink-0"
