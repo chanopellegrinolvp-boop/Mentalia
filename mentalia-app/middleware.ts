@@ -53,8 +53,9 @@ export async function middleware(request: NextRequest) {
       return NextResponse.redirect(new URL("/dashboard/profesional", request.url));
     }
 
-    // Trial enforcement: solo para profesionales fuera de pagos y perfil
-    if (isProfRoute && profile?.role === "professional" && !path.startsWith("/dashboard/profesional/pagos")) {
+    // Trial enforcement: bloquea todas las rutas del profesional excepto pagos y perfil
+    const trialExcluded = path.startsWith("/dashboard/profesional/pagos") || path.startsWith("/dashboard/profesional/perfil");
+    if (isProfRoute && profile?.role === "professional" && !trialExcluded) {
       const { data: prof } = await supabase
         .from("professionals")
         .select("trial_ends_at")
