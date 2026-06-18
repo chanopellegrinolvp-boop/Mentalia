@@ -44,7 +44,8 @@ export default function SolicitudesPanel({
   const [toast, setToast] = useState("");
 
   const [aceptarSolicitud, setAceptarSolicitud] = useState<Solicitud | null>(null);
-  const [fechaHora, setFechaHora] = useState("");
+  const [fecha, setFecha] = useState("");
+  const [hora, setHora] = useState("");
   const [aceptando, setAceptando] = useState(false);
 
   const [rechazarSolicitud, setRechazarSolicitud] = useState<Solicitud | null>(null);
@@ -73,10 +74,10 @@ export default function SolicitudesPanel({
   }
 
   async function confirmarAceptar() {
-    if (!aceptarSolicitud || !fechaHora) return;
+    if (!aceptarSolicitud || !fecha || !hora) return;
     setAceptando(true);
 
-    const fechaISO = new Date(fechaHora).toISOString();
+    const fechaISO = new Date(`${fecha}T${hora}`).toISOString();
 
     await Promise.all([
       supabase.from("appointments").insert({
@@ -92,7 +93,7 @@ export default function SolicitudesPanel({
         .eq("id", aceptarSolicitud.id),
     ]);
 
-    const fecha = new Date(fechaHora);
+    const fechaObj = new Date(`${fecha}T${hora}`);
     fetch("/api/emails/turno", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -100,15 +101,16 @@ export default function SolicitudesPanel({
         paciente_email: aceptarSolicitud.paciente?.email,
         paciente_nombre: aceptarSolicitud.paciente?.full_name ?? "Paciente",
         profesional_nombre: professionalName,
-        fecha: fecha.toLocaleDateString("es-AR", { weekday: "long", day: "numeric", month: "long", year: "numeric" }),
-        hora: fecha.toLocaleTimeString("es-AR", { hour: "2-digit", minute: "2-digit" }),
+        fecha: fechaObj.toLocaleDateString("es-AR", { weekday: "long", day: "numeric", month: "long", year: "numeric" }),
+        hora: fechaObj.toLocaleTimeString("es-AR", { hour: "2-digit", minute: "2-digit" }),
         modalidad: MODALIDAD_LABEL[aceptarSolicitud.modalidad] ?? aceptarSolicitud.modalidad,
       }),
     }).catch(() => {});
 
     setAceptando(false);
     setAceptarSolicitud(null);
-    setFechaHora("");
+    setFecha("");
+    setHora("");
     showToast("Turno confirmado");
     cargar();
   }
@@ -212,7 +214,7 @@ export default function SolicitudesPanel({
 
               <div className="flex gap-2">
                 <button
-                  onClick={() => { setAceptarSolicitud(s); setFechaHora(""); }}
+                  onClick={() => { setAceptarSolicitud(s); setFecha(""); setHora(""); }}
                   className="flex-1 py-2 text-sm font-semibold rounded-xl text-white transition-all"
                   style={{ background: "#2D6A4F" }}
                 >
@@ -246,13 +248,21 @@ export default function SolicitudesPanel({
 
             <div className="mb-5">
               <label className="block text-sm font-medium text-gray-700 mb-1.5">Fecha y hora</label>
-              <input
-                type="datetime-local"
-                value={fechaHora}
-                onChange={(e) => setFechaHora(e.target.value)}
-                className="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm"
-                min={new Date().toISOString().slice(0, 16)}
-              />
+              <div className="flex gap-2">
+                <input
+                  type="date"
+                  value={fecha}
+                  onChange={(e) => setFecha(e.target.value)}
+                  className="flex-1 px-4 py-3 border border-gray-200 rounded-xl text-sm"
+                  min={new Date().toISOString().slice(0, 10)}
+                />
+                <input
+                  type="time"
+                  value={hora}
+                  onChange={(e) => setHora(e.target.value)}
+                  className="w-32 px-4 py-3 border border-gray-200 rounded-xl text-sm"
+                />
+              </div>
             </div>
 
             <div className="flex gap-3">
@@ -264,7 +274,7 @@ export default function SolicitudesPanel({
               </button>
               <button
                 onClick={confirmarAceptar}
-                disabled={aceptando || !fechaHora}
+                disabled={aceptando || !fecha || !hora}
                 className="flex-1 py-2.5 rounded-xl text-sm font-semibold text-white disabled:opacity-50"
                 style={{ background: "#2D6A4F" }}
               >

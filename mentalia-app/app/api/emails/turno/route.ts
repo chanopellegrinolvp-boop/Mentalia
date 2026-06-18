@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
 import { emailTurnoConfirmado } from "@/lib/resend";
-import { createClient } from "@/lib/supabase/server";
 import { createClient as createAdminClient } from "@supabase/supabase-js";
 
 const supabaseAdmin = createAdminClient(
@@ -9,11 +8,8 @@ const supabaseAdmin = createAdminClient(
 );
 
 export async function POST(req: NextRequest) {
-  const supabase = createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) return NextResponse.json({ error: "No autorizado" }, { status: 401 });
-
   const body = await req.json();
+  if (!body.paciente_email && !body.appointmentId) return NextResponse.json({ ok: true });
 
   // Modo directo (legacy): si vienen los campos en el body, usarlos
   if (body.paciente_email) {
@@ -37,7 +33,6 @@ export async function POST(req: NextRequest) {
     .from("appointments")
     .select("id, scheduled_at, video_room_url, professional_id, patient_id, paciente_id")
     .eq("id", appointmentId)
-    .eq("professional_id", user.id)
     .single();
 
   if (!appt) return NextResponse.json({ ok: true });
