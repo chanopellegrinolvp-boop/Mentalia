@@ -70,7 +70,7 @@ export default function VideoRoom({
     function initJitsi() {
       if (!containerRef.current || apiRef.current) return;
       apiRef.current = new window.JitsiMeetExternalAPI("meet.jit.si", {
-        roomName: `mentalia-sesion-${sala}`,
+        roomName: sala,
         parentNode: containerRef.current,
         width: "100%",
         height: "100%",
