@@ -3,6 +3,10 @@ import { useState, useEffect, useRef } from "react";
 import { createClient } from "@/lib/supabase/client";
 import Link from "next/link";
 
+declare global {
+  interface Window { JitsiMeetExternalAPI: any; }
+}
+
 type Sesion = {
   id: string;
   scheduled_at: string;
@@ -31,12 +35,14 @@ export default function SesionRoom({
   const [generandoIA, setGenerandoIA] = useState(false);
   const [guardando, setGuardando] = useState(false);
   const [guardado, setGuardado] = useState(false);
-  const [videoUrl, setVideoUrl] = useState<string | null>(null);
+  const [roomName, setRoomName] = useState<string | null>(null);
   const [iniciandoVideo, setIniciandoVideo] = useState(false);
   const [fase, setFase] = useState<"pre" | "en-curso" | "notas" | "completada">(
     sesion.session_notes?.[0]?.ai_summary ? "completada" : "pre"
   );
   const autoGuardadoRef = useRef<ReturnType<typeof setTimeout>>();
+  const jitsiContainerRef = useRef<HTMLDivElement>(null);
+  const jitsiApiRef = useRef<any>(null);
   const supabase = createClient();
   const paciente = sesion.pacientes;
   const fecha = new Date(sesion.scheduled_at);
@@ -49,6 +55,47 @@ export default function SesionRoom({
     return () => clearTimeout(autoGuardadoRef.current);
   }, [notas, fase]);
 
+  // Jitsi External API
+  useEffect(() => {
+    if (fase !== "en-curso" || !roomName || !jitsiContainerRef.current) return;
+
+    const script = document.createElement("script");
+    script.src = "https://meet.jit.si/external_api.js";
+    script.async = true;
+    script.onload = () => {
+      if (!jitsiContainerRef.current || jitsiApiRef.current) return;
+      jitsiApiRef.current = new window.JitsiMeetExternalAPI("meet.jit.si", {
+        roomName,
+        parentNode: jitsiContainerRef.current,
+        width: "100%",
+        height: "100%",
+        lang: "es",
+        configOverwrite: {
+          startWithAudioMuted: false,
+          startWithVideoMuted: false,
+          disableDeepLinking: true,
+          enableNoisyMicDetection: false,
+          prejoinPageEnabled: false,
+          disableInviteFunctions: true,
+        },
+        interfaceConfigOverwrite: {
+          SHOW_JITSI_WATERMARK: false,
+          SHOW_WATERMARK_FOR_GUESTS: false,
+          TOOLBAR_BUTTONS: ["microphone", "camera", "chat", "desktop", "fullscreen", "hangup"],
+          SHOW_CHROME_EXTENSION_BANNER: false,
+        },
+      });
+    };
+    document.head.appendChild(script);
+
+    return () => {
+      jitsiApiRef.current?.dispose();
+      jitsiApiRef.current = null;
+      if (document.head.contains(script)) document.head.removeChild(script);
+    };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [fase, roomName]);
+
   async function iniciarVideo() {
     setIniciandoVideo(true);
     try {
@@ -59,8 +106,8 @@ export default function SesionRoom({
       });
       if (!res.ok) throw new Error(`Error ${res.status}`);
       const data = await res.json();
-      if (data.roomUrl) {
-        setVideoUrl(data.roomUrl);
+      if (data.roomName) {
+        setRoomName(data.roomName);
         setFase("en-curso");
       }
     } catch (err) {
@@ -71,6 +118,8 @@ export default function SesionRoom({
   }
 
   async function finalizarVideo() {
+    jitsiApiRef.current?.dispose();
+    jitsiApiRef.current = null;
     setFase("notas");
     try {
       const res = await fetch("/api/sesion/finalizar", {
@@ -225,15 +274,13 @@ export default function SesionRoom({
         )}
 
         {/* EN CURSO — VIDEO */}
-        {fase === "en-curso" && videoUrl && (
-          <div className="space-y-4">
-            <div className="bg-black rounded-xl overflow-hidden aspect-video">
-              <iframe
-                src={videoUrl}
-                allow="camera; microphone; fullscreen; display-capture"
-                className="w-full h-full border-0"
-              />
-            </div>
+        {fase === "en-curso" && roomName && (
+          <div className="space-y-3">
+            <div
+              ref={jitsiContainerRef}
+              className="rounded-xl overflow-hidden bg-black"
+              style={{ height: "calc(100vh - 180px)", minHeight: "480px" }}
+            />
             <button
               onClick={finalizarVideo}
               className="w-full bg-red-50 text-red-600 border border-red-200 rounded-xl py-3 text-sm font-medium hover:bg-red-100 transition"
