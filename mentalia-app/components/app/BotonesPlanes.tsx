@@ -62,6 +62,7 @@ export default function BotonesPlanes() {
       if (!res.ok) {
         const err = await res.json();
         if (res.status === 401) { router.push("/login"); return; }
+        if (res.status === 403) { alert("Esta suscripción es solo para profesionales."); return; }
         alert(err.error || "Error al procesar el pago");
         return;
       }

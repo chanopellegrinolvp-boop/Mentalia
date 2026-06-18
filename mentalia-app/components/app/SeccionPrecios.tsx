@@ -24,6 +24,18 @@ export default function SeccionPrecios() {
         router.push(`/registro?plan=${plan.toLowerCase()}`);
         return;
       }
+
+      const { data: profile } = await supabase
+        .from("profiles")
+        .select("role")
+        .eq("id", user.id)
+        .single();
+
+      if (profile?.role === "patient") {
+        alert("Esta suscripción es para profesionales. Como paciente, tu acceso a Mentalia es gratuito.");
+        return;
+      }
+
       const res = await fetch("/api/pagos/crear-preferencia", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -31,6 +43,10 @@ export default function SeccionPrecios() {
       });
       if (!res.ok) {
         const err = await res.json();
+        if (res.status === 403) {
+          alert("Esta suscripción es solo para profesionales.");
+          return;
+        }
         alert(err.error || "Error al procesar el pago");
         return;
       }

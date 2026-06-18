@@ -22,6 +22,19 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "No autorizado" }, { status: 401 });
   }
 
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("role")
+    .eq("id", user.id)
+    .single();
+
+  if (profile?.role !== "professional") {
+    return NextResponse.json(
+      { error: "Solo profesionales pueden suscribirse a un plan" },
+      { status: 403 }
+    );
+  }
+
   const { plan, monto } = await req.json();
 
   // Normalizar: "Clínica" → "Clinica", "Starter" → "Starter", etc.

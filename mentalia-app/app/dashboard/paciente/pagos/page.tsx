@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react";
 import { createClient } from "@/lib/supabase/client";
-import BotonesPlanes from "@/components/app/BotonesPlanes";
 
 type Pago = {
   id: string;
@@ -68,11 +67,6 @@ export default function MisPagos() {
       </header>
 
       <main className="max-w-3xl mx-auto px-6 py-8 space-y-8">
-
-        <section>
-          <h2 className="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-4">Elegí tu plan</h2>
-          <BotonesPlanes />
-        </section>
 
         <section>
           <h2 className="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-3">Historial de transacciones</h2>
