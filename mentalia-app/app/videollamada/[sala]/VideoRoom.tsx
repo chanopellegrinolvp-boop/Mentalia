@@ -102,12 +102,14 @@ export default function VideoRoom({
   const isProfessional = role === "professional";
 
   return (
-    <div className="flex h-full overflow-hidden">
+    <div style={{ display: "flex", height: "100vh", width: "100%", overflow: "hidden" }}>
       {/* Video */}
       {roomUrl && (
         <iframe
           src={roomUrl}
-          allow="camera;microphone;autoplay;display-capture"
+          allow="camera *;microphone *;autoplay *;display-capture *;fullscreen *"
+          allowFullScreen
+          sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-popups-to-escape-sandbox"
           style={{ flex: 1, minWidth: 0, border: "none", height: "100%" }}
         />
       )}

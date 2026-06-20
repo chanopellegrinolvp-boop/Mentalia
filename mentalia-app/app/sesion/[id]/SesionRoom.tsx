@@ -244,7 +244,9 @@ export default function SesionRoom({
           <div className="space-y-3">
             <iframe
               src={roomUrl}
-              allow="camera;microphone;autoplay;display-capture"
+              allow="camera *;microphone *;autoplay *;display-capture *;fullscreen *"
+              allowFullScreen
+              sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-popups-to-escape-sandbox"
               className="w-full rounded-xl bg-black"
               style={{ height: "calc(100vh - 180px)", minHeight: "480px", border: "none", display: "block" }}
             />
