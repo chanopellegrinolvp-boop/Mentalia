@@ -3,17 +3,13 @@ import { useState, useEffect, useRef } from "react";
 import { createClient } from "@/lib/supabase/client";
 import Link from "next/link";
 
-declare global {
-  interface Window { JitsiMeetExternalAPI: any; }
-}
-
 type Sesion = {
   id: string;
   scheduled_at: string;
   duration_minutes: number;
   status: string;
-  daily_room_name: string | null;
-  paciente_id: string;
+  video_room_url: string | null;
+  paciente_id: string | null;
   patient_id: string | null;
   pacientes: { nombre: string; motivo_consulta: string | null } | null;
   session_notes: Array<{ id: string; content: string | null; ai_summary: string | null; temas_clave: string[]; nivel_riesgo: string | null }>;
@@ -35,14 +31,15 @@ export default function SesionRoom({
   const [generandoIA, setGenerandoIA] = useState(false);
   const [guardando, setGuardando] = useState(false);
   const [guardado, setGuardado] = useState(false);
-  const [roomName, setRoomName] = useState<string | null>(null);
+  const [roomUrl, setRoomUrl] = useState<string | null>(
+    sesion.video_room_url?.includes("daily.co") ? sesion.video_room_url : null
+  );
   const [iniciandoVideo, setIniciandoVideo] = useState(false);
+  const [errorVideo, setErrorVideo] = useState<string | null>(null);
   const [fase, setFase] = useState<"pre" | "en-curso" | "notas" | "completada">(
     sesion.session_notes?.[0]?.ai_summary ? "completada" : "pre"
   );
   const autoGuardadoRef = useRef<ReturnType<typeof setTimeout>>();
-  const jitsiContainerRef = useRef<HTMLDivElement>(null);
-  const jitsiApiRef = useRef<any>(null);
   const supabase = createClient();
   const paciente = sesion.pacientes;
   const fecha = new Date(sesion.scheduled_at);
@@ -55,79 +52,45 @@ export default function SesionRoom({
     return () => clearTimeout(autoGuardadoRef.current);
   }, [notas, fase]);
 
-  // Jitsi External API
-  useEffect(() => {
-    if (fase !== "en-curso" || !roomName || !jitsiContainerRef.current) return;
-
-    const script = document.createElement("script");
-    script.src = "https://meet.jit.si/external_api.js";
-    script.async = true;
-    script.onload = () => {
-      if (!jitsiContainerRef.current || jitsiApiRef.current) return;
-      jitsiApiRef.current = new window.JitsiMeetExternalAPI("meet.jit.si", {
-        roomName,
-        parentNode: jitsiContainerRef.current,
-        width: "100%",
-        height: "100%",
-        lang: "es",
-        configOverwrite: {
-          startWithAudioMuted: false,
-          startWithVideoMuted: false,
-          disableDeepLinking: true,
-          enableNoisyMicDetection: false,
-          prejoinPageEnabled: false,
-          disableInviteFunctions: true,
-        },
-        interfaceConfigOverwrite: {
-          SHOW_JITSI_WATERMARK: false,
-          SHOW_WATERMARK_FOR_GUESTS: false,
-          TOOLBAR_BUTTONS: ["microphone", "camera", "chat", "desktop", "fullscreen", "hangup"],
-          SHOW_CHROME_EXTENSION_BANNER: false,
-        },
-      });
-    };
-    document.head.appendChild(script);
-
-    return () => {
-      jitsiApiRef.current?.dispose();
-      jitsiApiRef.current = null;
-      if (document.head.contains(script)) document.head.removeChild(script);
-    };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [fase, roomName]);
-
   async function iniciarVideo() {
+    setErrorVideo(null);
+    if (roomUrl) {
+      setFase("en-curso");
+      return;
+    }
     setIniciandoVideo(true);
     try {
-      const res = await fetch("/api/sesion/iniciar", {
+      const res = await fetch("/api/videollamada/crear-sala", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ sesionId: sesion.id }),
       });
-      if (!res.ok) throw new Error(`Error ${res.status}`);
-      const data = await res.json();
-      if (data.roomName) {
-        setRoomName(data.roomName);
+      const text = await res.text();
+      let data: any = {};
+      try { data = JSON.parse(text); } catch { /* respuesta no-JSON */ }
+      if (!res.ok) throw new Error(data.error ?? `Error ${res.status}: ${text.slice(0, 200)}`);
+      if (data.url) {
+        setRoomUrl(data.url);
         setFase("en-curso");
+      } else {
+        throw new Error("La sala no devolvió una URL");
       }
-    } catch (err) {
+    } catch (err: any) {
       console.error("[SesionRoom] Error iniciando video:", err);
+      setErrorVideo(err.message ?? "No se pudo iniciar la videollamada");
     } finally {
       setIniciandoVideo(false);
     }
   }
 
   async function finalizarVideo() {
-    jitsiApiRef.current?.dispose();
-    jitsiApiRef.current = null;
     setFase("notas");
     try {
-      const res = await fetch("/api/sesion/finalizar", {
+      await fetch("/api/sesion/finalizar", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ sesionId: sesion.id }),
       });
-      if (!res.ok) console.error("[SesionRoom] Error finalizando sesión:", res.status);
     } catch (err) {
       console.error("[SesionRoom] Error finalizando sesión:", err);
     }
@@ -186,7 +149,6 @@ export default function SesionRoom({
       setNivelRiesgo(data.nivelRiesgo ?? "bajo");
       setFase("completada");
 
-      // Guardar resumen en BD
       const noteId = sesion.session_notes?.[0]?.id;
       const payload = {
         ai_summary: data.resumen,
@@ -220,7 +182,10 @@ export default function SesionRoom({
       {/* Header */}
       <header className="bg-white border-b border-gray-100 px-6 py-4 sticky top-0 z-10">
         <div className="max-w-5xl mx-auto flex items-center justify-between">
-          <Link href={`/dashboard/profesional/pacientes/${sesion.paciente_id}`} className="text-sm text-gray-500 hover:text-[#40916C]">
+          <Link
+            href={sesion.paciente_id && sesion.paciente_id !== "null" ? `/dashboard/profesional/pacientes/${sesion.paciente_id}` : "/dashboard/profesional/pacientes"}
+            className="text-sm text-gray-500 hover:text-[#40916C]"
+          >
             ← {paciente?.nombre ?? "Paciente"}
           </Link>
           <div className="text-center">
@@ -240,7 +205,6 @@ export default function SesionRoom({
         {/* PRE-SESIÓN */}
         {fase === "pre" && (
           <div className="space-y-6">
-            {/* Contexto previo */}
             {historialPrevio && historialPrevio.length > 0 && (
               <section className="bg-[#D8F3DC]/30 border border-[#40916C]/20 rounded-xl p-5">
                 <p className="text-xs font-semibold text-[#40916C] uppercase tracking-wide mb-3">Última sesión</p>
@@ -252,7 +216,6 @@ export default function SesionRoom({
               </section>
             )}
 
-            {/* Iniciar video */}
             <div className="bg-white border border-gray-100 rounded-xl p-8 text-center space-y-4">
               <p className="text-gray-500 text-sm">Sesión programada con {paciente?.nombre}</p>
               <button
@@ -262,6 +225,9 @@ export default function SesionRoom({
               >
                 {iniciandoVideo ? "Preparando sala..." : "Iniciar videollamada"}
               </button>
+              {errorVideo && (
+                <p className="text-sm text-red-500">{errorVideo}</p>
+              )}
               <p className="text-xs text-gray-400">O bien</p>
               <button
                 onClick={() => setFase("notas")}
@@ -274,12 +240,13 @@ export default function SesionRoom({
         )}
 
         {/* EN CURSO — VIDEO */}
-        {fase === "en-curso" && roomName && (
+        {fase === "en-curso" && roomUrl && (
           <div className="space-y-3">
-            <div
-              ref={jitsiContainerRef}
-              className="rounded-xl overflow-hidden bg-black"
-              style={{ height: "calc(100vh - 180px)", minHeight: "480px" }}
+            <iframe
+              src={roomUrl}
+              allow="camera;microphone;autoplay;display-capture"
+              className="w-full rounded-xl bg-black"
+              style={{ height: "calc(100vh - 180px)", minHeight: "480px", border: "none", display: "block" }}
             />
             <button
               onClick={finalizarVideo}
@@ -293,7 +260,6 @@ export default function SesionRoom({
         {/* NOTAS */}
         {(fase === "notas" || fase === "completada") && (
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            {/* Panel izquierdo: notas */}
             <div className="space-y-4">
               <h2 className="font-semibold text-gray-800">Notas de sesión</h2>
               <textarea
@@ -323,7 +289,6 @@ export default function SesionRoom({
               </div>
             </div>
 
-            {/* Panel derecho: resumen IA */}
             <div className="space-y-4">
               <h2 className="font-semibold text-gray-800">Resumen IA</h2>
 
