@@ -109,7 +109,6 @@ export default function VideoRoom({
           src={roomUrl}
           allow="camera *;microphone *;autoplay *;display-capture *;fullscreen *"
           allowFullScreen
-          sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-popups-to-escape-sandbox"
           style={{ flex: 1, minWidth: 0, border: "none", height: "100%" }}
         />
       )}
