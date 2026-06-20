@@ -24,9 +24,17 @@ export default function VideoRoom({
   const [savedNotes, setSavedNotes] = useState<SavedNote[]>([]);
   const [noteSaved, setNoteSaved] = useState(false);
   const [saving, setSaving] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
   const localKey = `mentalia-nota-${sala}`;
   const supabase = createClient();
+
+  useEffect(() => {
+    setIsMobile(
+      window.innerWidth < 768 ||
+      /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent)
+    );
+  }, []);
 
   useEffect(() => {
     async function loadNotes() {
@@ -105,12 +113,24 @@ export default function VideoRoom({
     <div style={{ display: "flex", height: "100vh", width: "100%", overflow: "hidden" }}>
       {/* Video */}
       {roomUrl && (
-        <iframe
-          src={roomUrl}
-          allow="camera *;microphone *;autoplay *;display-capture *;fullscreen *"
-          allowFullScreen
-          style={{ flex: 1, minWidth: 0, border: "none", height: "100%" }}
-        />
+        isMobile ? (
+          <div style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "12px" }}>
+            <button
+              onClick={() => window.open(roomUrl, "_blank")}
+              style={{ background: "#40916C", color: "white", padding: "16px 40px", borderRadius: "12px", fontSize: "18px", fontWeight: "bold", border: "none", cursor: "pointer" }}
+            >
+              Unirse a la videollamada
+            </button>
+            <p style={{ color: "rgba(255,255,255,0.5)", fontSize: "13px", margin: 0 }}>La videollamada se abrirá en una nueva pestaña</p>
+          </div>
+        ) : (
+          <iframe
+            src={roomUrl}
+            allow="camera *;microphone *;autoplay *;display-capture *;fullscreen *"
+            allowFullScreen
+            style={{ flex: 1, minWidth: 0, border: "none", height: "100%" }}
+          />
+        )
       )}
 
       {/* Side panel — only for professionals */}

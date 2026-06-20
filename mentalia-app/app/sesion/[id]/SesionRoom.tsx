@@ -39,10 +39,18 @@ export default function SesionRoom({
   const [fase, setFase] = useState<"pre" | "en-curso" | "notas" | "completada">(
     sesion.session_notes?.[0]?.ai_summary ? "completada" : "pre"
   );
+  const [isMobile, setIsMobile] = useState(false);
   const autoGuardadoRef = useRef<ReturnType<typeof setTimeout>>();
   const supabase = createClient();
   const paciente = sesion.pacientes;
   const fecha = new Date(sesion.scheduled_at);
+
+  useEffect(() => {
+    setIsMobile(
+      window.innerWidth < 768 ||
+      /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent)
+    );
+  }, []);
 
   // Auto-guardado de notas cada 30s
   useEffect(() => {
@@ -242,13 +250,25 @@ export default function SesionRoom({
         {/* EN CURSO — VIDEO */}
         {fase === "en-curso" && roomUrl && (
           <div className="space-y-3">
-            <iframe
-              src={roomUrl}
-              allow="camera *;microphone *;autoplay *;display-capture *;fullscreen *"
-              allowFullScreen
-              className="w-full rounded-xl bg-black"
-              style={{ height: "calc(100vh - 180px)", minHeight: "480px", border: "none", display: "block" }}
-            />
+            {isMobile ? (
+              <div className="bg-white border border-gray-100 rounded-xl p-8 text-center space-y-3">
+                <button
+                  onClick={() => window.open(roomUrl, "_blank")}
+                  className="bg-[#40916C] text-white px-8 py-4 rounded-xl font-medium text-lg hover:bg-[#235a41] transition"
+                >
+                  Unirse a la videollamada
+                </button>
+                <p className="text-sm text-gray-400">La videollamada se abrirá en una nueva pestaña</p>
+              </div>
+            ) : (
+              <iframe
+                src={roomUrl}
+                allow="camera *;microphone *;autoplay *;display-capture *;fullscreen *"
+                allowFullScreen
+                className="w-full rounded-xl bg-black"
+                style={{ height: "calc(100vh - 180px)", minHeight: "480px", border: "none", display: "block" }}
+              />
+            )}
             <button
               onClick={finalizarVideo}
               className="w-full bg-red-50 text-red-600 border border-red-200 rounded-xl py-3 text-sm font-medium hover:bg-red-100 transition"
