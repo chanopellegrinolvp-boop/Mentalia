@@ -16,7 +16,7 @@ export default function NuevaSesionForm({ pacienteId, profesionalId }: { pacient
     e.preventDefault();
     setLoading(true);
     setError("");
-    const scheduled_at = new Date(`${fecha}T${hora}`).toISOString();
+    const scheduled_at = new Date(`${fecha}T${hora}:00-03:00`).toISOString();
     const { data, error: err } = await supabase.from("appointments").insert({
       professional_id: profesionalId,
       paciente_id: pacienteId,

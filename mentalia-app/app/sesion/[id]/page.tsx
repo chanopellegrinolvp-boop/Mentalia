@@ -10,7 +10,7 @@ export default async function SesionPage({ params }: { params: Promise<{ id: str
 
   const { data: sesion } = await supabase
     .from("appointments")
-    .select("id, scheduled_at, duration_minutes, status, daily_room_name, paciente_id, patient_id, pacientes(nombre, motivo_consulta), session_notes(id, content, ai_summary, temas_clave, nivel_riesgo)")
+    .select("id, scheduled_at, duration_minutes, status, video_room_url, paciente_id, patient_id, pacientes(nombre, motivo_consulta), session_notes(id, content, ai_summary, temas_clave, nivel_riesgo)")
     .eq("id", id)
     .eq("professional_id", user.id)
     .single();

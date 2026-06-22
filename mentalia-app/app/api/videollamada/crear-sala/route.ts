@@ -17,8 +17,7 @@ export async function POST(req: NextRequest) {
     .eq("id", sesionId)
     .single();
 
-  // Solo reutilizar si es una URL válida de Daily.co
-  if (appt?.video_room_url?.includes("daily.co")) {
+  if (appt?.video_room_url?.startsWith("https://")) {
     return NextResponse.json({ url: appt.video_room_url });
   }
 
@@ -33,7 +32,7 @@ export async function POST(req: NextRequest) {
     },
     body: JSON.stringify({
       name: roomName,
-      properties: { exp, enable_chat: true },
+      properties: { exp, enable_chat: true, eject_url: `${process.env.NEXT_PUBLIC_SITE_URL}/dashboard` },
     }),
   });
 

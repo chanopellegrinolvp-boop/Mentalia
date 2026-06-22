@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 
 export default async function PacienteHome() {
-  const supabase = createClient();
+  const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) redirect("/login");
 
@@ -18,6 +18,7 @@ export default async function PacienteHome() {
     .select("id, scheduled_at, duration_minutes, status, daily_room_name, started_at")
     .eq("patient_id", user.id)
     .gte("scheduled_at", new Date().toISOString())
+    .not("status", "in", '("completed","cancelled","no_show")')
     .order("scheduled_at", { ascending: true })
     .limit(1)
     .maybeSingle();
@@ -63,19 +64,21 @@ export default async function PacienteHome() {
             <div className="bg-white border border-gray-100 rounded-xl px-5 py-4 flex items-center justify-between">
               <div>
                 <p className="font-medium text-gray-900 text-sm">
-                  {new Date(proxima.scheduled_at).toLocaleDateString("es-AR", { weekday: "long", day: "numeric", month: "long" })}
+                  {new Date(proxima.scheduled_at).toLocaleDateString("es-AR", { weekday: "long", day: "numeric", month: "long", timeZone: "America/Buenos_Aires" })}
                 </p>
                 <p className="text-xs text-gray-400 mt-0.5">
-                  {new Date(proxima.scheduled_at).toLocaleTimeString("es-AR", { hour: "2-digit", minute: "2-digit" })}
+                  {new Date(proxima.scheduled_at).toLocaleTimeString("es-AR", { hour: "2-digit", minute: "2-digit", hour12: false, timeZone: "America/Buenos_Aires" })}
                   {" · "}{proxima.duration_minutes ?? 55} min
                 </p>
               </div>
-              {proxima.started_at ? (
+              {proxima.status === "completed" ? (
+                <span className="text-xs px-3 py-1.5 rounded-full bg-green-50 text-green-600">Completada</span>
+              ) : proxima.started_at ? (
                 <Link href="/dashboard/paciente/videollamada" className="text-sm bg-[#40916C] text-white px-4 py-1.5 rounded-lg hover:bg-[#235a41] transition">
                   Unirse
                 </Link>
               ) : (
-                <span className="text-xs px-3 py-1.5 rounded-full bg-green-50 text-green-600">Programada</span>
+                <span className="text-xs px-3 py-1.5 rounded-full bg-gray-50 text-gray-500">Programada</span>
               )}
             </div>
           ) : (

@@ -19,6 +19,7 @@ export default async function DashboardProfesional() {
     .select("id, scheduled_at, duration_minutes, status, paciente_id, pacientes(nombre)")
     .eq("professional_id", user.id)
     .gte("scheduled_at", new Date().toISOString())
+    .not("status", "in", '("completed","cancelled","no_show")')
     .order("scheduled_at", { ascending: true })
     .limit(5);
 
@@ -87,9 +88,9 @@ export default async function DashboardProfesional() {
                         {(s.pacientes as any)?.nombre ?? "Paciente"}
                       </p>
                       <p className="text-xs text-gray-400 mt-0.5">
-                        {esHoy ? "Hoy" : fecha.toLocaleDateString("es-AR", { weekday: "long", day: "numeric", month: "short" })}
+                        {esHoy ? "Hoy" : fecha.toLocaleDateString("es-AR", { weekday: "long", day: "numeric", month: "short", timeZone: "America/Buenos_Aires" })}
                         {" · "}
-                        {fecha.toLocaleTimeString("es-AR", { hour: "2-digit", minute: "2-digit" })}
+                        {fecha.toLocaleTimeString("es-AR", { hour: "2-digit", minute: "2-digit", hour12: false, timeZone: "America/Buenos_Aires" })}
                         {" · "}
                         {s.duration_minutes ?? 55} min
                       </p>

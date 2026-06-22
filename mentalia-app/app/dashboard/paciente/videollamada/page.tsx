@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 
 export default async function Videollamada() {
-  const supabase = createClient();
+  const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) redirect("/login");
 
@@ -73,10 +73,10 @@ export default async function Videollamada() {
             <div>
               <p className="font-semibold text-gray-900">Próxima sesión</p>
               <p className="text-lg font-medium text-[#40916C] mt-2">
-                {new Date(proxima.scheduled_at).toLocaleDateString("es-AR", { weekday: "long", day: "numeric", month: "long" })}
+                {new Date(proxima.scheduled_at).toLocaleDateString("es-AR", { weekday: "long", day: "numeric", month: "long", timeZone: "America/Buenos_Aires" })}
               </p>
               <p className="text-sm text-gray-500 mt-1">
-                {new Date(proxima.scheduled_at).toLocaleTimeString("es-AR", { hour: "2-digit", minute: "2-digit" })}
+                {new Date(proxima.scheduled_at).toLocaleTimeString("es-AR", { hour: "2-digit", minute: "2-digit", hour12: false, timeZone: "America/Buenos_Aires" })}
                 {" · "}{proxima.duration_minutes ?? 55} min
               </p>
             </div>

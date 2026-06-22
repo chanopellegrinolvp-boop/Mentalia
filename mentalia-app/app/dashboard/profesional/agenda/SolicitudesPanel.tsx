@@ -77,7 +77,7 @@ export default function SolicitudesPanel({
     if (!aceptarSolicitud || !fecha || !hora) return;
     setAceptando(true);
 
-    const fechaISO = new Date(`${fecha}T${hora}`).toISOString();
+    const fechaISO = new Date(`${fecha}T${hora}:00-03:00`).toISOString();
 
     await Promise.all([
       supabase.from("appointments").insert({
@@ -101,8 +101,8 @@ export default function SolicitudesPanel({
         paciente_email: aceptarSolicitud.paciente?.email,
         paciente_nombre: aceptarSolicitud.paciente?.full_name ?? "Paciente",
         profesional_nombre: professionalName,
-        fecha: fechaObj.toLocaleDateString("es-AR", { weekday: "long", day: "numeric", month: "long", year: "numeric" }),
-        hora: fechaObj.toLocaleTimeString("es-AR", { hour: "2-digit", minute: "2-digit" }),
+        fecha: fechaObj.toLocaleDateString("es-AR", { weekday: "long", day: "numeric", month: "long", year: "numeric", timeZone: "America/Buenos_Aires" }),
+        hora: fechaObj.toLocaleTimeString("es-AR", { hour: "2-digit", minute: "2-digit", hour12: false, timeZone: "America/Buenos_Aires" }),
         modalidad: MODALIDAD_LABEL[aceptarSolicitud.modalidad] ?? aceptarSolicitud.modalidad,
       }),
     }).catch(() => {});
@@ -208,7 +208,7 @@ export default function SolicitudesPanel({
                   {s.disponibilidad?.join(", ")}
                 </p>
                 {s.mensaje && (
-                  <p className="text-sm text-gray-500 italic">"{s.mensaje}"</p>
+                  <p className="text-sm text-gray-500 italic">&ldquo;{s.mensaje}&rdquo;</p>
                 )}
               </div>
 

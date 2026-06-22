@@ -3,6 +3,10 @@
     {
       "path": "/api/cron/recordatorio-turnos",
       "schedule": "0 9 * * *"
+    },
+    {
+      "path": "/api/cron/limpiar-sesiones",
+      "schedule": "0 3 * * *"
     }
   ]
 }

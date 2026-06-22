@@ -1,6 +1,7 @@
 ﻿import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import Link from "next/link";
+import EliminarPaciente from "./EliminarPaciente";
 
 export default async function PacientesPage() {
   const supabase = await createClient();
@@ -19,7 +20,7 @@ export default async function PacientesPage() {
       <header className="bg-white border-b border-gray-100 px-6 py-4">
         <div className="max-w-4xl mx-auto flex items-center justify-between">
           <Link href="/dashboard/profesional" className="text-sm text-gray-500 hover:text-[#40916C]">
-            ← Perfil
+            ← Inicio
           </Link>
           <span className="font-medium text-sm text-gray-700">Pacientes</span>
           <Link
@@ -45,21 +46,23 @@ export default async function PacientesPage() {
         ) : (
           <div className="space-y-2">
             {pacientes.map((p: any) => (
-              <Link
+              <div
                 key={p.id}
-                href={`/dashboard/profesional/pacientes/${p.id}`}
-                className="block bg-white border border-gray-100 rounded-xl px-5 py-4 hover:border-[#40916C]/30 transition"
+                className="bg-white border border-gray-100 rounded-xl px-5 py-4 hover:border-[#40916C]/30 transition"
               >
                 <div className="flex items-center justify-between">
-                  <div>
+                  <Link href={`/dashboard/profesional/pacientes/${p.id}`} className="flex-1 min-w-0">
                     <p className="font-medium text-gray-900 text-sm">{p.nombre}</p>
                     {p.motivo_consulta && (
                       <p className="text-xs text-gray-400 mt-0.5 truncate max-w-sm">{p.motivo_consulta}</p>
                     )}
+                  </Link>
+                  <div className="flex items-center gap-1 ml-4 flex-shrink-0">
+                    <Link href={`/dashboard/profesional/pacientes/${p.id}`} className="text-xs text-gray-300">→</Link>
+                    <EliminarPaciente id={p.id} nombre={p.nombre} />
                   </div>
-                  <span className="text-xs text-gray-300">→</span>
                 </div>
-              </Link>
+              </div>
             ))}
           </div>
         )}

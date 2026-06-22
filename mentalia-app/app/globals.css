@@ -19,6 +19,10 @@ html { scroll-behavior: smooth; }
 .fade-in-delay-2 { transition-delay: 0.2s; }
 .fade-in-delay-3 { transition-delay: 0.3s; }
 
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
 .card-hover {
   transition: transform 0.25s ease, box-shadow 0.25s ease;
 }

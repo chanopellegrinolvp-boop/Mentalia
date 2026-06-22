@@ -2,19 +2,31 @@ import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import SolicitudesPanel from "./SolicitudesPanel";
+import AgendaList from "./AgendaList";
 
 export default async function AgendaPage() {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) redirect("/login");
 
-  const [{ data: sesiones }, { data: profile }] = await Promise.all([
+  const cutoff = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
+
+  const [{ data: activas }, { data: recientes }, { data: profile }] = await Promise.all([
     supabase
       .from("appointments")
-      .select("id, scheduled_at, duration_minutes, status, paciente_id, pacientes(nombre)")
+      .select("id, scheduled_at, duration_minutes, status, paciente_id, patient_id, pacientes(nombre), profiles!patient_id(full_name, email)")
       .eq("professional_id", user.id)
+      .in("status", ["scheduled", "confirmed", "pending"])
       .order("scheduled_at", { ascending: true })
       .limit(30),
+    supabase
+      .from("appointments")
+      .select("id, scheduled_at, duration_minutes, status, paciente_id, patient_id, pacientes(nombre), profiles!patient_id(full_name, email)")
+      .eq("professional_id", user.id)
+      .not("status", "in", '("scheduled","confirmed","pending")')
+      .gte("scheduled_at", cutoff)
+      .order("scheduled_at", { ascending: true })
+      .limit(10),
     supabase
       .from("profiles")
       .select("full_name")
@@ -22,12 +34,16 @@ export default async function AgendaPage() {
       .single(),
   ]);
 
+  const sesiones = [...(activas ?? []), ...(recientes ?? [])].sort(
+    (a, b) => new Date(a.scheduled_at).getTime() - new Date(b.scheduled_at).getTime()
+  );
+
   return (
     <div className="min-h-screen bg-[#FDFCFA]">
       <header className="bg-white border-b border-gray-100 px-6 py-4">
         <div className="max-w-4xl mx-auto flex items-center justify-between">
           <Link href="/dashboard/profesional" className="text-sm text-gray-500 hover:text-[#40916C]">
-            ← Perfil
+            ← Inicio
           </Link>
           <span className="font-medium text-sm text-gray-700">Agenda</span>
           <div />
@@ -44,38 +60,7 @@ export default async function AgendaPage() {
           <h2 className="font-semibold text-gray-800">Sesiones programadas</h2>
         </div>
 
-        {!sesiones || sesiones.length === 0 ? (
-          <div className="border border-dashed border-gray-200 rounded-xl p-12 text-center">
-            <p className="text-gray-400 text-sm">No hay sesiones programadas</p>
-          </div>
-        ) : (
-          <div className="space-y-2">
-            {sesiones.map((s: any) => {
-              const fecha = new Date(s.scheduled_at);
-              return (
-                <Link
-                  key={s.id}
-                  href={`/sesion/${s.id}`}
-                  className="block bg-white border border-gray-100 rounded-xl px-5 py-4 hover:border-[#40916C]/30 transition"
-                >
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="font-medium text-sm text-gray-900">{s.pacientes?.nombre ?? "Paciente"}</p>
-                      <p className="text-xs text-gray-400 mt-0.5">
-                        {fecha.toLocaleDateString("es-AR", { weekday: "long", day: "numeric", month: "long" })}
-                        {" · "}
-                        {fecha.toLocaleTimeString("es-AR", { hour: "2-digit", minute: "2-digit" })}
-                      </p>
-                    </div>
-                    <span className={`text-xs px-2 py-1 rounded-full ${s.status === "completed" ? "bg-green-50 text-green-600" : "bg-gray-50 text-gray-500"}`}>
-                      {s.status === "completed" ? "Completada" : s.status === "confirmed" ? "Confirmada" : "Programada"}
-                    </span>
-                  </div>
-                </Link>
-              );
-            })}
-          </div>
-        )}
+        <AgendaList sesiones={(sesiones ?? []) as any} />
       </main>
     </div>
   );

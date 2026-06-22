@@ -7,20 +7,39 @@ export default async function MisSesiones() {
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) redirect("/login");
 
-  const [{ data: sesiones }, { data: solicitudes }] = await Promise.all([
+  const now = new Date().toISOString();
+  const oneDayAgo = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
+
+  const [{ data: proximas }, { data: recientes }, { data: solicitudes }] = await Promise.all([
+    // Sesiones futuras activas
     supabase
       .from("appointments")
       .select("id, scheduled_at, duration_minutes, status, started_at, ended_at")
       .eq("patient_id", user.id)
+      .in("status", ["confirmed", "pending", "scheduled"])
+      .gte("scheduled_at", now)
+      .order("scheduled_at", { ascending: true })
+      .limit(20),
+    // Sesiones del último día (completadas/canceladas recientes)
+    supabase
+      .from("appointments")
+      .select("id, scheduled_at, duration_minutes, status, started_at, ended_at")
+      .eq("patient_id", user.id)
+      .gte("scheduled_at", oneDayAgo)
+      .lt("scheduled_at", now)
       .order("scheduled_at", { ascending: false })
-      .limit(50),
+      .limit(10),
+    // Solicitudes pendientes/aceptadas
     supabase
       .from("solicitudes_consulta")
       .select("id, motivo, status, created_at, professional_id")
       .eq("paciente_id", user.id)
+      .in("status", ["pendiente", "aceptada"])
       .order("created_at", { ascending: false })
       .limit(10),
   ]);
+
+  const sesiones = [...(proximas ?? []), ...(recientes ?? [])];
 
   const seen = new Set<string>();
   const profIds: string[] = [];
@@ -42,10 +61,8 @@ export default async function MisSesiones() {
   };
 
   const solicitudStatusLabel: Record<string, { label: string; color: string }> = {
-    pendiente: { label: "⏳ Pendiente", color: "bg-yellow-50 text-yellow-600" },
-    aceptada: { label: "✅ Aceptada", color: "bg-green-50 text-green-600" },
-    rechazada: { label: "❌ Rechazada", color: "bg-red-50 text-red-500" },
-    propuesta_alternativa: { label: "🔄 Propuesta alternativa", color: "bg-blue-50 text-blue-600" },
+    pendiente: { label: "Pendiente", color: "bg-yellow-50 text-yellow-600" },
+    aceptada: { label: "Aceptada", color: "bg-green-50 text-green-600" },
   };
 
   return (
@@ -53,7 +70,7 @@ export default async function MisSesiones() {
       <header className="bg-white border-b border-gray-100 px-6 py-4">
         <div className="max-w-3xl mx-auto">
           <h1 className="font-semibold text-gray-900">Mis Sesiones</h1>
-          <p className="text-xs text-gray-400 mt-0.5">{sesiones?.length ?? 0} sesiones en total</p>
+          <p className="text-xs text-gray-400 mt-0.5">{sesiones.length} sesiones</p>
         </div>
       </header>
 
@@ -66,14 +83,9 @@ export default async function MisSesiones() {
               {solicitudes!.map((s) => {
                 const st = solicitudStatusLabel[s.status] ?? { label: s.status, color: "bg-gray-50 text-gray-500" };
                 return (
-                  <div
-                    key={s.id}
-                    className="bg-white border border-gray-100 rounded-xl px-5 py-4 flex items-center justify-between"
-                  >
+                  <div key={s.id} className="bg-white border border-gray-100 rounded-xl px-5 py-4 flex items-center justify-between">
                     <div>
-                      <p className="font-medium text-sm text-gray-900">
-                        {profMap[s.professional_id] ?? "Profesional"}
-                      </p>
+                      <p className="font-medium text-sm text-gray-900">{profMap[s.professional_id] ?? "Profesional"}</p>
                       <p className="text-xs text-gray-500 mt-0.5">{s.motivo}</p>
                       <p className="text-xs text-gray-400 mt-0.5">
                         {new Date(s.created_at).toLocaleDateString("es-AR", { day: "numeric", month: "long", year: "numeric" })}
@@ -91,8 +103,10 @@ export default async function MisSesiones() {
 
         {/* Sesiones */}
         <section>
-          <h2 className="font-semibold text-gray-800 mb-3">Historial de sesiones</h2>
-          {!sesiones || sesiones.length === 0 ? (
+          <h2 className="font-semibold text-gray-800 mb-3">
+            {(proximas?.length ?? 0) > 0 ? "Próximas sesiones" : "Sesiones"}
+          </h2>
+          {sesiones.length === 0 ? (
             <div className="border border-dashed border-gray-200 rounded-xl p-12 text-center">
               <p className="text-gray-400 text-sm">No tenés sesiones registradas</p>
               <Link
@@ -106,25 +120,22 @@ export default async function MisSesiones() {
             <div className="space-y-2">
               {sesiones.map((s: any) => {
                 const fecha = new Date(s.scheduled_at);
-                const esProxima = fecha > new Date();
+                const esProxima = new Date(s.scheduled_at) > new Date();
                 const st = statusLabel[s.status] ?? { label: s.status, color: "bg-gray-50 text-gray-500" };
                 return (
-                  <div
-                    key={s.id}
-                    className="bg-white border border-gray-100 rounded-xl px-5 py-4 flex items-center justify-between"
-                  >
+                  <div key={s.id} className="bg-white border border-gray-100 rounded-xl px-5 py-4 flex items-center justify-between">
                     <div>
                       <p className="font-medium text-sm text-gray-900">
-                        {fecha.toLocaleDateString("es-AR", { weekday: "long", day: "numeric", month: "long", year: "numeric" })}
+                        {fecha.toLocaleDateString("es-AR", { weekday: "long", day: "numeric", month: "long", year: "numeric", timeZone: "America/Buenos_Aires" })}
                       </p>
                       <p className="text-xs text-gray-400 mt-0.5">
-                        {fecha.toLocaleTimeString("es-AR", { hour: "2-digit", minute: "2-digit" })}
+                        {fecha.toLocaleTimeString("es-AR", { hour: "2-digit", minute: "2-digit", hour12: false, timeZone: "America/Buenos_Aires" })}
                         {" · "}{s.duration_minutes ?? 55} min
                       </p>
                     </div>
                     <div className="flex items-center gap-2">
                       <span className={`text-xs px-2.5 py-1 rounded-full ${st.color}`}>{st.label}</span>
-                      {esProxima && (
+                      {esProxima && s.status !== "completed" && s.status !== "cancelled" && (
                         <Link
                           href="/dashboard/paciente/videollamada"
                           className="text-xs bg-[#40916C] text-white px-3 py-1 rounded-lg hover:bg-[#235a41] transition"

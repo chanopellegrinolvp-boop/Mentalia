@@ -28,7 +28,10 @@ export default function LoginPage() {
       .select("role")
       .eq("id", data.user.id)
       .single();
-    const dest = profile?.role === "patient" ? "/dashboard/paciente" : "/dashboard/profesional";
+    const params = new URLSearchParams(window.location.search);
+    const redirectTo = params.get("redirect");
+    const defaultDest = profile?.role === "patient" ? "/dashboard/paciente" : "/dashboard/profesional";
+    const dest = redirectTo && redirectTo.startsWith("/") ? redirectTo : defaultDest;
     router.push(dest);
     router.refresh();
   }

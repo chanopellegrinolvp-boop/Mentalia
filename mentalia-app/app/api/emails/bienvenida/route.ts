@@ -12,10 +12,10 @@ export async function POST(req: NextRequest) {
     const { email, nombre, rol } = await req.json();
     if (!email || !nombre) return NextResponse.json({ ok: false });
 
-    console.log(`[EMAIL] bienvenida enviado a ${email} - ${new Date().toISOString()}`);
     await emailBienvenida(email, nombre, rol ?? "professional");
     return NextResponse.json({ ok: true });
-  } catch {
+  } catch (e) {
+    console.error("[Email] Error enviando bienvenida:", e);
     return NextResponse.json({ ok: false });
   }
 }

@@ -97,7 +97,7 @@ export default async function CobrosPage() {
                         {paciente?.full_name ?? paciente?.email ?? "Paciente"}
                       </p>
                       <p className="text-xs text-gray-400 mt-0.5">
-                        {new Date(p.created_at).toLocaleDateString("es-AR", { day: "numeric", month: "long", year: "numeric" })}
+                        {new Date(p.paid_at ?? p.created_at).toLocaleDateString("es-AR", { day: "numeric", month: "long", year: "numeric" })}
                         {" · "}{p.method === "mercado_pago" ? "MercadoPago" : (p.method ?? "MercadoPago")}
                       </p>
                     </div>

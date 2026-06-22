@@ -117,8 +117,8 @@ export default function PrivacidadPage() {
                 <p className="mt-1">Proveedor de envío de emails transaccionales. Solo recibe el email del destinatario, el nombre y el contenido del mensaje a enviar. Los emails se envían desde hola@mentaliasalud.online. <a href="https://resend.com/legal/privacy-policy" target="_blank" rel="noopener noreferrer" className="underline" style={{ color: "#40916C" }}>Ver política de Resend</a>.</p>
               </div>
               <div className="border-l-2 pl-4" style={{ borderColor: "#D8F3DC" }}>
-                <p className="font-medium text-gray-800">4.5 Jitsi Meet (8x8, Inc.)</p>
-                <p className="mt-1">Las videollamadas se realizan a través de Jitsi Meet, una plataforma de videoconferencia de código abierto. El audio y video de las sesiones son procesados por los servidores de Jitsi (meet.jit.si). Mentalia no graba ni almacena el contenido de las videollamadas. <a href="https://www.8x8.com/terms-and-conditions/privacy-policy" target="_blank" rel="noopener noreferrer" className="underline" style={{ color: "#40916C" }}>Ver política de 8x8/Jitsi</a>.</p>
+                <p className="font-medium text-gray-800">4.5 Daily.co (Daily.co Inc.)</p>
+                <p className="mt-1">Las videollamadas se realizan a través de Daily.co, una plataforma de videoconferencia segura. El audio y video de las sesiones son procesados por los servidores de Daily.co. Mentalia no graba ni almacena el contenido de las videollamadas. <a href="https://www.daily.co/privacy" target="_blank" rel="noopener noreferrer" className="underline" style={{ color: "#40916C" }}>Ver política de Daily.co</a>.</p>
               </div>
               <div className="border-l-2 pl-4" style={{ borderColor: "#D8F3DC" }}>
                 <p className="font-medium text-gray-800">4.6 Vercel (Vercel Inc.)</p>
@@ -157,14 +157,14 @@ export default function PrivacidadPage() {
             <ul className="mt-3 space-y-2 pl-4 list-disc" style={{ color: "#6B7280" }}>
               <li><strong className="text-gray-700">Acceso (art. 14):</strong> solicitar gratuitamente qué datos personales tenemos sobre vos, una vez cada seis meses.</li>
               <li><strong className="text-gray-700">Rectificación (art. 16):</strong> corregir datos inexactos, incompletos o falsos.</li>
-              <li><strong className="text-gray-700">Supresión (art. 16):</strong> solicitar la eliminación definitiva de tus datos ("derecho al olvido"), salvo que exista una obligación legal de conservarlos.</li>
+              <li><strong className="text-gray-700">Supresión (art. 16):</strong> solicitar la eliminación definitiva de tus datos (&ldquo;derecho al olvido&rdquo;), salvo que exista una obligación legal de conservarlos.</li>
               <li><strong className="text-gray-700">Confidencialidad (art. 7):</strong> los datos de salud (datos sensibles) tienen protección reforzada y solo pueden ser tratados con tu consentimiento expreso o por razones de salud pública.</li>
               <li><strong className="text-gray-700">Oposición:</strong> oponerte al tratamiento de tus datos con fines distintos a los informados.</li>
             </ul>
             <p className="mt-3" style={{ color: "#6B7280" }}>
               Para ejercer cualquiera de estos derechos, escribí a{" "}
               <a href="mailto:hola@mentaliasalud.online" className="underline" style={{ color: "#40916C" }}>hola@mentaliasalud.online</a>{" "}
-              indicando en el asunto "Ejercicio de derechos LPDP". Respondemos en un plazo máximo de 10 días hábiles.
+              indicando en el asunto &ldquo;Ejercicio de derechos LPDP&rdquo;. Respondemos en un plazo máximo de 10 días hábiles.
             </p>
             <p className="mt-2 text-xs" style={{ color: "#9CA3AF" }}>
               La Agencia de Acceso a la Información Pública (AAIP) — Dirección Nacional de Protección de Datos Personales es el organismo de control competente:{" "}

@@ -1,19 +1,29 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   eslint: {
-    ignoreDuringBuilds: true,
+    ignoreDuringBuilds: false,
   },
   async redirects() {
-    return [
-      {
-        source: "/demo",
-        destination: "/api/demo/login",
-        permanent: false,
-      },
-    ];
+    const list = [];
+    if (process.env.NODE_ENV !== "production") {
+      list.push({ source: "/demo", destination: "/api/demo/login", permanent: false });
+    }
+    return list;
   },
   async headers() {
+    const securityHeaders = [
+      { key: "X-Frame-Options", value: "DENY" },
+      { key: "X-Content-Type-Options", value: "nosniff" },
+      { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+      { key: "X-XSS-Protection", value: "1; mode=block" },
+      { key: "Strict-Transport-Security", value: "max-age=63072000; includeSubDomains; preload" },
+      { key: "Permissions-Policy", value: "geolocation=()" },
+    ];
     return [
+      {
+        source: "/(.*)",
+        headers: securityHeaders,
+      },
       {
         source: "/.well-known/assetlinks.json",
         headers: [

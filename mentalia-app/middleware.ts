@@ -2,6 +2,14 @@ import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
 export async function middleware(request: NextRequest) {
+  const host = request.headers.get("host") ?? "";
+  if (host === "mentalia-app.vercel.app") {
+    return NextResponse.redirect(
+      `https://mentaliasalud.online${request.nextUrl.pathname}${request.nextUrl.search}`,
+      { status: 301 }
+    );
+  }
+
   const path = request.nextUrl.pathname;
   let response = NextResponse.next({ request });
 
@@ -28,7 +36,9 @@ export async function middleware(request: NextRequest) {
   const isProtected = protectedPrefixes.some(p => path.startsWith(p));
 
   if (isProtected && !user) {
-    return NextResponse.redirect(new URL("/login", request.url));
+    const loginUrl = new URL("/login", request.url);
+    loginUrl.searchParams.set("redirect", path);
+    return NextResponse.redirect(loginUrl);
   }
 
   const isProfRoute = path.startsWith("/dashboard/profesional");

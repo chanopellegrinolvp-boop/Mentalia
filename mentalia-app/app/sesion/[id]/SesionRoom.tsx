@@ -32,13 +32,14 @@ export default function SesionRoom({
   const [guardando, setGuardando] = useState(false);
   const [guardado, setGuardado] = useState(false);
   const [roomUrl, setRoomUrl] = useState<string | null>(
-    sesion.video_room_url?.includes("daily.co") ? sesion.video_room_url : null
+    sesion.video_room_url?.startsWith("https://") ? sesion.video_room_url : null
   );
   const [iniciandoVideo, setIniciandoVideo] = useState(false);
   const [errorVideo, setErrorVideo] = useState<string | null>(null);
   const [fase, setFase] = useState<"pre" | "en-curso" | "notas" | "completada">(
     sesion.session_notes?.[0]?.ai_summary ? "completada" : "pre"
   );
+  const [mounted, setMounted] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const autoGuardadoRef = useRef<ReturnType<typeof setTimeout>>();
   const supabase = createClient();
@@ -50,6 +51,10 @@ export default function SesionRoom({
       window.innerWidth < 768 ||
       /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent)
     );
+    setMounted(true);
+    if (sesion.video_room_url?.startsWith("https://") && fase === "pre") {
+      setFase("en-curso");
+    }
   }, []);
 
   // Auto-guardado de notas cada 30s
@@ -170,7 +175,7 @@ export default function SesionRoom({
         await supabase.from("session_notes").insert({
           appointment_id: sesion.id,
           professional_id: profesionalId,
-          patient_id: sesion.paciente_id,
+          patient_id: sesion.patient_id ?? sesion.paciente_id,
           session_date: new Date(sesion.scheduled_at).toISOString().split("T")[0],
           ...payload,
         });
@@ -199,7 +204,7 @@ export default function SesionRoom({
           <div className="text-center">
             <p className="text-sm font-medium text-gray-800">{paciente?.nombre}</p>
             <p className="text-xs text-gray-400">
-              {fecha.toLocaleDateString("es-AR", { day: "numeric", month: "long" })} · {fecha.toLocaleTimeString("es-AR", { hour: "2-digit", minute: "2-digit" })}
+              {fecha.toLocaleDateString("es-AR", { day: "numeric", month: "long", timeZone: "America/Buenos_Aires" })} · {fecha.toLocaleTimeString("es-AR", { hour: "2-digit", minute: "2-digit", hour12: false, timeZone: "America/Buenos_Aires" })}
             </p>
           </div>
           <div className="text-xs text-gray-400">
@@ -250,7 +255,11 @@ export default function SesionRoom({
         {/* EN CURSO — VIDEO */}
         {fase === "en-curso" && roomUrl && (
           <div className="space-y-3">
-            {isMobile ? (
+            {!mounted ? (
+              <div className="bg-white border border-gray-100 rounded-xl p-8 text-center">
+                <div className="inline-block w-6 h-6 border-2 border-[#40916C] border-t-transparent rounded-full animate-spin" />
+              </div>
+            ) : isMobile ? (
               <div className="bg-white border border-gray-100 rounded-xl p-8 text-center space-y-3">
                 <button
                   onClick={() => window.open(roomUrl, "_blank")}
@@ -263,7 +272,7 @@ export default function SesionRoom({
             ) : (
               <iframe
                 src={roomUrl}
-                allow="camera *;microphone *;autoplay *;display-capture *;fullscreen *"
+                allow="camera *;microphone *;speaker *;autoplay *;display-capture *;fullscreen *"
                 allowFullScreen
                 className="w-full rounded-xl bg-black"
                 style={{ height: "calc(100vh - 180px)", minHeight: "480px", border: "none", display: "block" }}

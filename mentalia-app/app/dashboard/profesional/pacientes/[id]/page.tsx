@@ -3,9 +3,11 @@ import { redirect, notFound } from "next/navigation";
 import Link from "next/link";
 import NuevaSesionForm from "./NuevaSesionForm";
 import SubirArchivo from "@/components/app/SubirArchivo";
+import ActividadesProfesional from "./ActividadesProfesional";
 
 export default async function PacienteDetallePage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
+  if (id === "null" || id === "undefined") redirect("/dashboard/profesional/pacientes");
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) redirect("/login");
@@ -19,13 +21,34 @@ export default async function PacienteDetallePage({ params }: { params: Promise<
 
   if (!paciente) notFound();
 
-  const { data: sesiones } = await supabase
-    .from("appointments")
-    .select("id, scheduled_at, duration_minutes, status, session_notes(id, content, ai_summary, temas_clave, nivel_riesgo)")
-    .eq("professional_id", user.id)
-    .eq("paciente_id", id)
-    .order("scheduled_at", { ascending: false })
-    .limit(20);
+  const [{ data: sesiones }, { data: apptConProfile }] = await Promise.all([
+    supabase
+      .from("appointments")
+      .select("id, scheduled_at, duration_minutes, status, session_notes(id, content, ai_summary, temas_clave, nivel_riesgo)")
+      .eq("professional_id", user.id)
+      .eq("paciente_id", id)
+      .order("scheduled_at", { ascending: false })
+      .limit(20),
+    supabase
+      .from("appointments")
+      .select("patient_id")
+      .eq("professional_id", user.id)
+      .eq("paciente_id", id)
+      .not("patient_id", "is", null)
+      .limit(1)
+      .maybeSingle(),
+  ]);
+
+  const patientProfileId = apptConProfile?.patient_id ?? null;
+
+  const { data: actividades } = patientProfileId
+    ? await supabase
+        .from("therapeutic_activities")
+        .select("id, title, description, type, status, content, patient_response, completed_at, due_date, created_at")
+        .eq("professional_id", user.id)
+        .eq("patient_id", patientProfileId)
+        .order("created_at", { ascending: false })
+    : { data: [] };
 
   return (
     <div className="min-h-screen bg-[#FDFCFA]">
@@ -103,6 +126,14 @@ export default async function PacienteDetallePage({ params }: { params: Promise<
             </div>
           )}
         </section>
+        {/* Actividades terapéuticas */}
+        <ActividadesProfesional
+          profesionalId={user.id}
+          patientProfileId={patientProfileId}
+          pacienteNombre={paciente.nombre}
+          actividadesIniciales={(actividades ?? []) as any}
+        />
+
         {/* Archivos del paciente */}
         <section className="bg-white border border-gray-100 rounded-xl p-6">
           <SubirArchivo pacienteId={id} professionalId={user.id} />

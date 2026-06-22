@@ -17,7 +17,10 @@ const supabaseAdmin = createClient(
 // Template: "id:<paymentId>;request-id:<x-request-id>;ts:<ts>"
 function verifyMPSignature(req: Request, paymentId: string): boolean {
   const secret = process.env.MP_WEBHOOK_SECRET;
-  if (!secret) return true; // sin configurar → no bloquear (dev/staging)
+  if (!secret) {
+    console.error("[Webhook MP] MP_WEBHOOK_SECRET no configurada — rechazando request");
+    return false;
+  }
 
   const xSignature = req.headers.get("x-signature");
   const xRequestId = req.headers.get("x-request-id") ?? "";
@@ -105,28 +108,31 @@ export async function POST(req: Request) {
           if (lastPayment?.plan) plan = lastPayment.plan;
         }
 
-        console.log(`[Webhook MP] plan extraído: ${plan}`);
 
         if (professionalId) {
-          const { error } = await supabaseAdmin.from("payments").insert({
+          const { error: insertError } = await supabaseAdmin.from("payments").insert({
             professional_id: professionalId,
             amount: monto,
             status: "paid",
             mercadopago_id: String(paymentData.id),
             plan,
-            paid_at: new Date().toISOString(),
+            paid_at: paymentData.date_approved
+              ? new Date(paymentData.date_approved).toISOString()
+              : new Date().toISOString(),
           });
 
-          if (error) {
-            console.error("Error guardando pago:", error.message);
-          } else {
-            if (plan) {
-              await supabaseAdmin
-                .from("professionals")
-                .update({ plan })
-                .eq("id", professionalId);
-            }
+          if (insertError) {
+            console.error("Error guardando pago:", insertError.message);
+          }
 
+          if (plan && plan !== "unknown") {
+            await Promise.all([
+              supabaseAdmin.from("professionals").update({ plan }).eq("id", professionalId),
+              supabaseAdmin.from("profiles").update({ plan }).eq("id", professionalId),
+            ]);
+          }
+
+          if (!insertError) {
             try {
               const { data: prof } = await supabaseAdmin
                 .from("profiles")
@@ -135,7 +141,6 @@ export async function POST(req: Request) {
                 .single();
 
               if (prof?.email) {
-                console.log(`[EMAIL] pago_confirmado enviado a ${prof.email} - ${new Date().toISOString()}`);
                 await emailPagoConfirmado({
                   to: prof.email,
                   nombre: prof.full_name ?? "Profesional",
@@ -144,8 +149,8 @@ export async function POST(req: Request) {
                   paymentId: String(paymentData.id),
                 });
               }
-            } catch {
-              // No bloquear el webhook si el email falla
+            } catch (e) {
+              console.error("[Webhook MP] Error enviando email de confirmación:", e);
             }
           }
         }
