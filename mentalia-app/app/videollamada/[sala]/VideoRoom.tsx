@@ -100,7 +100,7 @@ export default function VideoRoom({
 
     const newNote: SavedNote = {
       text: nota.trim(),
-      at: new Date().toLocaleTimeString("es-AR", { hour: "2-digit", minute: "2-digit" }),
+      at: new Date().toLocaleTimeString("es-AR", { hour: "2-digit", minute: "2-digit", hour12: false, timeZone: "America/Buenos_Aires" }),
     };
     const updated = [...savedNotes, newNote];
     setSavedNotes(updated);

@@ -26,6 +26,9 @@ export default async function Referidos() {
     .limit(20);
 
   const referralCode = profile?.referral_code ?? null;
+  const referralUrl = referralCode
+    ? `https://mentaliasalud.online/registro?ref=${referralCode}`
+    : null;
 
   return (
     <div className="min-h-screen bg-[#FDFCFA]">
@@ -38,14 +41,16 @@ export default async function Referidos() {
 
       <main className="max-w-3xl mx-auto px-6 py-8 space-y-6">
         <section>
-          <h2 className="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-3">Tu código de referido</h2>
-          {referralCode ? (
-            <div className="bg-white border border-gray-100 rounded-xl p-6 text-center">
-              <p className="text-3xl font-bold tracking-widest text-[#40916C]">{referralCode}</p>
-              <p className="text-xs text-gray-400 mt-2">Compartí este código con quien quieras invitar</p>
-              <div className="mt-4 flex gap-2 justify-center">
-                <CopiarCodigo codigo={referralCode} />
+          <h2 className="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-3">Tu link de invitación</h2>
+          {referralUrl ? (
+            <div className="bg-white border border-gray-100 rounded-xl p-6">
+              <p className="text-sm font-mono text-[#40916C] truncate">{referralUrl}</p>
+              <div className="mt-4">
+                <CopiarCodigo url={referralUrl} />
               </div>
+              <p className="text-sm text-gray-500 mt-3 leading-relaxed">
+                Copiá el link y envialo por WhatsApp o email. Cuando la persona se registre desde tu link, se vincula automáticamente como tu referido y obtenés un 20% de descuento en tu suscripción durante 2 meses.
+              </p>
             </div>
           ) : (
             <div className="border border-dashed border-gray-200 rounded-xl p-6 text-center">

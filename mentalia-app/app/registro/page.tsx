@@ -16,6 +16,7 @@ export default function RegistroPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const planParam = searchParams.get("plan");
+  const [codigoReferido, setCodigoReferido] = useState(searchParams.get("ref") ?? "");
   const supabase = createClient();
 
   async function handleSubmit(e: React.FormEvent) {
@@ -48,6 +49,7 @@ export default function RegistroPage() {
         fullName: nombre,
         role: rol,
         matricula,
+        referralCode: codigoReferido.trim().toUpperCase() || null,
       }),
     });
 
@@ -168,6 +170,19 @@ export default function RegistroPage() {
               />
             </div>
           )}
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Código de referido <span className="text-gray-400 font-normal">(opcional)</span>
+            </label>
+            <input
+              type="text"
+              value={codigoReferido}
+              onChange={e => setCodigoReferido(e.target.value.toUpperCase())}
+              placeholder="Ej: MENTALIA8"
+              className="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#40916C] focus:border-transparent"
+            />
+          </div>
 
           <label className="flex items-start gap-2.5 cursor-pointer">
             <input

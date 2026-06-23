@@ -12,7 +12,7 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const cutoff = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
+  const cutoff = new Date().toISOString();
 
   const { data, error } = await supabase
     .from("appointments")

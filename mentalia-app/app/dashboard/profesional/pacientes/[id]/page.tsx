@@ -4,6 +4,9 @@ import Link from "next/link";
 import NuevaSesionForm from "./NuevaSesionForm";
 import SubirArchivo from "@/components/app/SubirArchivo";
 import ActividadesProfesional from "./ActividadesProfesional";
+import NotasRapidas from "./NotasRapidas";
+import AdjuntosClinicos from "./AdjuntosClinicos";
+import PlanTratamiento from "./PlanTratamiento";
 
 export default async function PacienteDetallePage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -126,6 +129,7 @@ export default async function PacienteDetallePage({ params }: { params: Promise<
             </div>
           )}
         </section>
+
         {/* Actividades terapéuticas */}
         <ActividadesProfesional
           profesionalId={user.id}
@@ -133,6 +137,15 @@ export default async function PacienteDetallePage({ params }: { params: Promise<
           pacienteNombre={paciente.nombre}
           actividadesIniciales={(actividades ?? []) as any}
         />
+
+        {/* Notas rápidas */}
+        <NotasRapidas profesionalId={user.id} pacienteId={id} />
+
+        {/* Adjuntos clínicos */}
+        <AdjuntosClinicos pacienteId={id} />
+
+        {/* Plan de tratamiento */}
+        <PlanTratamiento profesionalId={user.id} pacienteId={id} />
 
         {/* Archivos del paciente */}
         <section className="bg-white border border-gray-100 rounded-xl p-6">

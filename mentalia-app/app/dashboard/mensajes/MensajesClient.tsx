@@ -216,7 +216,7 @@ export default function MensajesClient({ userId }: { userId: string }) {
                         <div className={`max-w-xs px-4 py-2 rounded-2xl text-sm ${esMio ? "bg-[#40916C] text-white" : "bg-gray-100 text-gray-800"}`}>
                           {m.content}
                           <p className={`text-xs mt-1 ${esMio ? "text-white/60" : "text-gray-400"}`}>
-                            {new Date(m.created_at).toLocaleTimeString("es-AR", { hour: "2-digit", minute: "2-digit" })}
+                            {new Date(m.created_at).toLocaleTimeString("es-AR", { hour: "2-digit", minute: "2-digit", hour12: false, timeZone: "America/Buenos_Aires" })}
                           </p>
                         </div>
                       </div>

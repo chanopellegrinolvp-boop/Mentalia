@@ -6,7 +6,6 @@ import Image from "next/image";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
-import BackButton from "./BackButton";
 
 type Profile = {
   full_name: string | null;
@@ -135,19 +134,6 @@ export default function Sidebar({ profile }: { profile: Profile }) {
 
         {/* User + logout */}
         <div className="px-3 py-4 border-t border-white/10">
-          <div className="px-4 mb-2">
-            <BackButton />
-          </div>
-          <Link
-            href="/"
-            className="flex items-center gap-3 px-4 py-2 rounded-xl text-sm font-medium mb-2 transition-all"
-            style={{ color: "rgba(255,255,255,0.55)" }}
-          >
-            <svg className="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
-            </svg>
-            Ir al sitio web
-          </Link>
           <div className="flex items-center gap-3 px-4 py-2.5 mb-1">
             <div className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0" style={{ background: "rgba(255,255,255,0.2)", color: "white" }}>
               {initials}

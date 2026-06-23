@@ -37,12 +37,24 @@ export async function POST(req: Request) {
 
   const { plan, monto } = await req.json();
 
-  // Normalizar: "Clínica" → "Clinica", "Starter" → "Starter", etc.
   const planNorm: string = (plan ?? "").normalize("NFD").replace(/[̀-ͯ]/g, "");
 
   if (!planesValidos[planNorm] || planesValidos[planNorm] !== monto) {
     return NextResponse.json({ error: "Plan o monto inválido" }, { status: 400 });
   }
+
+  const twoMonthsAgo = new Date();
+  twoMonthsAgo.setMonth(twoMonthsAgo.getMonth() - 2);
+
+  const { count: referidosActivos } = await supabase
+    .from("referrals")
+    .select("*", { count: "exact", head: true })
+    .eq("referrer_id", user.id)
+    .gte("created_at", twoMonthsAgo.toISOString());
+
+  const tieneDescuento = (referidosActivos ?? 0) > 0;
+  const montoFinal = tieneDescuento ? Math.round(monto * 0.8) : monto;
+  const titleSuffix = tieneDescuento ? " — 20% descuento referido" : "";
 
   try {
     const preference = new Preference(mp);
@@ -51,10 +63,10 @@ export async function POST(req: Request) {
         items: [
           {
             id: `plan-${planNorm.toLowerCase()}`,
-            title: `Mentalia — Plan ${planNorm}`,
+            title: `Mentalia — Plan ${planNorm}${titleSuffix}`,
             description: `Suscripción mensual al plan ${planNorm} de Mentalia`,
             quantity: 1,
-            unit_price: monto,
+            unit_price: montoFinal,
             currency_id: "ARS",
           },
         ],

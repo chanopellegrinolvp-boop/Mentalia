@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { Suspense } from "react";
 import PagoStatusBanner from "./PagoStatusBanner";
 import BotonesPlanes from "@/components/app/BotonesPlanes";
+import DescargaPDF from "./DescargaPDF";
 
 export default async function CobrosPage() {
   const supabase = createClient();
@@ -77,6 +78,12 @@ export default async function CobrosPage() {
         <section>
           <h2 className="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-4">Tu plan</h2>
           <BotonesPlanes />
+        </section>
+
+        {/* Exportar */}
+        <section>
+          <h2 className="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-3">Exportar</h2>
+          <DescargaPDF />
         </section>
 
         {/* Historial */}
