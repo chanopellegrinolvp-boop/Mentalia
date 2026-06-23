@@ -14,18 +14,16 @@ const supabaseAdmin = createClient(
 );
 
 export async function POST(req: Request) {
-  const { userId, email, fullName, role, matricula } = await req.json();
+  const { userId, email, fullName, role, matricula, referralCode: usedReferralCode } = await req.json();
 
   if (!userId || !email || !role) {
     return NextResponse.json({ error: "Datos incompletos" }, { status: 400 });
   }
 
-  // Fix 12: validar que role sea uno de los valores permitidos
   if (!["professional", "patient"].includes(role)) {
     return NextResponse.json({ error: "Role inválido" }, { status: 400 });
   }
 
-  // Verificar que el userId existe en auth y fue creado hace menos de 5 minutos
   const { data: authData } = await supabaseAdmin.auth.admin.getUserById(userId);
   if (!authData?.user) {
     return NextResponse.json({ error: "No autorizado" }, { status: 401 });
@@ -35,7 +33,6 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "No autorizado" }, { status: 401 });
   }
 
-  // Preservar referral_code existente si el usuario ya tiene uno
   const { data: existing } = await supabaseAdmin
     .from("profiles")
     .select("referral_code")
@@ -67,7 +64,22 @@ export async function POST(req: Request) {
     }
   }
 
-  // Auto-confirmar email para que el usuario pueda iniciar sesión inmediatamente
+  if (usedReferralCode) {
+    const { data: referrer } = await supabaseAdmin
+      .from("profiles")
+      .select("id")
+      .eq("referral_code", usedReferralCode)
+      .neq("id", userId)
+      .maybeSingle();
+
+    if (referrer?.id) {
+      await supabaseAdmin.from("referrals").insert({
+        referrer_id: referrer.id,
+        referred_id: userId,
+      });
+    }
+  }
+
   await supabaseAdmin.auth.admin.updateUserById(userId, { email_confirm: true });
 
   return NextResponse.json({ ok: true });
