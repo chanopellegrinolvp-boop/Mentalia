@@ -128,10 +128,6 @@ export default function PrivacidadPage() {
                 <p className="font-medium text-gray-800">4.6 Vercel (Vercel Inc.)</p>
                 <p className="mt-1">Proveedor de infraestructura y hosting. La plataforma está desplegada en Vercel (servidores de AWS). Los logs de acceso se retienen por un período limitado para fines de diagnóstico técnico. <a href="https://vercel.com/legal/privacy-policy" target="_blank" rel="noopener noreferrer" className="underline" style={{ color: "#40916C" }}>Ver política de Vercel</a>.</p>
               </div>
-              <div className="border-l-2 pl-4" style={{ borderColor: "#D8F3DC" }}>
-                <p className="font-medium text-gray-800">4.7 Jitsi Meet (8x8, Inc.)</p>
-                <p className="mt-1">Algunas videollamadas se realizan mediante Jitsi Meet, embebido en la plataforma. El audio y video de la sesión son transmitidos a través de la infraestructura de Jitsi durante la llamada. Mentalia no graba ni almacena el contenido de las videollamadas. <a href="https://jitsi.org/meet-jit-si-privacy/" target="_blank" rel="noopener noreferrer" className="underline" style={{ color: "#40916C" }}>Ver política de Jitsi</a>.</p>
-              </div>
             </div>
           </section>
 

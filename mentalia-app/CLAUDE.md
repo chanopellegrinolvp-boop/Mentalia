@@ -12,7 +12,7 @@ SaaS B2B2C para psicólogos y pacientes argentinos. El profesional gestiona su c
 - **Estilos:** Tailwind CSS (sin librerías UI externas)
 - **Base de datos / Auth:** Supabase (PostgreSQL + RLS + Auth)
 - **IA:** OpenAI GPT-4o (ver "Regla de modelo IA")
-- **Videollamadas:** Jitsi Meet embebido + Daily.co (salas privadas, `DAILY_API_KEY` configurado)
+- **Videollamadas:** Daily.co (salas privadas, `DAILY_API_KEY` configurado). Único proveedor de video.
 - **Emails:** Resend
 - **Pagos:** MercadoPago — **integración real y activa** (checkout + webhook en producción)
 - **App nativa:** Capacitor (Android en Google Play)

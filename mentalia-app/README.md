@@ -9,7 +9,7 @@ El paciente accede a sus sesiones, diario emocional y seguimiento.
 - **Estilos:** Tailwind CSS
 - **Base de datos / Auth:** Supabase (PostgreSQL + RLS + Auth)
 - **IA:** OpenAI GPT-4o (resumen clínico post-sesión)
-- **Videollamadas:** Jitsi Meet embebido
+- **Videollamadas:** Daily.co
 - **Emails:** Resend
 - **Pagos:** MercadoPago Checkout Pro
 - **Deploy:** Vercel
