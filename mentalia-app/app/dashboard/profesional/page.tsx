@@ -1,6 +1,7 @@
 ﻿import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import Link from "next/link";
+import RiskAlerts from "./RiskAlerts";
 
 export default async function DashboardProfesional() {
   const supabase = await createClient();
@@ -12,6 +13,24 @@ export default async function DashboardProfesional() {
     .select("full_name")
     .eq("id", user.id)
     .single();
+
+  // Protocolo de crisis: alertas de riesgo sin resolver de sus pacientes
+  const { data: flagsRaw } = await supabase
+    .from("risk_flags")
+    .select("id, nivel, source, detalle, created_at, patient:patient_id(full_name)")
+    .eq("professional_id", user.id)
+    .is("acknowledged_at", null)
+    .in("nivel", ["alto", "medio"])
+    .order("created_at", { ascending: false });
+
+  const riskFlags = (flagsRaw ?? []).map((f: any) => ({
+    id: f.id,
+    nivel: f.nivel,
+    source: f.source,
+    detalle: f.detalle,
+    created_at: f.created_at,
+    pacienteNombre: f.patient?.full_name ?? "Tu paciente",
+  }));
 
   // Próximas sesiones
   const { data: proximas } = await supabase
@@ -56,6 +75,9 @@ export default async function DashboardProfesional() {
             {totalPacientes ?? 0} paciente{totalPacientes !== 1 ? "s" : ""} activo{totalPacientes !== 1 ? "s" : ""}
           </p>
         </div>
+
+        {/* Protocolo de crisis: alertas que requieren atención */}
+        <RiskAlerts flags={riskFlags} />
 
         {/* Próximas sesiones */}
         <section>

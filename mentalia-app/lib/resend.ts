@@ -145,6 +145,38 @@ export async function emailSolicitudConsulta(opts: {
   await send(opts.to, subject, html);
 }
 
+export async function emailRiesgoAlto(opts: {
+  to: string;
+  profesionalName: string;
+  pacienteName: string;
+  indicadores: string[];
+}) {
+  const primerNombre = opts.profesionalName.split(" ")[0];
+  const subject = `⚠️ Requiere atención — señales de riesgo en ${opts.pacienteName}`;
+  const html = base(`
+    <div style="background:#fee2e2;border-radius:12px;padding:16px 20px;margin:0 0 20px;border-left:4px solid #991b1b;">
+      <p style="margin:0;color:#991b1b;font-weight:bold;font-size:16px;">Alerta de riesgo alto</p>
+    </div>
+    <h2 style="color:#111827;margin-top:0;">Hola, ${primerNombre}</h2>
+    <p style="color:#374151;line-height:1.7;">
+      El análisis clínico de <strong>${opts.pacienteName}</strong> detectó señales compatibles con un
+      <strong>nivel de riesgo alto</strong>. La entrada quedó marcada como <strong>requiere atención</strong> en tu panel.
+    </p>
+    ${opts.indicadores.length ? `<div style="background:#f9fafb;border-radius:12px;padding:16px 20px;margin:16px 0;">
+      <p style="margin:0 0 8px;color:#6B7280;font-size:12px;font-weight:bold;text-transform:uppercase;">Indicadores detectados</p>
+      ${opts.indicadores.map(i => `<p style="margin:0 0 4px;color:#374151;font-size:14px;">· ${i}</p>`).join("")}
+    </div>` : ""}
+    <p style="color:#374151;line-height:1.7;">
+      Mentalia es una herramienta de apoyo y <strong>no reemplaza la atención de urgencia</strong>.
+      Ante una emergencia: <strong>SAME 107</strong> / <strong>911</strong>. Línea de crisis:
+      <strong>Centro de Asistencia al Suicida 135</strong> (CABA/GBA) o <strong>0800-345-1435</strong> (todo el país).
+    </p>
+    ${btn("Ver en Mentalia →", `${SITE_URL}/dashboard/profesional`)}
+    ${sig()}
+  `);
+  await send(opts.to, subject, html);
+}
+
 export async function emailNuevoTurnoProfesional(opts: {
   to: string;
   profesionalName: string;

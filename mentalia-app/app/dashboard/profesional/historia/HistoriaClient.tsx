@@ -124,9 +124,11 @@ export default function HistoriaClient({ professionalId, patients }: { professio
     setIaResumen("");
     setIaRiesgo(null);
     try {
+      // patientId solo para pacientes online (tienen cuenta → banner/notificación del protocolo de crisis)
+      const patientId = selectedPatient.tipo !== "offline" ? selectedPatient.id : null;
       const [resRes, riesgoRes] = await Promise.all([
         fetch("/api/ia/resumen", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ notas: notes }) }),
-        fetch("/api/ia/riesgo", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ notas: notes }) }),
+        fetch("/api/ia/riesgo", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ notas: notes, patientId, source: "sesion" }) }),
       ]);
       const resData = await resRes.json();
       const riesgoData = await riesgoRes.json();
