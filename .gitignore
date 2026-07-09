@@ -26,3 +26,8 @@ mentalia-landing-hoy-backup.html
 # Proyectos con repo propio — no trackear desde raíz
 chatbot-inmobiliaria-martinez/
 the-architect/
+
+# Legacy / dev de la raíz — la app real vive en mentalia-app/
+/public/
+scripts/gen-tablet-screenshots.py
+CONTEXTO COMPLETO — PROYECTO MENTAL.txt
