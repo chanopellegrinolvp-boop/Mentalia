@@ -27,7 +27,7 @@ export default function TerminosPage() {
           <h1 className="text-3xl font-bold mb-2" style={{ fontFamily: "var(--font-playfair), Georgia, serif", color: "#2D6A4F" }}>
             Términos y Condiciones
           </h1>
-          <p className="text-sm" style={{ color: "#9CA3AF" }}>Vigentes desde junio de 2026 · Última actualización: junio de 2026</p>
+          <p className="text-sm" style={{ color: "#9CA3AF" }}>Vigentes desde junio de 2026 · Última actualización: julio de 2026</p>
         </div>
 
         <div className="space-y-10 text-sm leading-relaxed" style={{ color: "#374151" }}>
@@ -136,6 +136,19 @@ export default function TerminosPage() {
 
           <section>
             <h2 className="text-base font-semibold mb-3" style={{ color: "#2D6A4F" }}>7. Limitación de responsabilidad</h2>
+
+            <div className="rounded-xl p-4 mb-4" style={{ background: "#fff7ed", border: "1px solid rgba(194,65,12,0.25)" }}>
+              <p className="font-semibold mb-1" style={{ color: "#9a3412" }}>Mentalia no es un servicio de emergencia.</p>
+              <p style={{ color: "#7c2d12" }}>
+                La plataforma no brinda atención de urgencia ni intervención en crisis, y no reemplaza la atención
+                médica o psicológica de urgencia. Si vos o alguien está atravesando una crisis o riesgo de vida,
+                contactá de inmediato: <strong>SAME 107</strong> o <strong>911</strong> (emergencias), o el{" "}
+                <strong>Centro de Asistencia al Suicida (CAS) — 135</strong> (CABA/GBA) o{" "}
+                <strong>0800-345-1435</strong> (todo el país), de 8 a 24 h. La función de detección de riesgo de la
+                plataforma es una ayuda al profesional y no garantiza la identificación de todas las situaciones de riesgo.
+              </p>
+            </div>
+
             <ul className="space-y-2 pl-4 list-disc" style={{ color: "#6B7280" }}>
               <li>Mentalia es una herramienta de gestión para profesionales de la salud mental. <strong className="text-gray-700">No somos una entidad de salud, no brindamos servicios de salud directamente</strong> y no reemplazamos la relación terapéutica entre profesional y paciente.</li>
               <li>No somos responsables del contenido clínico generado, registrado o compartido por los profesionales dentro de la plataforma. La responsabilidad clínica recae íntegramente en el profesional habilitado.</li>

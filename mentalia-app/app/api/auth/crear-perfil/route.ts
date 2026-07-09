@@ -14,7 +14,7 @@ const supabaseAdmin = createClient(
 );
 
 export async function POST(req: Request) {
-  const { userId, email, fullName, role, matricula, referralCode: usedReferralCode } = await req.json();
+  const { userId, email, fullName, role, matricula, referralCode: usedReferralCode, consent, consentVersion } = await req.json();
 
   if (!userId || !email || !role) {
     return NextResponse.json({ error: "Datos incompletos" }, { status: 400 });
@@ -22,6 +22,11 @@ export async function POST(req: Request) {
 
   if (!["professional", "patient"].includes(role)) {
     return NextResponse.json({ error: "Role inválido" }, { status: 400 });
+  }
+
+  // El registro no se completa sin consentimiento informado (Ley 25.326)
+  if (consent !== true) {
+    return NextResponse.json({ error: "Falta el consentimiento informado" }, { status: 400 });
   }
 
   const { data: authData } = await supabaseAdmin.auth.admin.getUserById(userId);
@@ -47,6 +52,8 @@ export async function POST(req: Request) {
     full_name: fullName,
     role,
     referral_code: referralCode,
+    consent_at: new Date().toISOString(),
+    consent_version: typeof consentVersion === "string" ? consentVersion : "v1-2026-07",
   });
 
   if (profileError) {

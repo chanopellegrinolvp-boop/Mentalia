@@ -27,7 +27,7 @@ export default function PrivacidadPage() {
           <h1 className="text-3xl font-bold mb-2" style={{ fontFamily: "var(--font-playfair), Georgia, serif", color: "#2D6A4F" }}>
             Política de Privacidad
           </h1>
-          <p className="text-sm" style={{ color: "#9CA3AF" }}>Vigente desde junio de 2026 · Última actualización: junio de 2026</p>
+          <p className="text-sm" style={{ color: "#9CA3AF" }}>Vigente desde junio de 2026 · Última actualización: julio de 2026</p>
         </div>
 
         <div className="space-y-10 text-sm leading-relaxed" style={{ color: "#374151" }}>
@@ -77,6 +77,10 @@ export default function PrivacidadPage() {
                 <p className="font-medium text-gray-800 mb-1">2.6 Datos de mensajería</p>
                 <p>Mensajes intercambiados entre profesional y paciente dentro de la plataforma. Solo accesibles por los participantes de la conversación.</p>
               </div>
+              <div>
+                <p className="font-medium text-gray-800 mb-1">2.7 Base legal del tratamiento</p>
+                <p>El tratamiento de tus datos se basa en tu <strong>consentimiento libre, expreso e informado</strong> (art. 5 de la Ley N° 25.326), que prestás al registrarte marcando la casilla específica. Para los <strong>datos de salud (datos sensibles)</strong> rige, además, el consentimiento expreso del art. 7. Registramos la fecha y la versión del texto de consentimiento que aceptaste. Podés retirar tu consentimiento en cualquier momento escribiendo a <a href="mailto:hola@mentaliasalud.online" className="underline" style={{ color: "#40916C" }}>hola@mentaliasalud.online</a>, sin que ello afecte la licitud del tratamiento previo.</p>
+              </div>
             </div>
           </section>
 
@@ -124,6 +128,10 @@ export default function PrivacidadPage() {
                 <p className="font-medium text-gray-800">4.6 Vercel (Vercel Inc.)</p>
                 <p className="mt-1">Proveedor de infraestructura y hosting. La plataforma está desplegada en Vercel (servidores de AWS). Los logs de acceso se retienen por un período limitado para fines de diagnóstico técnico. <a href="https://vercel.com/legal/privacy-policy" target="_blank" rel="noopener noreferrer" className="underline" style={{ color: "#40916C" }}>Ver política de Vercel</a>.</p>
               </div>
+              <div className="border-l-2 pl-4" style={{ borderColor: "#D8F3DC" }}>
+                <p className="font-medium text-gray-800">4.7 Jitsi Meet (8x8, Inc.)</p>
+                <p className="mt-1">Algunas videollamadas se realizan mediante Jitsi Meet, embebido en la plataforma. El audio y video de la sesión son transmitidos a través de la infraestructura de Jitsi durante la llamada. Mentalia no graba ni almacena el contenido de las videollamadas. <a href="https://jitsi.org/meet-jit-si-privacy/" target="_blank" rel="noopener noreferrer" className="underline" style={{ color: "#40916C" }}>Ver política de Jitsi</a>.</p>
+              </div>
             </div>
           </section>
 
@@ -146,6 +154,7 @@ export default function PrivacidadPage() {
             <ul className="space-y-2 pl-4 list-disc" style={{ color: "#6B7280" }}>
               <li>Los datos personales se conservan mientras la cuenta esté activa.</li>
               <li>Al solicitar la eliminación de la cuenta, los datos personales se eliminan en un plazo máximo de 30 días hábiles.</li>
+              <li><strong className="text-gray-700">Historia clínica:</strong> por imperativo de la Ley N° 26.529 (Derechos del Paciente e Historia Clínica), las historias clínicas se conservan por un plazo mínimo de <strong>10 años</strong> desde la última actuación registrada. Este contenido no se elimina antes de dicho plazo aunque se dé de baja la cuenta; queda a resguardo y con acceso restringido hasta el vencimiento legal.</li>
               <li>Los datos de facturación (ID de transacción, monto, plan) pueden conservarse por hasta 5 años por obligaciones legales impositivas (Ley N° 11.683 de Procedimiento Fiscal).</li>
               <li>Los logs técnicos de acceso se eliminan automáticamente a los 30 días.</li>
             </ul>

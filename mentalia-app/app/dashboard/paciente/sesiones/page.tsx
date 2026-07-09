@@ -1,6 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import Link from "next/link";
+import SolicitarCopiaHistoria from "./SolicitarCopiaHistoria";
 
 export default async function MisSesiones() {
   const supabase = await createClient();
@@ -150,6 +151,8 @@ export default async function MisSesiones() {
             </div>
           )}
         </section>
+
+        <SolicitarCopiaHistoria />
       </main>
     </div>
   );

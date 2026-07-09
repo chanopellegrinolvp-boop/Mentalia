@@ -145,6 +145,30 @@ export async function emailSolicitudConsulta(opts: {
   await send(opts.to, subject, html);
 }
 
+export async function emailSolicitudHistoria(opts: {
+  pacienteNombre: string;
+  pacienteEmail: string;
+}) {
+  const subject = `Solicitud de copia de historia clínica — ${opts.pacienteNombre}`;
+  const html = base(`
+    <h2 style="color:#111827;margin-top:0;">Solicitud de acceso a historia clínica</h2>
+    <p style="color:#374151;line-height:1.7;">
+      Un paciente solicitó una copia de su historia clínica, en ejercicio del derecho de acceso previsto
+      por la <strong>Ley N° 26.529</strong> (Derechos del Paciente e Historia Clínica).
+    </p>
+    <div style="background:#f0faf3;border-radius:12px;padding:20px 24px;margin:20px 0;border-left:4px solid #40916C;">
+      <p style="margin:0 0 8px;color:#374151;"><strong>Paciente:</strong> ${opts.pacienteNombre}</p>
+      <p style="margin:0;color:#374151;"><strong>Email:</strong> ${opts.pacienteEmail}</p>
+    </div>
+    <p style="color:#374151;line-height:1.7;">
+      Coordiná con su profesional tratante el envío de la copia (puede exportarse en PDF desde la
+      historia clínica) dentro del plazo legal.
+    </p>
+    ${sig()}
+  `);
+  await send("hola@mentaliasalud.online", subject, html);
+}
+
 export async function emailRiesgoAlto(opts: {
   to: string;
   profesionalName: string;

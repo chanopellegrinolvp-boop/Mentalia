@@ -11,6 +11,7 @@ export default function RegistroPage() {
   const [matricula, setMatricula] = useState("");
   const [rol, setRol] = useState<"professional" | "patient" | null>(null);
   const [terminos, setTerminos] = useState(false);
+  const [consentDatos, setConsentDatos] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const router = useRouter();
@@ -28,6 +29,10 @@ export default function RegistroPage() {
     }
     if (!terminos) {
       setError("Debés aceptar los términos y condiciones.");
+      return;
+    }
+    if (!consentDatos) {
+      setError("Necesitás prestar tu consentimiento para el tratamiento de datos de salud.");
       return;
     }
     setLoading(true);
@@ -54,6 +59,8 @@ export default function RegistroPage() {
         role: rol,
         matricula,
         referralCode: codigoReferido.trim().toUpperCase() || null,
+        consent: consentDatos,
+        consentVersion: "v1-2026-07",
       }),
     });
 
@@ -200,6 +207,23 @@ export default function RegistroPage() {
               <a href="/terminos" target="_blank" className="text-[#40916C] hover:underline">términos y condiciones</a>
               {" "}y la{" "}
               <a href="/privacidad" target="_blank" className="text-[#40916C] hover:underline">política de privacidad</a>
+            </span>
+          </label>
+
+          <label className="flex items-start gap-2.5 cursor-pointer">
+            <input
+              type="checkbox"
+              checked={consentDatos}
+              onChange={e => setConsentDatos(e.target.checked)}
+              className="mt-0.5 accent-[#40916C]"
+            />
+            <span className="text-xs text-gray-500 leading-relaxed">
+              Presto mi consentimiento libre, expreso e informado para que Mentalia trate mis datos
+              personales, incluidos <strong className="font-medium text-gray-600">datos de salud (datos sensibles)</strong>,
+              con la finalidad de brindar el servicio de seguimiento y gestión clínica, conforme a la{" "}
+              <strong className="font-medium text-gray-600">Ley 25.326</strong>. Entiendo que puedo ejercer mis derechos
+              de acceso, rectificación y supresión escribiendo a{" "}
+              <a href="mailto:hola@mentaliasalud.online" className="text-[#40916C] hover:underline">hola@mentaliasalud.online</a>.
             </span>
           </label>
 
