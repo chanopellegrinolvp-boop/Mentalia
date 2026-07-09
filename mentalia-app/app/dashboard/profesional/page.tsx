@@ -14,6 +14,14 @@ export default async function DashboardProfesional() {
     .eq("id", user.id)
     .single();
 
+  // Verificación de matrícula: estado propio
+  const { data: prof } = await supabase
+    .from("professionals")
+    .select("verification_status")
+    .eq("id", user.id)
+    .maybeSingle();
+  const verif = prof?.verification_status as "pendiente" | "verificado" | "rechazado" | undefined;
+
   // Protocolo de crisis: alertas de riesgo sin resolver de sus pacientes
   const { data: flagsRaw } = await supabase
     .from("risk_flags")
@@ -75,6 +83,26 @@ export default async function DashboardProfesional() {
             {totalPacientes ?? 0} paciente{totalPacientes !== 1 ? "s" : ""} activo{totalPacientes !== 1 ? "s" : ""}
           </p>
         </div>
+
+        {/* Verificación de matrícula: estado propio */}
+        {verif === "pendiente" && (
+          <div className="rounded-xl px-5 py-4" style={{ background: "#fef3c7", border: "1.5px solid #f3d38a" }}>
+            <p className="text-sm font-bold" style={{ color: "#92400e" }}>Tu cuenta está en revisión</p>
+            <p className="text-sm mt-1" style={{ color: "#78350f" }}>
+              Estamos verificando tu matrícula. Mientras tanto <strong>no aparecés en el buscador</strong> ni podés
+              recibir pacientes nuevos. Ya podés completar tu perfil; te avisamos cuando quede verificada.
+            </p>
+          </div>
+        )}
+        {verif === "rechazado" && (
+          <div className="rounded-xl px-5 py-4" style={{ background: "#fee2e2", border: "1.5px solid #f1a5a5" }}>
+            <p className="text-sm font-bold" style={{ color: "#991b1b" }}>Verificación rechazada</p>
+            <p className="text-sm mt-1" style={{ color: "#7f1d1d" }}>
+              No pudimos verificar tu matrícula. Escribinos a{" "}
+              <a href="mailto:hola@mentaliasalud.online" className="underline">hola@mentaliasalud.online</a> para revisar tu caso.
+            </p>
+          </div>
+        )}
 
         {/* Protocolo de crisis: alertas que requieren atención */}
         <RiskAlerts flags={riskFlags} />

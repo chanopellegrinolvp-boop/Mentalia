@@ -12,6 +12,7 @@ export default async function BuscarProfesional() {
       .from("professionals")
       .select("id, specialty, bio, city, province, session_price, years_experience, modality, is_available, profiles(full_name, email)")
       .eq("is_available", true)
+      .eq("verification_status", "verificado")
       .order("created_at", { ascending: false })
       .limit(30),
     supabase

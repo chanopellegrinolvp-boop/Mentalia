@@ -116,6 +116,16 @@ SaaS B2B2C para psicólogos y pacientes argentinos. El profesional gestiona su c
 | Clínica | $85.000 |
 - Trial: 10 días gratis, sin tarjeta. Referidos: 20% de descuento por 2 meses por referido.
 
+## Verificación de matrícula (admin, manual)
+- `professionals.verification_status`: `pendiente` (default) | `verificado` | `rechazado`.
+- **Solo `verificado` aparece en el buscador** (`/dashboard/paciente/buscar`) y puede recibir pacientes nuevos. `pendiente`/`rechazado` ven un banner de estado en su dashboard.
+- No hay panel de admin todavía: el cambio de estado se hace a mano en el **SQL Editor de Supabase**, tras revisar la matrícula contra el colegio provincial:
+  ```sql
+  update public.professionals set verification_status = 'verificado' where id = '<uuid-del-profesional>';
+  update public.professionals set verification_status = 'rechazado'  where id = '<uuid-del-profesional>';
+  -- listar pendientes: select id, license_number, city, province from professionals where verification_status = 'pendiente';
+  ```
+
 ## Reglas de trabajo
 - Sin features nuevas hasta cerrar los pendientes de arriba (regla del plan de cierre).
 - Commitear antes de deployar (el deploy usa el working tree). `git push origin main` después de cada commit.
