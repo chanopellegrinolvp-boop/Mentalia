@@ -14,7 +14,7 @@ export default function CookieBanner() {
   if (!visible) return null;
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-50 bg-[#2D6A4F] px-6 py-4 flex items-center justify-between gap-4">
+    <div className="fixed bottom-[calc(56px+env(safe-area-inset-bottom,0px))] md:bottom-0 left-0 right-0 z-40 bg-[#2D6A4F] px-6 py-4 flex items-center justify-between gap-4">
       <p className="text-sm text-white">
         Usamos cookies para mejorar tu experiencia. Al continuar navegando aceptás nuestra{" "}
         <a href="/privacidad" className="underline text-[#D8F3DC]">política de privacidad</a>.

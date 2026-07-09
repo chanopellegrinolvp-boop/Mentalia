@@ -9,7 +9,7 @@ export default function RegistroPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [matricula, setMatricula] = useState("");
-  const [rol, setRol] = useState<"professional" | "patient">("professional");
+  const [rol, setRol] = useState<"professional" | "patient" | null>(null);
   const [terminos, setTerminos] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -22,6 +22,10 @@ export default function RegistroPage() {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError("");
+    if (!rol) {
+      setError("Elegí si sos profesional o paciente.");
+      return;
+    }
     if (!terminos) {
       setError("Debés aceptar los términos y condiciones.");
       return;
@@ -203,7 +207,7 @@ export default function RegistroPage() {
 
           <button
             type="submit"
-            disabled={loading}
+            disabled={loading || !rol}
             className="w-full bg-[#40916C] text-white rounded-lg py-2.5 text-sm font-medium hover:bg-[#235a41] transition disabled:opacity-60"
           >
             {loading ? "Creando cuenta..." : rol === "professional" ? "Empezar gratis — 10 días sin tarjeta" : "Crear mi cuenta"}

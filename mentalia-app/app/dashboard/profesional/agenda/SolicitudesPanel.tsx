@@ -89,7 +89,7 @@ export default function SolicitudesPanel({
       }),
       supabase
         .from("solicitudes_consulta")
-        .update({ status: "aceptada", fecha_propuesta: fechaISO })
+        .update({ status: "aceptada", fecha_propuesta: fechaISO, updated_at: new Date().toISOString() })
         .eq("id", aceptarSolicitud.id),
     ]);
 
@@ -124,6 +124,7 @@ export default function SolicitudesPanel({
       .update({
         status: "rechazada",
         mensaje_profesional: mensajeRechazo || null,
+        updated_at: new Date().toISOString(),
       })
       .eq("id", rechazarSolicitud.id);
 

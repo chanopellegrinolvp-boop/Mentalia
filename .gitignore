@@ -2,9 +2,12 @@
 node_modules/
 .next/
 
-# Variables de entorno
-.env.local
-.env*.local
+# Variables de entorno (nunca commitear ningún .env)
+.env*
+
+# Archivos de trabajo — nunca commitear
+*.zip
+*.pdf
 
 # Claude Code interno
 .claude/
