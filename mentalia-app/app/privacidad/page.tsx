@@ -65,7 +65,7 @@ export default function PrivacidadPage() {
                   <li>Historial de sesiones y evolución clínica.</li>
                   <li>Nivel de riesgo evaluado en cada sesión.</li>
                 </ul>
-                <p className="mt-2">Estos datos solo son accesibles por el profesional titular de la cuenta y/o el paciente al que pertenecen. Mentalia no accede ni procesa este contenido salvo para la generación automatizada de resúmenes clínicos (ver sección 4.2 sobre OpenAI).</p>
+                <p className="mt-2">Estos datos solo son accesibles por el profesional titular de la cuenta y/o el paciente al que pertenecen. Mentalia no accede ni procesa este contenido salvo para el procesamiento automatizado que se detalla en la sección 4.2 (OpenAI): la generación de resúmenes clínicos y la evaluación del nivel de riesgo.</p>
               </div>
               <div>
                 <p className="font-medium text-gray-800 mb-1">2.4 Datos de pago</p>
@@ -112,9 +112,10 @@ export default function PrivacidadPage() {
               </div>
               <div className="border-l-2 pl-4" style={{ borderColor: "#D8F3DC" }}>
                 <p className="font-medium text-gray-800">4.2 OpenAI (OpenAI, L.L.C.)</p>
-                <p className="mt-1">Se envía texto clínico a la API de OpenAI (modelo GPT-4o) en tres situaciones:</p>
+                <p className="mt-1">Se envía texto clínico a la API de OpenAI (modelo GPT-4o) en cuatro situaciones:</p>
                 <ul className="mt-2 pl-4 list-disc space-y-1">
                   <li>Para generar el <strong>resumen clínico post-sesión</strong> que asiste al profesional.</li>
+                  <li>Para generar un <strong>resumen semanal del estado emocional</strong> del paciente, combinando su diario emocional (fechas, estado de ánimo y emociones) y las notas de sesión de la semana.</li>
                   <li>Para <strong>evaluar el nivel de riesgo</strong> a partir de las notas de sesión, cuando el profesional lo solicita.</li>
                   <li>Para <strong>evaluar entradas del diario emocional</strong> del paciente, <strong>únicamente cuando un pre-filtro que corre localmente en nuestros servidores (sin inteligencia artificial) detecta señales de riesgo</strong> (ideación suicida, autolesión, desesperanza). La gran mayoría de las entradas del diario <strong>nunca se envían a OpenAI</strong>: solo lo hacen las que disparan esas señales.</li>
                 </ul>
