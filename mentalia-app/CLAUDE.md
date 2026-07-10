@@ -26,9 +26,17 @@ SaaS B2B2C para psicólogos y pacientes argentinos. El profesional gestiona su c
 - Los `*.html` legacy en la raíz (`mentalia-landing.html`, `terminos.html`, `privacidad.html`) + `vercel.json` de la raíz son de un landing estático viejo; la app real es el proyecto Next de `mentalia-app/`.
 
 ## Regla de modelo IA
-- **Los 4 endpoints IA usan `gpt-4o` (OpenAI):** `ia/resumen`, `ia/resumen-sesion`, `ia/resumen-semanal`, `ia/riesgo`.
+- **Los endpoints IA usan `gpt-4o` (OpenAI):** `ia/resumen`, `ia/resumen-sesion`, `ia/resumen-semanal`, `ia/riesgo`, y el diario (`diario/evaluar-riesgo`, solo tras el pre-filtro).
 - `@anthropic-ai/sdk` está **instalado pero sin uso** en el código.
 - **Un modelo por endpoint**, elegido a propósito — no los dos "por las dudas". Si se cambia un endpoint a Claude, documentarlo acá y medir costo.
+
+## Evaluación de riesgo del diario (pre-filtro cost-smart)
+- El diario emocional del paciente se evalúa **sin gastar gpt-4o en cada entrada**.
+- Al guardar una nota, `DiarioForm` llama (fire-and-forget) a `POST /api/diario/evaluar-riesgo`.
+- **Pre-filtro barato (sin IA)** en `lib/preFiltroRiesgo.ts`: normaliza el texto (minúsculas + sin tildes) y busca patrones de señal de alerta (ideación suicida, autolesión, desesperanza, con variantes y typos). **Sesgo hacia la seguridad**: ante la duda, escala (mejor falso positivo que perder una señal).
+- **Solo si el pre-filtro dispara** se llama a `gpt-4o` (vía `lib/riesgo.ts`, compartido con `ia/riesgo`), se persiste en `risk_flags` con `source='diario'` y se dispara el flujo por nivel ya existente (alto → banner al paciente + notificación/email al profesional; medio → notificación; bajo → registro). El profesional se deriva del turno más reciente del paciente.
+- Resultado: la **mayoría de las entradas NO tocan gpt-4o**.
+- ⚠️ **Privacidad pendiente:** esto crea un flujo nuevo (diario → OpenAI en los casos marcados). La política `/privacidad` debe reflejarlo (hoy la sección 4.2/OpenAI habla de notas clínicas; falta el caso del diario). Actualizar en el próximo bloque legal.
 
 ## Supabase
 - Project ID: `odxruvzwkjucgshmjohd` · URL: `https://odxruvzwkjucgshmjohd.supabase.co`

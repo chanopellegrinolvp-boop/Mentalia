@@ -53,6 +53,14 @@ export default function DiarioForm() {
     setGuardando(false);
     if (!err) {
       setGuardado(true);
+      // Protocolo de crisis: pre-filtro server-side de la nota (escala a IA solo si hay señales).
+      if (nota.trim()) {
+        fetch("/api/diario/evaluar-riesgo", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ note: nota }),
+        }).catch(() => {});
+      }
       router.refresh();
     } else {
       setError("No se pudo guardar. Intentá de nuevo.");
