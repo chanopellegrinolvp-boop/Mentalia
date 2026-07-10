@@ -2,6 +2,7 @@
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import RiskAlerts from "./RiskAlerts";
+import SubirMatricula from "./SubirMatricula";
 
 export default async function DashboardProfesional() {
   const supabase = await createClient();
@@ -14,13 +15,14 @@ export default async function DashboardProfesional() {
     .eq("id", user.id)
     .single();
 
-  // Verificación de matrícula: estado propio
+  // Verificación de matrícula: estado propio + si ya subió el documento
   const { data: prof } = await supabase
     .from("professionals")
-    .select("verification_status")
+    .select("verification_status, license_doc_uploaded_at")
     .eq("id", user.id)
     .maybeSingle();
   const verif = prof?.verification_status as "pendiente" | "verificado" | "rechazado" | undefined;
+  const docSubido = !!prof?.license_doc_uploaded_at;
 
   // Protocolo de crisis: alertas de riesgo sin resolver de sus pacientes
   const { data: flagsRaw } = await supabase
@@ -90,8 +92,9 @@ export default async function DashboardProfesional() {
             <p className="text-sm font-bold" style={{ color: "#92400e" }}>Tu cuenta está en revisión</p>
             <p className="text-sm mt-1" style={{ color: "#78350f" }}>
               Estamos verificando tu matrícula. Mientras tanto <strong>no aparecés en el buscador</strong> ni podés
-              recibir pacientes nuevos. Ya podés completar tu perfil; te avisamos cuando quede verificada.
+              recibir pacientes nuevos. {docSubido ? "Ya recibimos tu documento." : "Subí una foto o PDF de tu matrícula para agilizar la verificación."}
             </p>
+            <SubirMatricula yaSubido={docSubido} />
           </div>
         )}
         {verif === "rechazado" && (
