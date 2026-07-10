@@ -23,7 +23,7 @@ Crear un archivo `.env.local` con:
 NEXT_PUBLIC_SUPABASE_URL=
 NEXT_PUBLIC_SUPABASE_ANON_KEY=
 SUPABASE_SERVICE_ROLE_KEY=
-NEXT_PUBLIC_SITE_URL=https://mentaliasalud.lat
+NEXT_PUBLIC_SITE_URL=https://mentaliasalud.online
 OPENAI_API_KEY=
 RESEND_API_KEY=
 EMAIL_FROM=
