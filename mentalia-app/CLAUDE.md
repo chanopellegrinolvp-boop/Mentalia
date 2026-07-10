@@ -21,8 +21,10 @@ SaaS B2B2C para psicólogos y pacientes argentinos. El profesional gestiona su c
 
 ## Deploy
 - El repo git tiene raíz en la carpeta padre (`Pront Claude/`); la app Next vive en `mentalia-app/`.
-- Deploy manual: `npx vercel deploy --prod --yes` desde `mentalia-app/`. **El deploy sube el working tree local, no git** → siempre commitear antes de deployar para que el repo no quede desfasado.
-- GitHub auto-deploy NO está configurado. Después de cada commit: `git push origin main`.
+- **Auto-deploy por Git (2026-07-10):** el proyecto Vercel `mentalia-app` está conectado a `github.com/chanopellegrinolvp-boop/Mentalia`, rama `main` = Production, **Root Directory = `mentalia-app`**. **`git push origin main` auto-deploya al dominio real** (mentaliasalud.online). Ya NO se usa `vercel --prod`.
+- ⚠️ **No correr `vercel deploy` desde `mentalia-app/`**: con Root Directory = `mentalia-app`, el CLI buscaría `mentalia-app/mentalia-app` y falla. Si hiciera falta un deploy manual, hacerlo desde la raíz del repo o por la UI de Vercel.
+- Env vars de prod están solo en Production (no en Preview). Si se crean ramas/PRs, los Preview deploys fallarían sin esas vars → o se agregan a Preview o se desactivan los Preview deployments.
+- Existe un 2º proyecto Vercel `mentalia` (omega, subdominio `mentalia-omega.vercel.app`) como **red de seguridad** — no se borró. Consolidación: pendiente borrarlo cuando el auto-deploy esté probado en el tiempo.
 - Los `*.html` legacy en la raíz (`mentalia-landing.html`, `terminos.html`, `privacidad.html`) + `vercel.json` de la raíz son de un landing estático viejo; la app real es el proyecto Next de `mentalia-app/`.
 
 ## Regla de modelo IA
