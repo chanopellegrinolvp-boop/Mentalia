@@ -35,10 +35,12 @@ export default function PrivacidadPage() {
           <section>
             <h2 className="text-base font-semibold mb-3" style={{ color: "#2D6A4F" }}>1. Responsable del tratamiento de datos</h2>
             <p>El responsable del tratamiento de los datos personales recolectados a través de esta plataforma es:</p>
+            {/* TODO(legal): cargar el domicilio fiscal real del responsable antes de escalar / en la revisión legal. Provisorio: disponible a requerimiento por email. */}
             <ul className="mt-3 space-y-1 pl-4" style={{ color: "#6B7280" }}>
               <li><strong className="text-gray-800">Nombre:</strong> Mentalia</li>
               <li><strong className="text-gray-800">Plataforma:</strong> mentaliasalud.online</li>
               <li><strong className="text-gray-800">Email de contacto:</strong> <a href="mailto:hola@mentaliasalud.online" className="underline" style={{ color: "#40916C" }}>hola@mentaliasalud.online</a></li>
+              <li><strong className="text-gray-800">Domicilio:</strong> disponible a requerimiento, escribiendo a <a href="mailto:hola@mentaliasalud.online" className="underline" style={{ color: "#40916C" }}>hola@mentaliasalud.online</a>.</li>
               <li><strong className="text-gray-800">País:</strong> República Argentina</li>
             </ul>
           </section>
@@ -110,7 +112,13 @@ export default function PrivacidadPage() {
               </div>
               <div className="border-l-2 pl-4" style={{ borderColor: "#D8F3DC" }}>
                 <p className="font-medium text-gray-800">4.2 OpenAI (OpenAI, L.L.C.)</p>
-                <p className="mt-1">Únicamente el texto de las notas clínicas es enviado a la API de OpenAI para generar el resumen post-sesión. <strong>No se envían datos identificatorios del paciente</strong> (nombre, email, DNI, teléfono). El profesional puede optar por no usar esta funcionalidad. OpenAI no entrena sus modelos con datos enviados a través de la API. <a href="https://openai.com/policies/privacy-policy" target="_blank" rel="noopener noreferrer" className="underline" style={{ color: "#40916C" }}>Ver política de OpenAI</a>.</p>
+                <p className="mt-1">Se envía texto clínico a la API de OpenAI (modelo GPT-4o) en tres situaciones:</p>
+                <ul className="mt-2 pl-4 list-disc space-y-1">
+                  <li>Para generar el <strong>resumen clínico post-sesión</strong> que asiste al profesional.</li>
+                  <li>Para <strong>evaluar el nivel de riesgo</strong> a partir de las notas de sesión, cuando el profesional lo solicita.</li>
+                  <li>Para <strong>evaluar entradas del diario emocional</strong> del paciente, <strong>únicamente cuando un pre-filtro que corre localmente en nuestros servidores (sin inteligencia artificial) detecta señales de riesgo</strong> (ideación suicida, autolesión, desesperanza). La gran mayoría de las entradas del diario <strong>nunca se envían a OpenAI</strong>: solo lo hacen las que disparan esas señales.</li>
+                </ul>
+                <p className="mt-2">En todos los casos se envía <strong>solo el texto clínico correspondiente</strong> (notas de sesión o entrada del diario). <strong>No se adjuntan datos identificatorios del paciente</strong> (nombre, email, DNI, teléfono). OpenAI no entrena sus modelos con datos enviados a través de la API. <a href="https://openai.com/policies/privacy-policy" target="_blank" rel="noopener noreferrer" className="underline" style={{ color: "#40916C" }}>Ver política de OpenAI</a>.</p>
               </div>
               <div className="border-l-2 pl-4" style={{ borderColor: "#D8F3DC" }}>
                 <p className="font-medium text-gray-800">4.3 MercadoPago (Mercado Libre S.R.L.)</p>

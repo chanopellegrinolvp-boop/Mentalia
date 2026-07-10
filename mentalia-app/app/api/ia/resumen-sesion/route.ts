@@ -10,7 +10,8 @@ export async function POST(req: NextRequest) {
   if (!user) return NextResponse.json({ error: "No autorizado" }, { status: 401 });
 
   const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
-  const { notas, pacienteNombre, motivoConsulta, historialPrevio } = await req.json();
+  // Privacidad: NO se envía el nombre del paciente a OpenAI (solo texto clínico).
+  const { notas, motivoConsulta, historialPrevio } = await req.json();
 
   if (!notas?.trim()) {
     return NextResponse.json({ error: "Sin notas para analizar" }, { status: 400 });
@@ -22,7 +23,6 @@ export async function POST(req: NextRequest) {
 
   const prompt = `Sos un asistente clínico para psicólogos. Analizá las notas de sesión y generá un resumen estructurado.
 
-PACIENTE: ${pacienteNombre ?? "Paciente"}
 MOTIVO DE CONSULTA: ${motivoConsulta ?? "No especificado"}${contextoHistorial}
 
 NOTAS DE LA SESIÓN:
