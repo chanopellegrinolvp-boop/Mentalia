@@ -53,12 +53,16 @@ describe("diario/evaluar-riesgo — pre-filtro cost-smart", () => {
     expect(h.email).toHaveBeenCalledOnce();
   });
 
-  it("señales pero sin profesional asignado → no llama IA ni crea flag", async () => {
-    const db = makeDb({ appointments: { data: null }, risk_flags: { data: { id: "x" } }, profiles: { data: {} } });
+  it("señales SIN profesional → crea flag con professional_id null (banner igual), sin email", async () => {
+    const db = makeDb({ appointments: { data: null }, risk_flags: { data: { id: "flagX" } }, profiles: { data: {} } });
     h.db.current = db;
-    const res = await evaluarDiario(req("quiero desaparecer"));
-    expect((await res.json()).flag).toBe(false);
-    expect(h.openaiCreate).not.toHaveBeenCalled();
-    expect(db.ops.find(o => o.table === "risk_flags")).toBeUndefined();
+    const res = await evaluarDiario(req("quiero desaparecer, no aguanto mas"));
+    const j = await res.json();
+    expect(j.nivel).toBe("alto");
+    expect(h.openaiCreate).toHaveBeenCalledOnce();
+    const insert = db.ops.find(o => o.table === "risk_flags" && o.op === "insert");
+    expect(insert?.value).toMatchObject({ source: "diario", patient_id: "pat1", nivel: "alto" });
+    expect(insert?.value.professional_id).toBeNull();
+    expect(h.email).not.toHaveBeenCalled(); // sin profesional → sin email
   });
 });

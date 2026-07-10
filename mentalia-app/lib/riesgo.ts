@@ -49,13 +49,15 @@ export async function evaluarRiesgoIA(notasTexto: string): Promise<Riesgo> {
 // de las queries ya existentes sobre risk_flags.
 export async function registrarRiesgoYNotificar(opts: {
   patientId: string;
-  professionalId: string;
+  professionalId: string | null;
   source: "diario" | "sesion";
   nivel: string;
   indicadores: string[];
 }): Promise<string | null> {
   const { patientId, professionalId, source, nivel, indicadores } = opts;
 
+  // El flag se crea SIEMPRE (aunque no haya profesional): el banner de crisis al
+  // paciente sale de risk_flags por patient_id, tenga o no professional_id.
   const { data: flag } = await supabaseAdmin
     .from("risk_flags")
     .insert({
@@ -68,7 +70,8 @@ export async function registrarRiesgoYNotificar(opts: {
     .select("id")
     .single();
 
-  if (nivel === "alto") {
+  // Notificación/email solo si hay profesional a quién avisar.
+  if (nivel === "alto" && professionalId) {
     const [{ data: prof }, { data: pac }] = await Promise.all([
       supabaseAdmin.from("profiles").select("email, full_name").eq("id", professionalId).single(),
       supabaseAdmin.from("profiles").select("full_name").eq("id", patientId).single(),

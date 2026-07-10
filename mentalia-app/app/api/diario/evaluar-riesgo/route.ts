@@ -21,7 +21,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ evaluado: false });
   }
 
-  // 2) Profesional del paciente (más reciente). Sin profesional no hay a quién notificar.
+  // 2) Profesional del paciente (más reciente), si tiene. Puede no tener → professional_id null.
   const { data: appt } = await supabaseAdmin
     .from("appointments")
     .select("professional_id")
@@ -31,10 +31,7 @@ export async function POST(req: NextRequest) {
     .limit(1)
     .maybeSingle();
 
-  const professionalId = appt?.professional_id as string | undefined;
-  if (!professionalId) {
-    return NextResponse.json({ evaluado: true, flag: false, motivo: "sin profesional asignado" });
-  }
+  const professionalId = (appt?.professional_id as string | undefined) ?? null;
 
   // 3) Escala a gpt-4o SOLO si el pre-filtro disparó.
   let riesgo;
